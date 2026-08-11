@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Data Pelanggan - Zeera Laundry</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+/* Hilangkan panah spinner pada input type number */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; }
+</style>
+<script id="tailwind-config">
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "primary": "#005c55",
+                "primary-container": "#0f766e",
+                "on-primary": "#ffffff"
+            },
+            fontFamily: {
+                "body-md": ["Inter"],
+                "title-lg": ["Inter"]
+            }
+        }
+    }
+}
+</script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 w-full h-screen overflow-hidden font-body-md text-slate-800">
+<div class="w-full h-full flex p-4 md:p-6 lg:p-8 gap-4 md:gap-6 relative">
+
+<!-- Sidebar -->
+<aside class="hidden md:flex w-64 bg-[#0f766e] text-white rounded-[2rem] p-6 flex-col h-full shadow-2xl z-40 shrink-0">
+    <div class="flex items-center gap-3 bg-white/10 p-3 rounded-2xl backdrop-blur-sm mb-8">
+        <img alt="Zeera Laundry Logo" src="../assets/logo-zeera.jpg" class="w-11 h-11 flex-shrink-0 object-contain bg-white rounded-[12px] p-1.5 shadow-md ring-1 ring-black/5" />
+        <span class="font-black text-xl text-white tracking-wide whitespace-nowrap">Zeera Admin</span>
+    </div>
+    <nav class="flex-1 flex flex-col gap-2">
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="dashboard.html">
+            <span class="material-symbols-outlined">dashboard</span> Dashboard
+        </a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="buat-pesanan.html">
+            <span class="material-symbols-outlined">add_shopping_cart</span> Buat Pesanan
+        </a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="pesanan.html">
+            <span class="material-symbols-outlined">receipt_long</span> Pesanan
+        </a>
+        <a class="bg-white/20 font-bold rounded-xl p-3 flex items-center gap-3 text-white transition-all shadow-sm" href="pelanggan.html">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span> Pelanggan
+        </a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="laporan.html">
+            <span class="material-symbols-outlined">bar_chart</span> Laporan
+        </a>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-white/20 flex flex-col gap-2">
+        <a class="w-full text-teal-100 hover:text-white hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="pengaturan.html">
+            <span class="material-symbols-outlined">settings</span> Pengaturan
+        </a>
+        <button onclick="window.location.href='auth/login.html'" class="w-full text-teal-100 hover:text-white hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium">
+            <span class="material-symbols-outlined">logout</span> Keluar
+        </button>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col gap-6 w-full h-full overflow-y-auto pr-2 custom-scrollbar">
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-sm p-6 md:p-8 border border-slate-100 shrink-0">
+        <div>
+            <h1 class="text-3xl font-extrabold text-slate-800 mb-1">Data Pelanggan</h1>
+            <p class="text-slate-500 font-medium">Kelola data pelanggan dan riwayat transaksi.</p>
+        </div>
+        <div class="flex items-center gap-3 w-full md:w-auto flex-col md:flex-row">
+            <button onclick="bukaModalTambah()" class="bg-[#f97316] text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-orange-600 hover:-translate-y-1 transition-all flex items-center gap-2 w-full md:w-auto justify-center whitespace-nowrap flex-shrink-0">
+                <span class="material-symbols-outlined font-bold text-lg">add</span> Tambah Pelanggan
+            </button>
+        </div>
+    </header>
+
+    <div class="flex-1 flex flex-col bg-white/90 backdrop-blur-xl border border-slate-100 rounded-[2rem] shadow-[0_30px_60px_rgba(8,_112,_184,_0.08)] overflow-hidden min-h-0 p-6 md:p-8 relative z-10">
+        <div class="flex justify-between items-center gap-6 mb-6 w-full">
+            <div class="relative w-full md:w-80 lg:w-96">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+                <input id="searchInput" onkeyup="cariPelanggan()" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 rounded-full border border-slate-200 text-sm outline-none focus:border-[#0F766E] focus:ring-1 focus:ring-[#0F766E]" placeholder="Cari nama, No. WA, atau alamat..." type="text" />
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto min-h-0 custom-scrollbar pr-2">
+            <table class="w-full text-left border-collapse">
+                <thead class="sticky top-0 bg-white z-10 shadow-sm">
+                    <tr class="border-b-2 border-slate-100 text-slate-400 font-bold text-xs uppercase tracking-wider">
+                        <th class="text-left pr-8 whitespace-nowrap py-4">PELANGGAN</th>
+                        <th class="text-left pr-8 whitespace-nowrap py-4">NO. WHATSAPP</th>
+                        <th class="text-left pr-8 whitespace-nowrap py-4">ALAMAT</th>
+                        <th class="text-left pr-8 whitespace-nowrap py-4">JUMLAH TRANSAKSI</th>
+                        <th class="text-left pr-8 whitespace-nowrap py-4">TOTAL BELANJA</th>
+                        <th class="text-left w-[115px] pr-8 whitespace-nowrap py-4">AKSI</th>
+                    </tr>
+                </thead>
+                <tbody id="tabel-data-pelanggan" class="text-sm text-slate-700 divide-y divide-slate-50">
+                    <tr>
+                        <td colspan="6" class="text-center py-8 text-slate-500">
+                            <span class="material-symbols-outlined animate-spin text-3xl mb-2 text-[#0f766e]">autorenew</span>
+                            <p class="font-medium">Memuat data dari database...</p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<!-- Mobile Nav -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 rounded-t-2xl bg-white/90 backdrop-blur-xl border-t border-slate-100 shadow-[0_-8px_32px_rgba(15,118,110,0.1)] flex justify-around items-center px-4 py-3 pb-safe">
+    <a class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0f766e] transition-colors w-1/4" href="dashboard.html">
+        <span class="material-symbols-outlined mb-1">dashboard</span><span class="font-bold text-[10px]">Dashboard</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0f766e] transition-colors w-1/4" href="pesanan.html">
+        <span class="material-symbols-outlined mb-1">receipt_long</span><span class="font-bold text-[10px]">Pesanan</span>
+    </a>
+    <a class="flex flex-col items-center justify-center bg-[#0f766e]/10 text-[#0f766e] rounded-xl px-4 py-2 w-1/4" href="pelanggan.html">
+        <span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">group</span><span class="font-bold text-[10px]">Pelanggan</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-slate-400 hover:text-[#0f766e] transition-colors w-1/4" href="laporan.html">
+        <span class="material-symbols-outlined mb-1">bar_chart</span><span class="font-bold text-[10px]">Laporan</span>
+    </a>
+</nav>
+<div class="h-20 md:hidden w-full shrink-0"></div>
+</div>
+
+<!-- MODAL PELANGGAN -->
+<div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden items-center justify-center transition-all opacity-0 duration-300" id="modalPelanggan">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModalPelanggan()"></div>
+    <div class="relative bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 overflow-hidden flex flex-col transform scale-95 transition-transform duration-300" id="modalPelangganContent">
+        
+        <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50 relative shrink-0">
+            <div>
+                <h3 class="font-bold text-lg text-slate-800" id="modal-title-pelanggan">Tambah Pelanggan</h3>
+                <p class="text-xs text-slate-500 mt-1" id="modal-desc-pelanggan">Data baru akan tersimpan di sistem</p>
+            </div>
+            <button class="text-slate-400 hover:text-red-500 transition-colors p-2 rounded-full hover:bg-red-50" onclick="tutupModalPelanggan()">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+
+        <div class="p-6 overflow-y-auto custom-scrollbar flex-1 max-h-[60vh]">
+            <form class="space-y-5" onsubmit="event.preventDefault();">
+                <input type="hidden" id="inputIdPelanggan" value="">
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">person</span>
+                        <input id="inputNama" type="text" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-[#0f766e] outline-none" placeholder="Contoh: Budi Santoso" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Nomor WhatsApp <span class="text-red-500">*</span></label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">call</span>
+                        <input id="inputWA" type="number" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-[#0f766e] outline-none" placeholder="0812xxxx" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2 block">Alamat Lengkap</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-3 text-slate-400 text-[18px]">location_on</span>
+                        <textarea id="inputAlamat" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-[#0f766e] outline-none min-h-[80px]" placeholder="Jalan, RT/RW, Patokan..."></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="p-5 border-t border-slate-100 bg-white grid grid-cols-2 gap-3 shrink-0">
+            <button class="w-full bg-slate-100 text-slate-600 font-bold py-3 rounded-xl hover:bg-slate-200 transition-all text-sm" onclick="tutupModalPelanggan()">Batal</button>
+            <button id="btn-simpan" class="w-full bg-[#0f766e] text-white font-bold py-3 rounded-xl hover:bg-teal-800 transition-all text-sm shadow-md" onclick="simpanPelanggan()">Simpan Data</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// ==========================================
+// 1. MANAJEMEN MODAL UI
+// ==========================================
+const modalPelanggan = document.getElementById('modalPelanggan');
+const modalPelangganContent = document.getElementById('modalPelangganContent');
+
+function bukaModalPelanggan() {
+    modalPelanggan.classList.remove('hidden');
+    modalPelanggan.classList.add('flex');
+    setTimeout(() => {
+        modalPelanggan.classList.remove('opacity-0');
+        modalPelangganContent.classList.remove('scale-95');
+        modalPelangganContent.classList.add('scale-100');
+    }, 10);
+}
+
+function tutupModalPelanggan() {
+    modalPelanggan.classList.add('opacity-0');
+    modalPelangganContent.classList.remove('scale-100');
+    modalPelangganContent.classList.add('scale-95');
+    setTimeout(() => {
+        modalPelanggan.classList.add('hidden');
+        modalPelanggan.classList.remove('flex');
+    }, 300);
+}
+
+function bukaModalTambah() {
+    document.getElementById('inputIdPelanggan').value = '';
+    document.getElementById('inputNama').value = '';
+    document.getElementById('inputWA').value = '';
+    document.getElementById('inputAlamat').value = '';
+    document.getElementById('modal-title-pelanggan').innerText = 'Tambah Pelanggan';
+    document.getElementById('modal-desc-pelanggan').innerText = 'Data baru akan tersimpan di sistem';
+    bukaModalPelanggan();
+}
+
+// ==========================================
+// 2. INTEGRASI API FASTAPI (CRUD)
+// ==========================================
+const API_URL = "http://127.0.0.1:8000/api/pelanggan/";
+
+async function fetchPelanggan() {
+    const tbody = document.getElementById('tabel-data-pelanggan');
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        
+        tbody.innerHTML = '';
+        
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-slate-500 font-medium">Belum ada data pelanggan di database.</td></tr>';
+            return;
+        }
+
+        data.forEach(p => {
+            const inisial = p.nama_lengkap.substring(0, 2).toUpperCase();
+            const omset = p.total_omset || 0;
+            const formatRupiah = 'Rp ' + omset.toLocaleString('id-ID');
+            
+            const safeName = p.nama_lengkap ? p.nama_lengkap.replace(/'/g, "\\'") : '';
+            const safeAlamat = p.alamat ? p.alamat.replace(/'/g, "\\'") : '';
+            const idPel = p.id || p.id_pelanggan; 
+
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-slate-50/50 transition-colors group border-b border-slate-50 last:border-0';
+            tr.innerHTML = `
+                <td class="text-left pr-8 whitespace-nowrap py-3.5 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-teal-100 text-teal-700 flex items-center justify-center font-bold text-sm shrink-0">${inisial}</div>
+                    <div class="flex flex-col">
+                        <span class="font-semibold text-slate-800 flex items-center">${p.nama_lengkap}</span>
+                    </div>
+                </td>
+                <td class="text-left pr-8 whitespace-nowrap py-3.5">${p.no_whatsapp}</td>
+                <td class="text-left pr-8 whitespace-nowrap py-3.5 truncate max-w-[200px]">${p.alamat || '-'}</td>
+                <td class="text-left pr-8 whitespace-nowrap py-3.5">
+                    <span class="font-bold text-sm text-[#0f766e]">${p.total_transaksi || 0} Pesanan</span>
+                </td>
+                <td class="text-left pr-8 whitespace-nowrap py-3.5 font-bold text-slate-700">
+                    ${formatRupiah}
+                </td>
+                <td class="text-left pr-8 whitespace-nowrap py-3.5">
+                    <div class="flex items-center gap-2">
+                        <button onclick="editPelanggan('${idPel}', '${safeName}', '${p.no_whatsapp}', '${safeAlamat}')" class="w-8 h-8 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center hover:bg-teal-100 transition-colors focus:outline-none" title="Edit">
+                            <span class="material-symbols-outlined text-lg">edit</span>
+                        </button>
+                        <button onclick="hapusPelanggan('${idPel}', '${safeName}')" class="w-8 h-8 rounded-full bg-red-50 text-red-500 flex items-center justify-center hover:bg-red-100 transition-colors focus:outline-none" title="Hapus">
+                            <span class="material-symbols-outlined text-lg">delete</span>
+                        </button>
+                    </div>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    } catch (error) {
+        console.error("Gagal mengambil data:", error);
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 text-red-500 font-bold">Gagal terhubung ke server FastAPI.</td></tr>';
+    }
+}
+
+// Persiapan Form Edit
+function editPelanggan(id, nama, wa, alamat) {
+    document.getElementById('inputIdPelanggan').value = id;
+    document.getElementById('inputNama').value = nama;
+    document.getElementById('inputWA').value = wa;
+    document.getElementById('inputAlamat').value = alamat;
+    
+    document.getElementById('modal-title-pelanggan').innerText = 'Edit Pelanggan';
+    document.getElementById('modal-desc-pelanggan').innerText = 'Perbarui data pelanggan di sistem';
+    bukaModalPelanggan();
+}
+
+// Eksekusi Simpan (POST / PUT)
+async function simpanPelanggan() {
+    const btnSimpan = document.getElementById('btn-simpan');
+    const idPelanggan = document.getElementById('inputIdPelanggan').value;
+    const nama = document.getElementById('inputNama').value;
+    const wa = document.getElementById('inputWA').value;
+    const alamat = document.getElementById('inputAlamat').value;
+
+    if (!nama || !wa) {
+        alert("Nama dan Nomor WhatsApp wajib diisi!");
+        return;
+    }
+
+    btnSimpan.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">autorenew</span> Proses...';
+    btnSimpan.disabled = true;
+
+    const methodAPI = idPelanggan ? "PUT" : "POST";
+    const urlAPI = idPelanggan ? `${API_URL}${idPelanggan}` : API_URL;
+
+    try {
+        const response = await fetch(urlAPI, {
+            method: methodAPI,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                nama_lengkap: nama,
+                no_whatsapp: wa,
+                alamat: alamat
+            })
+        });
+
+        if (response.ok) {
+            tutupModalPelanggan();
+            fetchPelanggan();
+        } else {
+            const result = await response.json();
+            alert("Gagal menyimpan: " + (result.detail || "Terjadi kesalahan sistem"));
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        alert("Terjadi kesalahan jaringan.");
+    } finally {
+        btnSimpan.innerText = 'Simpan Data';
+        btnSimpan.disabled = false;
+    }
+}
+
+// Eksekusi Hapus (DELETE)
+async function hapusPelanggan(id, nama) {
+    if (!id || id === 'undefined' || id === 'null') {
+        alert("GAGAL MENGHAPUS! Sistem tidak bisa membaca ID Pelanggan.");
+        return;
+    }
+
+    if (confirm(`Apakah Anda yakin ingin menghapus pelanggan "${nama}"?\n\nPeringatan: Data yang dihapus tidak bisa dikembalikan!`)) {
+        try {
+            const response = await fetch(`${API_URL}${id}`, {
+                method: "DELETE"
+            });
+            
+            if (response.ok) {
+                fetchPelanggan();
+            } else {
+                const errorData = await response.json();
+                alert("GAGAL MENGHAPUS!\nAlasan dari Server: " + (errorData.detail || "Terjadi kesalahan."));
+            }
+        } catch (error) {
+            console.error("Error Jaringan:", error);
+            alert("Kesalahan jaringan. Pastikan server FastAPI menyala.");
+        }
+    }
+}
+
+// ==========================================
+// 3. FITUR PENCARIAN LOKAL (Search Bar)
+// ==========================================
+function cariPelanggan() {
+    const input = document.getElementById("searchInput");
+    const filter = input.value.toLowerCase();
+    const tbody = document.getElementById("tabel-data-pelanggan");
+    const tr = tbody.getElementsByTagName("tr");
+
+    for (let i = 0; i < tr.length; i++) {
+        // Abaikan baris loading jika tabel kosong
+        if (tr[i].getElementsByTagName("td").length <= 1) continue;
+        
+        const tdNama = tr[i].getElementsByTagName("td")[0];
+        const tdWA = tr[i].getElementsByTagName("td")[1];
+        const tdAlamat = tr[i].getElementsByTagName("td")[2];
+        
+        if (tdNama || tdWA || tdAlamat) {
+            const txtNama = tdNama.textContent || tdNama.innerText;
+            const txtWA = tdWA.textContent || tdWA.innerText;
+            const txtAlamat = tdAlamat.textContent || tdAlamat.innerText;
+            
+            if (
+                txtNama.toLowerCase().indexOf(filter) > -1 || 
+                txtWA.toLowerCase().indexOf(filter) > -1 || 
+                txtAlamat.toLowerCase().indexOf(filter) > -1
+            ) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }
+    }
+}
+
+// Mulai ambil data saat halaman pertama dimuat
+document.addEventListener('DOMContentLoaded', fetchPelanggan);
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+# Python Environment & Cache
+backend/env/
+backend/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Konfigurasi & Kredensial (Jika nanti ada)
+.env
+*.db
+*.sqlite3

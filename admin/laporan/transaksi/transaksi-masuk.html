@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zeera Laundry - Transaksi Masuk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+.select-custom { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%207.5L10%2012.5L15%207.5%22%20stroke%3D%22%23475569%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2.5rem; }
+@media print {
+    body * { visibility: hidden; }
+    #print-area, #print-area * { visibility: visible; color: black !important; }
+    #print-area { position: absolute; left: 0; top: 0; width: 58mm; margin: 0; padding: 0; display: block !important; }
+    * { box-shadow: none !important; text-shadow: none !important; background: transparent !important; }
+}
+</style>
+<script id="tailwind-config">
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "surface-container-lowest": "#ffffff", "surface": "#f8f9ff", "primary-fixed": "#9cf2e8",
+                "on-secondary-fixed": "#341100", "tertiary-fixed-dim": "#7bd0ff", "on-error-container": "#93000a",
+                "on-surface-variant": "#3e4947", "error-container": "#ffdad6", "on-tertiary-fixed-variant": "#004c69",
+                "outline-variant": "#bdc9c6", "surface-variant": "#d3e4fe", "surface-tint": "#006a63",
+                "tertiary-container": "#007199", "secondary": "#9d4300", "inverse-primary": "#80d5cb",
+                "on-tertiary-container": "#d4edff", "on-surface": "#0b1c30", "on-secondary-container": "#5c2400",
+                "on-secondary-fixed-variant": "#783200", "inverse-surface": "#213145", "on-tertiary": "#ffffff",
+                "outline": "#6e7977", "on-background": "#0b1c30", "surface-container-low": "#eff4ff",
+                "inverse-on-surface": "#eaf1ff", "secondary-fixed-dim": "#ffb690", "primary-fixed-dim": "#80d5cb",
+                "tertiary": "#005777", "surface-container-highest": "#d3e4fe", "tertiary-fixed": "#c4e7ff",
+                "primary": "#005c55", "background": "#f8f9ff", "surface-bright": "#f8f9ff",
+                "secondary-container": "#fd761a", "primary-container": "#0f766e", "surface-container": "#e5eeff",
+                "on-secondary": "#ffffff", "on-primary-fixed": "#00201d", "on-primary-container": "#a3faef",
+                "on-error": "#ffffff", "on-primary-fixed-variant": "#00504a", "error": "#ba1a1a",
+                "surface-dim": "#cbdbf5", "on-tertiary-fixed": "#001e2c", "surface-container-high": "#dce9ff",
+                "secondary-fixed": "#ffdbca"
+            },
+            borderRadius: { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" },
+            spacing: { "stack-md": "16px", "container-margin": "20px", "stack-sm": "8px", "section-padding": "40px", "gutter": "16px", "unit": "4px", "stack-lg": "32px" },
+            fontFamily: {
+                "headline-md": ["Inter"], "body-md": ["Inter"], "label-md": ["Inter"], "display": ["Inter"],
+                "headline-lg": ["Inter"], "title-lg": ["Inter"], "headline-lg-mobile": ["Inter"], "body-lg": ["Inter"]
+            },
+            fontSize: {
+                "headline-md": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                "body-md": ["14px", { "lineHeight": "1.5", "letterSpacing": "0em", "fontWeight": "400" }],
+                "label-md": ["12px", { "lineHeight": "1", "letterSpacing": "0.02em", "fontWeight": "600" }],
+                "display": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "800" }],
+                "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+                "title-lg": ["20px", { "lineHeight": "1.4", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                "headline-lg-mobile": ["28px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }]
+            }
+        }
+    }
+}
+</script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 w-full h-screen overflow-hidden font-body-md text-slate-800">
+<div class="w-full h-full flex p-4 md:p-6 lg:p-8 gap-4 md:gap-6 relative">
+<!-- Sidebar (Tidak diubah, 100% orisinal) -->
+<aside class="hidden md:flex w-64 bg-[#0f766e] text-white rounded-[2rem] p-6 flex-col h-full shadow-2xl z-40 shrink-0">
+    <div class="flex items-center gap-3 bg-white/10 p-3 rounded-2xl backdrop-blur-sm mb-8">
+        <img alt="Zeera Laundry Logo" src="../../../assets/logo-zeera.jpg" class="w-11 h-11 flex-shrink-0 object-contain bg-white rounded-[12px] p-1.5 shadow-md ring-1 ring-black/5" />
+        <span class="font-black text-xl text-white tracking-wide whitespace-nowrap">Zeera Admin</span>
+    </div>
+    <nav class="flex-1 flex flex-col gap-2">
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="../../dashboard.html"><span class="material-symbols-outlined">dashboard</span> Dashboard</a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="../../buat-pesanan.html"><span class="material-symbols-outlined">add_shopping_cart</span> Buat Pesanan</a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="../../pesanan.html"><span class="material-symbols-outlined">receipt_long</span> Pesanan</a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="../../pelanggan.html"><span class="material-symbols-outlined">group</span> Pelanggan</a>
+        <a class="bg-white/20 font-bold rounded-xl p-3 flex items-center gap-3 text-white transition-all shadow-sm" href="../../laporan.html"><span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>bar_chart</span> Laporan</a>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-white/20 flex flex-col gap-2">
+        <a class="w-full text-teal-100 hover:text-white hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="../../pengaturan.html"><span class="material-symbols-outlined">settings</span> Pengaturan</a>
+        <button class="w-full text-teal-100 hover:text-white hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" onclick="window.location.href='../../auth/login.html'"><span class="material-symbols-outlined">logout</span> Keluar</button>
+    </div>
+</aside>
+
+<main class="flex-1 flex flex-col gap-6 w-full h-full overflow-y-auto pr-2 custom-scrollbar">
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-sm p-6 md:p-8 border border-slate-100 shrink-0">
+        <div class="flex items-center gap-4">
+            <button class="w-10 h-10 rounded-full bg-slate-50 text-slate-500 hover:bg-[#0f766e] hover:text-white transition-all flex items-center justify-center border border-slate-200" onclick="window.location.href='../../laporan.html'"><span class="material-symbols-outlined">arrow_back</span></button>
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-800 mb-1">Transaksi Masuk</h1>
+                <p class="text-slate-500 text-sm">Data transaksi baru yang masuk antrian hari ini.</p>
+            </div>
+        </div>
+        <button onclick="exportTableToCSV('Transaksi_Masuk.csv')" class="bg-[#10b981] text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-[#059669] hover:-translate-y-1 transition-all flex items-center gap-2 whitespace-nowrap">
+            <span class="material-symbols-outlined text-[20px]">download</span> Export Excel
+        </button>
+    </header>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0 mb-2">
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-slate-400 uppercase">Total Antrian</span>
+            <span id="card-1" class="text-3xl font-black text-slate-800 mt-1">0 <span class="text-sm font-medium text-slate-500">Nota</span></span>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-slate-400 uppercase">Estimasi Omset</span>
+            <span id="card-2" class="text-3xl font-black text-slate-800 mt-1">Rp 0</span>
+        </div>
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col">
+            <span class="text-xs font-bold text-slate-400 uppercase">Status Bayar (Lunas/Belum)</span>
+            <span id="card-3" class="text-3xl font-black text-slate-800 mt-1">0 / <span class="text-rose-500">0</span></span>
+        </div>
+    </div>
+    
+    <div class="flex-1 flex flex-col bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6 overflow-hidden min-h-0">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 shrink-0">
+            <h3 class="font-bold text-slate-800 hidden md:block">Riwayat Transaksi Masuk</h3>
+            <div class="relative w-full md:w-72">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input type="text" id="searchInput" class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-emerald-600 focus:ring-1 transition-all" placeholder="Cari ID atau Nama..." />
+            </div>
+        </div>
+        <div class="flex-1 overflow-y-scroll custom-scrollbar pr-2 min-h-0">
+            <table class="w-full text-left border-collapse table-fixed">
+                <thead class="sticky top-0 bg-white z-10 shadow-sm">
+                    <tr class="border-b border-slate-100 text-slate-400 font-semibold text-xs uppercase tracking-wider bg-white">
+                        <th class="py-4 pr-4 w-[20%]">ID Nota</th>
+                        <th class="py-4 pr-4 w-[25%]">Tanggal Masuk</th>
+                        <th class="py-4 pr-4 w-[20%]">Pelanggan</th>
+                        <th class="py-4 pr-4 w-[15%]">Total</th>
+                        <th class="py-4 pr-4 w-[12%]">Pembayaran</th>
+                        <th class="py-4 w-[8%] text-center">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="tabel-pesanan" class="text-sm text-slate-700 divide-y divide-slate-50">
+                    <tr><td colspan="6" class="text-center py-6 text-slate-500"><span class="material-symbols-outlined animate-spin mb-2">autorenew</span><br>Menarik data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-2xl bg-white/80 backdrop-blur-xl border-t border-white/50 shadow-[0_-8px_32px_rgba(15,118,110,0.1)] flex justify-around items-center px-4 py-3 pb-safe">
+    <a class="flex flex-col items-center justify-center text-slate-400 hover:text-primary-container transition-colors w-1/4" href="../../dashboard.html"><span class="material-symbols-outlined mb-1">dashboard</span><span class="font-bold text-[10px]">Dashboard</span></a>
+    <a class="flex flex-col items-center justify-center text-slate-400 hover:text-primary-container transition-colors w-1/4" href="../../pesanan.html"><span class="material-symbols-outlined mb-1">receipt_long</span><span class="font-bold text-[10px]">Pesanan</span></a>
+    <a class="flex flex-col items-center justify-center text-slate-400 hover:text-primary-container transition-colors w-1/4" href="../../pelanggan.html"><span class="material-symbols-outlined mb-1">group</span><span class="font-bold text-[10px]">Pelanggan</span></a>
+    <a class="flex flex-col items-center justify-center bg-primary-container/10 text-primary-container rounded-xl px-4 py-2 w-1/4" href="../../laporan.html"><span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">bar_chart</span><span class="font-bold text-[10px]">Laporan</span></a>
+</nav>
+<div class="h-20 md:hidden w-full shrink-0"></div>
+</div>
+
+<!-- ================= MODAL DETAIL PESANAN (DESAIN BARU) ================= -->
+<div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden items-center justify-center transition-all opacity-0 duration-300" id="modalDetail">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModalDetail()"></div>
+    <div class="bg-white rounded-[2rem] w-full max-w-xl shadow-2xl relative overflow-hidden transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col" id="modalDetailContent">
+        
+        <!-- Header Modal -->
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-white shrink-0">
+            <div>
+                <h3 class="font-extrabold text-2xl text-slate-800 tracking-tight">Detail Pesanan</h3>
+                <p class="text-sm font-bold text-slate-400 mt-0.5 uppercase tracking-wider" id="mdl-trx">ID: #TRX-MEMUAT</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="#" id="btn-wa-link" target="_blank" class="w-10 h-10 rounded-full flex items-center justify-center bg-emerald-50 text-emerald-500 hover:bg-emerald-100 transition-colors" title="Hubungi WhatsApp"><span class="material-symbols-outlined text-[20px]">chat</span></a>
+                <button onclick="printNota()" class="w-10 h-10 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-500 hover:bg-indigo-100 transition-colors" title="Cetak Nota"><span class="material-symbols-outlined text-[20px]">print</span></button>
+                <div class="w-px h-6 bg-slate-200 mx-1"></div>
+                <button onclick="tutupModalDetail()" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-50 text-slate-400 hover:bg-slate-100 hover:text-rose-500 transition-colors" title="Tutup Modal"><span class="material-symbols-outlined text-[22px]">close</span></button>
+            </div>
+        </div>
+
+        <!-- Body Modal -->
+        <div class="p-6 overflow-y-auto custom-scrollbar flex-1 bg-white">
+            <!-- Grid Tanggal -->
+            <div class="grid grid-cols-3 mb-6 bg-white border border-slate-100 rounded-2xl p-4 text-center divide-x divide-slate-100 shadow-sm">
+                <div class="flex flex-col gap-1 items-center justify-center px-2">
+                    <p class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Masuk</p>
+                    <div id="mdl-tgl-masuk" class="flex flex-col items-center leading-tight">-</div>
+                </div>
+                <div class="flex flex-col gap-1 items-center justify-center px-2">
+                    <p class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Est Selesai</p>
+                    <div id="mdl-est-selesai" class="flex flex-col items-center leading-tight">-</div>
+                </div>
+                <div class="flex flex-col gap-1 items-center justify-center px-2">
+                    <p class="text-[9px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Pelunasan</p>
+                    <div id="mdl-tgl-lunas" class="flex flex-col items-center leading-tight">-</div>
+                </div>
+            </div>
+
+            <!-- Layanan -->
+            <div class="mb-6">
+                <h4 class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-3">Layanan Yang Dipesan</h4>
+                <div class="bg-white border border-slate-100 rounded-2xl p-2 flex flex-col gap-2 shadow-sm" id="mdl-layanan-container"></div>
+            </div>
+
+            <!-- Tracker QC -->
+            <div class="mb-2">
+                <h4 class="text-xs font-extrabold text-slate-500 uppercase tracking-wider mb-4">Proses Pengerjaan (Quality Control)</h4>
+                <div class="relative pl-6 space-y-4 before:absolute before:inset-0 before:ml-[11px] before:-translate-x-px before:h-full before:w-0.5 before:bg-slate-200" id="tracker-container">
+                    <!-- Cuci -->
+                    <div class="relative z-10 flex items-center gap-3">
+                        <div id="circle-cuci" class="absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white border border-slate-200 transition-all"><span id="icon-cuci" class="material-symbols-outlined text-[12px]">water_drop</span></div>
+                        <div class="flex-1 bg-white border border-slate-100 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                            <div><p class="font-bold text-slate-700 text-sm">1. Dicuci</p><p id="time-cuci" class="text-[10px] font-bold text-slate-400 mt-0.5">Belum dikerjakan</p></div>
+                            <div class="flex items-center gap-2"><input type="number" id="qty-cuci" placeholder="Jml Pakai" class="w-20 text-center text-xs font-bold text-slate-700 px-2 py-2 border border-slate-200 rounded-lg outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e]"><button id="btn-cuci" onclick="simpanTahap('cuci', 'kering')" class="bg-[#0f766e] text-white w-16 py-2 rounded-lg text-xs font-bold hover:bg-teal-800 shadow-sm transition-colors">Done</button></div>
+                        </div>
+                    </div>
+                    <!-- Kering -->
+                    <div class="relative z-10 flex items-center gap-3 opacity-50" id="wrap-kering">
+                        <div id="circle-kering" class="absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white border border-slate-200 transition-all"><span id="icon-kering" class="material-symbols-outlined text-[12px]">air</span></div>
+                        <div class="flex-1 bg-white border border-slate-100 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                            <div><p class="font-bold text-slate-700 text-sm">2. Dikeringkan</p><p id="time-kering" class="text-[10px] font-bold text-slate-400 mt-0.5">Menunggu cucian</p></div>
+                            <div class="flex items-center gap-2"><input type="number" id="qty-kering" placeholder="Jml Pakai" class="w-20 text-center text-xs font-bold text-slate-700 px-2 py-2 border border-slate-200 rounded-lg outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e]" disabled><button id="btn-kering" onclick="simpanTahap('kering', 'setrika')" class="bg-slate-300 text-slate-500 w-16 py-2 rounded-lg text-xs font-bold cursor-not-allowed transition-colors" disabled>Done</button></div>
+                        </div>
+                    </div>
+                    <!-- Setrika -->
+                    <div class="relative z-10 flex items-center gap-3 opacity-50" id="wrap-setrika">
+                        <div id="circle-setrika" class="absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white border border-slate-200 transition-all"><span id="icon-setrika" class="material-symbols-outlined text-[12px]">iron</span></div>
+                        <div class="flex-1 bg-white border border-slate-100 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                            <div><p class="font-bold text-slate-700 text-sm">3. Disetrika</p><p id="time-setrika" class="text-[10px] font-bold text-slate-400 mt-0.5">Menunggu pengeringan</p></div>
+                            <div class="flex items-center gap-2"><input type="number" id="qty-setrika" placeholder="Jml Pakai" class="w-20 text-center text-xs font-bold text-slate-700 px-2 py-2 border border-slate-200 rounded-lg outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e]" disabled><button id="btn-setrika" onclick="simpanTahap('setrika', 'packing')" class="bg-slate-300 text-slate-500 w-16 py-2 rounded-lg text-xs font-bold cursor-not-allowed transition-colors" disabled>Done</button></div>
+                        </div>
+                    </div>
+                    <!-- Packing -->
+                    <div class="relative z-10 flex items-center gap-3 opacity-50" id="wrap-packing">
+                        <div id="circle-packing" class="absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white border border-slate-200 transition-all"><span id="icon-packing" class="material-symbols-outlined text-[12px]">inventory_2</span></div>
+                        <div class="flex-1 bg-white border border-slate-100 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                            <div><p class="font-bold text-slate-700 text-sm">4. Packing</p><p id="time-packing" class="text-[10px] font-bold text-slate-400 mt-0.5">Menunggu setrika</p></div>
+                            <div class="flex items-center gap-2"><input type="number" id="qty-packing" placeholder="Jml Pakai" class="w-20 text-center text-xs font-bold text-slate-700 px-2 py-2 border border-slate-200 rounded-lg outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e]" disabled><button id="btn-packing" onclick="simpanTahap('packing', null)" class="bg-slate-300 text-slate-500 w-16 py-2 rounded-lg text-xs font-bold cursor-not-allowed transition-colors" disabled>Done</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PEMBAYARAN FORM -->
+            <div class="bg-slate-50 p-5 rounded-2xl border border-slate-100 mb-6 mt-6">
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Status Pembayaran</label>
+                        <select id="mdl-pembayaran" class="select-custom w-full bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#0f766e]" onchange="cekStatusBayar()">
+                            <option value="Belum Lunas">Belum Lunas</option>
+                            <option value="Lunas">Lunas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Metode Bayar</label>
+                        <select id="mdl-metode" class="select-custom w-full bg-white border border-slate-200 text-slate-700 text-sm font-bold rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#0f766e]">
+                            <option value="Belum Bayar">Belum Bayar</option>
+                            <option value="Tunai">Tunai</option>
+                            <option value="Transfer BCA">Transfer BCA</option>
+                            <option value="QRIS">QRIS</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Parfum</label>
+                        <select id="mdl-parfum" class="select-custom w-full bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#0f766e]">
+                            <option value="-">Tanpa Parfum</option>
+                            <option value="Snappy">Snappy</option>
+                            <option value="Sakura">Sakura</option>
+                            <option value="Akasia">Akasia</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Keterangan Tambahan</label>
+                        <input type="text" id="mdl-keterangan" class="w-full bg-white border border-slate-200 text-slate-700 text-sm font-medium rounded-full px-4 py-2.5 outline-none focus:ring-2 focus:ring-[#0f766e]" placeholder="Catatan...">
+                    </div>
+                </div>
+                <!-- Uang Diterima -->
+                <div class="mt-4 pt-4 border-t border-slate-100">
+                    <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5">Uang Diterima (Dari Pelanggan)</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 -translate-y-1/2 font-bold text-slate-500">Rp</span>
+                        <input type="text" id="mdl-uang-diterima" class="w-full bg-white border border-slate-200 text-slate-800 text-lg font-black rounded-xl pl-10 pr-4 py-3 outline-none focus:ring-2 focus:ring-[#0f766e] transition-all" placeholder="0" oninput="formatInputRupiah(this); hitungKembalian();">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUMMARY KEUANGAN -->
+            <div class="bg-[#0f766e]/5 p-5 rounded-2xl border border-[#0f766e]/10 flex flex-col gap-2">
+                <div class="flex justify-between items-center text-sm font-bold text-slate-500">
+                    <span>Total Transaksi</span><span id="mdl-total">Rp 0</span>
+                </div>
+                <div id="mdl-dp-row" class="flex justify-between items-center text-sm font-bold text-emerald-600 hidden">
+                    <span>Uang Muka (DP)</span><span id="mdl-dp">-Rp 0</span>
+                </div>
+                <div id="mdl-kembali-row" class="flex justify-between items-center text-sm font-bold text-orange-500 hidden">
+                    <span>Kembalian</span><span id="mdl-kembali">Rp 0</span>
+                </div>
+                <div class="w-full h-px bg-[#0f766e]/20 my-1"></div>
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-slate-800 text-lg" id="teks-sisa-tagihan">Sisa Tagihan</span>
+                    <span class="font-black text-[#0f766e] text-3xl tracking-tight" id="mdl-sisa" data-sisa-asli="0">Rp 0</span>
+                </div>
+            </div>
+
+            </div> <!-- TUTUP BAGIAN BODY (Sangat Penting untuk Layout) -->
+
+            <!-- Footer Actions Modal -->
+        <div class="p-6 border-t border-slate-100 bg-white flex flex-col gap-4 shrink-0 shadow-[0_-10px_20px_rgba(0,0,0,0.02)] relative z-10">
+            <div class="flex gap-4">
+                <input type="hidden" id="mdl-id-pesanan">
+                <div class="w-1/3">
+                    <select id="mdl-status" class="select-custom w-full h-full border-2 border-rose-100 text-rose-600 bg-rose-50 text-base font-black rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-rose-500 transition-all cursor-pointer" onchange="updateStatusStyle()">
+                        <option value="Antrian" class="text-blue-700 font-bold bg-white">Antrian</option>
+                        <option value="Proses" class="text-orange-700 font-bold bg-white">Proses</option>
+                        <option value="Siap Ambil" class="text-slate-700 font-bold bg-white">Siap Ambil</option>
+                        <option value="Selesai" class="text-emerald-700 font-bold bg-white">Selesai</option>
+                        <option value="Batal" class="text-rose-700 font-bold bg-white">Batal</option>
+                    </select>
+                </div>
+                <button onclick="simpanStatus()" id="btn-simpan-status" class="flex-1 bg-[#0f766e] text-white font-bold py-3.5 rounded-xl hover:bg-teal-800 transition-all text-base shadow-lg shadow-teal-900/20 flex justify-center items-center gap-2">
+                    <span class="material-symbols-outlined text-[22px]">save</span> Simpan Perubahan
+                </button>
+            </div>
+            
+            <!-- INPUT ALASAN BATAL -->
+            <div id="wrap-alasan-batal" class="hidden">
+                <label class="text-xs font-extrabold text-rose-500 uppercase tracking-wider block mb-2">Alasan Pembatalan <span class="text-rose-500">*</span></label>
+                <input type="text" id="mdl-alasan-batal" class="w-full bg-rose-50 border-2 border-rose-100 text-rose-700 text-sm font-bold rounded-xl px-4 py-3.5 outline-none focus:ring-2 focus:ring-rose-500 transition-all placeholder:text-rose-300" placeholder="Tulis alasan mengapa pesanan ini dibatalkan...">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL GLOBAL (Peringatan Anti-Jelek) ================= -->
+<div class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[100] hidden items-center justify-center transition-all opacity-0 duration-300" id="global-modal">
+    <div class="bg-white rounded-[2rem] shadow-2xl w-full max-w-sm mx-4 overflow-hidden flex flex-col transform scale-95 transition-transform duration-300" id="global-modal-content">
+        <div class="p-6 md:p-8 text-center flex flex-col items-center justify-center">
+            <div id="global-modal-icon" class="w-16 h-16 rounded-full flex items-center justify-center mb-4 ring-8 shrink-0">
+                <span id="global-modal-icon-symbol" class="material-symbols-outlined text-[36px]">info</span>
+            </div>
+            <h3 id="global-modal-title" class="font-black text-2xl text-slate-800 mb-3 tracking-tight">Pemberitahuan</h3>
+            <div id="global-modal-message" class="text-sm text-slate-500 mb-8 leading-relaxed w-full">Pesan disini.</div>
+            <div id="global-modal-actions" class="flex gap-3 w-full mt-auto">
+                <button id="global-modal-btn-cancel" class="flex-1 bg-slate-100 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-200 transition-all text-sm hidden active:scale-95">Batal</button>
+                <button id="global-modal-btn-ok" class="flex-1 bg-[#0f766e] text-white font-bold py-3.5 rounded-xl hover:bg-teal-800 transition-all text-sm shadow-lg shadow-teal-900/20 active:scale-95">Mengerti</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="print-area" class="hidden font-mono text-[12px] p-2 leading-tight">
+    <div class="text-center mb-3"><h2 class="font-bold text-[16px] mb-1">ZEERA LAUNDRY</h2><p class="text-[10px]">Jl. Alamat Laundry Anda No. 1<br>WA: 0812-3456-7890</p></div>
+    <div class="border-t border-b border-dashed border-black py-1.5 mb-2"><p>ID: <span id="print-trx" class="font-bold"></span></p><p>Tgl : <span id="print-tgl"></span></p><p>Plg: <span id="print-nama" class="font-bold"></span></p></div>
+    <table class="w-full text-left mb-2 text-[10px]"><thead><tr class="border-b border-black"><th class="w-1/2 pb-1">Layanan</th><th class="pb-1">Qty</th><th class="text-right pb-1">Total</th></tr></thead><tbody id="print-items" class="align-top"></tbody></table>
+    <div class="border-t border-dashed border-black pt-1.5 mb-3 text-right"><p class="font-bold text-[14px]">Total: <span id="print-total"></span></p><p class="text-[10px] mt-1">Status: <span id="print-bayar"></span></p></div>
+    <div class="text-center mt-4"><p class="text-[10px] mb-1 font-bold">Lacak Status Pakaian Anda:</p><img id="print-qr" src="" alt="QR Tracking" class="w-24 h-24 mx-auto mb-1"><p class="text-[9px] mt-2">Terima kasih atas kepercayaan Anda!</p></div>
+</div>
+
+<script>
+    const API_BASE_URL = "http://127.0.0.1:8000/api";
+    let currentOrderState = { tracking: {} };
+    let currentPesananMeta = { diskon: 0, dp: 0, uang_diterima: 0, kembalian: 0 }; 
+
+    function formatInputRupiah(input) {
+        let value = input.value.replace(/\D/g, '');
+        input.value = value ? new Intl.NumberFormat('id-ID').format(value) : '';
+    }
+
+    function hitungKembalian() {
+        const sisaAsli = parseInt(document.getElementById('mdl-sisa').getAttribute('data-sisa-asli')) || 0;
+        const elUangDiterima = document.getElementById('mdl-uang-diterima');
+        const uangDiterima = elUangDiterima ? (parseInt(elUangDiterima.value.replace(/\D/g, '')) || 0) : 0;
+        const elPembayaran = document.getElementById('mdl-pembayaran');
+        const statusBayar = elPembayaran ? elPembayaran.value : 'Belum Lunas';
+        
+        let bebanTagihan = (statusBayar === 'Belum Lunas' && sisaAsli > 0) ? sisaAsli : sisaAsli;
+        let kembalian = uangDiterima - bebanTagihan;
+        
+        const rowKembali = document.getElementById('mdl-kembali-row');
+        const elKembali = document.getElementById('mdl-kembali');
+        
+        if (rowKembali && elKembali) {
+            if (uangDiterima > 0 && kembalian >= 0) {
+                rowKembali.classList.remove('hidden'); elKembali.innerText = 'Rp ' + kembalian.toLocaleString('id-ID');
+            } else {
+                rowKembali.classList.add('hidden'); elKembali.innerText = 'Rp 0';
+            }
+        }
+    }
+
+    function cekStatusBayar() {
+        const sts = document.getElementById('mdl-pembayaran'); 
+        const met = document.getElementById('mdl-metode');
+        if(sts && met) {
+            if(sts.value === 'Belum Lunas' || sts.value === 'Belum Bayar') { 
+                met.value = "Belum Bayar"; met.disabled = true; 
+            } else { met.disabled = false; }
+            hitungKembalian();
+        }
+    }
+    let globalDataPesanans = []; // Penyimpan Memori Universal
+
+    // ================== CUSTOM MODAL GLOBAL ==================
+    let globalModalTimeout;
+    const CustomModal = {
+        show: function(options) {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('global-modal'); const content = document.getElementById('global-modal-content');
+                const titleEl = document.getElementById('global-modal-title'); const messageEl = document.getElementById('global-modal-message');
+                const iconContainer = document.getElementById('global-modal-icon'); const iconSymbol = document.getElementById('global-modal-icon-symbol');
+                const btnCancel = document.getElementById('global-modal-btn-cancel'); const btnOk = document.getElementById('global-modal-btn-ok');
+                
+                clearTimeout(globalModalTimeout); btnCancel.onclick = null; btnOk.onclick = null;
+                titleEl.innerHTML = options.title || 'Pemberitahuan'; messageEl.innerHTML = options.message || '';
+                
+                let iconName = options.icon || 'info'; let iconColor = 'text-blue-500'; let iconBg = 'bg-blue-50'; let ringColor = 'ring-blue-50/50';
+                if(options.type === 'error') { iconName = options.icon || 'error'; iconColor = 'text-rose-500'; iconBg = 'bg-rose-50'; ringColor = 'ring-rose-50/50'; }
+                else if(options.type === 'warning') { iconName = options.icon || 'warning'; iconColor = 'text-amber-500'; iconBg = 'bg-amber-50'; ringColor = 'ring-amber-50/50'; }
+                else if(options.type === 'success') { iconName = options.icon || 'check_circle'; iconColor = 'text-emerald-500'; iconBg = 'bg-emerald-50'; ringColor = 'ring-emerald-50/50'; }
+                else if(options.type === 'confirm') { iconName = options.icon || 'help'; iconColor = 'text-indigo-500'; iconBg = 'bg-indigo-50'; ringColor = 'ring-indigo-50/50'; }
+                
+                iconSymbol.innerText = iconName; iconContainer.className = `w-16 h-16 rounded-full flex items-center justify-center mb-4 ring-8 ${iconBg} ${iconColor} ${ringColor}`;
+                
+                if (options.type === 'confirm') { btnCancel.classList.remove('hidden'); btnOk.innerText = 'Lanjut'; } 
+                else { btnCancel.classList.add('hidden'); btnOk.innerText = 'Mengerti'; }
+                
+                const closeModal = () => {
+                    modal.classList.add('opacity-0'); content.classList.remove('scale-100'); content.classList.add('scale-95');
+                    globalModalTimeout = setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+                };
+                btnCancel.onclick = () => { closeModal(); resolve(false); }; btnOk.onclick = () => { closeModal(); resolve(true); };
+                modal.classList.remove('hidden', 'opacity-0'); modal.classList.add('flex'); content.classList.remove('scale-95'); content.classList.add('scale-100');
+            });
+        },
+        alert: function(message, title='Pemberitahuan', type='info') { return this.show({ type: type, title: title, message: message }); },
+        confirm: function(message, title='Konfirmasi', icon='help') { return this.show({ type: 'confirm', title: title, message: message, icon: icon }); }
+    };
+
+    // ================== PENGURAI TANGGAL ANTI-1970/2535 ==================
+    function getValidDate(p) {
+    if (p.created_at) {
+        let d = new Date(p.created_at);
+        if (!isNaN(d.getTime())) return d;
+    }
+    let idStr = String(p.id_transaksi || p.id || "");
+    // Regex cerdas penangkap timestamp unix 2024-2033 (Hanya berawalan 17)
+    const match = idStr.match(/(17\d{8,11})/);
+    if (match) {
+        let numStr = match[0];
+        return new Date(numStr.length === 10 ? parseInt(numStr) * 1000 : parseInt(numStr.substring(0, 13)));
+    }
+    return new Date(); // Fallback hari ini jika gagal total
+}
+
+function parseCatatan(ket) {
+    if (!ket || ket === 'null') return "";
+    try {
+        let parsed = JSON.parse(ket);
+        if (typeof parsed === 'string') parsed = JSON.parse(parsed); // Tangani double-escaped JSON
+        return parsed.catatan || "";
+    } catch(e) {
+        return ket; // Jika bukan JSON, kembalikan teks aslinya
+    }
+}
+
+function formatWaktuHari(dateObj) {
+    const hariArr = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const hari = hariArr[dateObj.getDay()];
+    const tgl = dateObj.getDate().toString().padStart(2, '0');
+    const bln = bulan[dateObj.getMonth()];
+    const thn = dateObj.getFullYear();
+    const jam = dateObj.getHours().toString().padStart(2, '0');
+    const mnt = dateObj.getMinutes().toString().padStart(2, '0');
+    return `<span class="text-sm font-black text-slate-800">${hari}</span><span class="text-[10px] font-bold text-slate-500 mt-0.5">${tgl} ${bln} ${thn} - ${jam}:${mnt}</span>`;
+}
+
+    function formatWaktuHari(dateObj) {
+        const hariArr = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        const bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+        const hari = hariArr[dateObj.getDay()];
+        const tgl = dateObj.getDate().toString().padStart(2, '0');
+        const bln = bulan[dateObj.getMonth()];
+        const thn = dateObj.getFullYear();
+        const jam = dateObj.getHours().toString().padStart(2, '0');
+        const mnt = dateObj.getMinutes().toString().padStart(2, '0');
+        return `<span class="text-sm font-black text-slate-800">${hari}</span><span class="text-[10px] font-bold text-slate-500 mt-0.5">${tgl} ${bln} ${thn} - ${jam}:${mnt}</span>`;
+    }
+
+    function hitungEstimasiSelesaiObj(dateMasuk, estimasiStr) {
+        let est = new Date(dateMasuk.getTime());
+        let strLower = (estimasiStr || "").toLowerCase();
+        let num = parseInt((estimasiStr || "").match(/\d+/)) || 1;
+        if (strLower.includes('jam')) { est.setHours(est.getHours() + num); if (est.getHours() >= 21) { est.setHours(21, 0, 0, 0); } } 
+        else { est.setDate(est.getDate() + num); }
+        return est;
+    }
+
+    // ================== LOGIKA TAMPILAN MODAL ==================
+    function updateStatusStyle() {
+        const select = document.getElementById('mdl-status');
+        const val = select.value;
+        const wrapAlasan = document.getElementById('wrap-alasan-batal');
+        
+        select.className = "select-custom w-full h-full border-2 text-base font-black rounded-xl px-4 py-3 outline-none transition-all cursor-pointer ";
+        if (val === 'Antrian') select.classList.add('bg-blue-50', 'text-blue-700', 'border-blue-200', 'focus:ring-blue-500');
+        else if (val === 'Proses') select.classList.add('bg-orange-50', 'text-orange-700', 'border-orange-200', 'focus:ring-orange-500');
+        else if (val === 'Siap Ambil') select.classList.add('bg-slate-50', 'text-slate-700', 'border-slate-200', 'focus:ring-slate-500');
+        else if (val === 'Selesai') select.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-200', 'focus:ring-emerald-500');
+        else if (val === 'Batal') select.classList.add('bg-rose-50', 'text-rose-700', 'border-rose-200', 'focus:ring-rose-500');
+
+        if (val === 'Batal') wrapAlasan.classList.remove('hidden'); else wrapAlasan.classList.add('hidden');
+    }
+
+    function setTombolWA(noWA, namaPelanggan, trxId) {
+        const btnWA = document.getElementById('btn-wa-link');
+        if (!noWA || noWA === 'null' || noWA.trim() === '') {
+            btnWA.href = "#";
+            btnWA.onclick = async (e) => { e.preventDefault(); await CustomModal.alert("Nomor WA pelanggan tidak tersimpan di database.", "WA Tidak Tersedia", "warning"); };
+            btnWA.classList.replace('text-emerald-500', 'text-slate-400'); btnWA.classList.replace('bg-emerald-50', 'bg-slate-100');
+        } else {
+            let formatedWA = noWA.trim(); if (formatedWA.startsWith('0')) formatedWA = '62' + formatedWA.substring(1);
+            const pesan = `Halo kak ${namaPelanggan},\nIni dari Zeera Laundry. Ingin mengabarkan update terkait pesanan dengan ID: ${trxId}.`;
+            btnWA.href = `https://wa.me/${formatedWA}?text=${encodeURIComponent(pesan)}`;
+            btnWA.onclick = null;
+            btnWA.classList.replace('text-slate-400', 'text-emerald-500'); btnWA.classList.replace('bg-slate-100', 'bg-emerald-50');
+        }
+    }
+
+    function bukaModalDetailDariId(idTarget) {
+        // Cari data yang bersih langsung dari Memori Array
+        const p = globalDataPesanans.find(x => x.id_transaksi === idTarget || x.id === idTarget);
+        if (!p) return;
+        currentOrderState.rawData = p;
+        
+        const modalDetail = document.getElementById('modalDetail'); const modalDetailContent = document.getElementById('modalDetailContent');
+        const id = p.id_transaksi || p.id;
+        
+        document.getElementById('mdl-id-pesanan').value = id;
+        document.getElementById('mdl-trx').innerText = 'ID: ' + id;
+        document.getElementById('mdl-status').value = p.status_pesanan || 'Antrian';
+        updateStatusStyle();
+
+        // PARSING JSON KETERANGAN DAN METADATA KEUANGAN
+        let ket = p.keterangan || ""; 
+        let catatanStr = ket; 
+        let dpVal = 0; let uangDiterima = 0; let uangKembali = 0;
+
+        if (ket.startsWith('{')) {
+            try {
+                let meta = JSON.parse(ket);
+                if (typeof meta === 'string') meta = JSON.parse(meta);
+                catatanStr = meta.catatan || "";
+                currentPesananMeta.diskon = meta.diskon || 0;
+                currentPesananMeta.dp = meta.dp || 0; dpVal = meta.dp || 0;
+                currentPesananMeta.uang_diterima = meta.uang_diterima || 0; uangDiterima = meta.uang_diterima || 0;
+                currentPesananMeta.kembalian = meta.kembalian || 0; uangKembali = meta.kembalian || 0;
+            } catch(e) {}
+        } else { currentPesananMeta = { diskon: 0, dp: 0, uang_diterima: 0, kembalian: 0 }; }
+
+        const elAlasanBatal = document.getElementById('mdl-alasan-batal');
+        if (elAlasanBatal) elAlasanBatal.value = catatanStr !== 'null' ? catatanStr : "";
+
+        // MENGISI KOTAK PEMBAYARAN DAN PARFUM
+        const bayar = p.status_bayar || 'Belum Lunas';
+        const metode = p.metode_pembayaran || "";
+        const parfum = p.parfum || "-";
+        const total = p.total_harga || 0;
+
+        const valBayar = (bayar === 'Lunas') ? 'Lunas' : 'Belum Lunas';
+        const elPembayaran = document.getElementById('mdl-pembayaran'); 
+        if(elPembayaran) elPembayaran.value = valBayar;
+
+        const elMetode = document.getElementById('mdl-metode');
+        if(elMetode) {
+            if(valBayar === 'Belum Lunas') { elMetode.value = "Belum Bayar"; elMetode.disabled = true; } 
+            else { elMetode.disabled = false; elMetode.value = (metode && metode !== 'null' && metode !== '') ? metode : "Tunai"; }
+        }
+
+        const validParfum = ["Snappy", "Sakura", "Akasia"];
+        const elParfum = document.getElementById('mdl-parfum'); 
+        if(elParfum) elParfum.value = validParfum.includes(parfum) ? parfum : "-";
+
+        const elKeterangan = document.getElementById('mdl-keterangan'); 
+        if (elKeterangan) elKeterangan.value = (catatanStr !== 'null' && catatanStr !== '-') ? catatanStr : "";
+
+        const elTotal = document.getElementById('mdl-total'); 
+        if(elTotal) elTotal.innerText = 'Rp ' + parseInt(total).toLocaleString('id-ID');
+
+        // MENGHITUNG DP & TOTAL SISA TAGIHAN
+        const dpRow = document.getElementById('mdl-dp-row'); 
+        const sisaEl = document.getElementById('mdl-sisa'); 
+        const teksSisaEl = document.getElementById('teks-sisa-tagihan');
+        let sisaTagihan = total;
+
+        if (valBayar === 'Lunas') {
+            if(dpRow) dpRow.classList.add('hidden');
+            if(sisaEl && teksSisaEl) { 
+                teksSisaEl.innerText = 'Status Tagihan'; 
+                sisaEl.innerText = 'LUNAS'; sisaEl.classList.remove('text-[#0f766e]'); sisaEl.classList.add('text-emerald-500');
+                sisaEl.setAttribute('data-sisa-asli', 0); 
+            }
+        } else {
+            if(teksSisaEl && sisaEl) { 
+                teksSisaEl.innerText = 'Sisa Tagihan'; sisaEl.classList.remove('text-emerald-500'); sisaEl.classList.add('text-[#0f766e]'); 
+            }
+            if (dpVal > 0) {
+                if(dpRow) dpRow.classList.remove('hidden');
+                const elDP = document.getElementById('mdl-dp'); 
+                if (elDP) elDP.innerText = '-Rp ' + parseInt(dpVal).toLocaleString('id-ID');
+                sisaTagihan = total - dpVal;
+                if(sisaEl) { 
+                    sisaEl.innerText = 'Rp ' + parseInt(sisaTagihan > 0 ? sisaTagihan : 0).toLocaleString('id-ID'); 
+                    sisaEl.setAttribute('data-sisa-asli', sisaTagihan); 
+                }
+            } else {
+                if(dpRow) dpRow.classList.add('hidden'); 
+                if(sisaEl) { 
+                    sisaEl.innerText = 'Rp ' + parseInt(total).toLocaleString('id-ID'); 
+                    sisaEl.setAttribute('data-sisa-asli', total); 
+                }
+            }
+        }
+
+        const elUangDiterima = document.getElementById('mdl-uang-diterima');
+        if(elUangDiterima) elUangDiterima.value = uangDiterima > 0 ? new Intl.NumberFormat('id-ID').format(uangDiterima) : "";
+        if (typeof hitungKembalian === 'function') hitungKembalian();
+
+        let dateMasuk = getValidDate(p);
+
+        const itemContainer = document.getElementById('mdl-layanan-container');
+        const tglMasukContainer = document.getElementById('mdl-tgl-masuk');
+        const estContainer = document.getElementById('mdl-est-selesai');
+        const tglLunasContainer = document.getElementById('mdl-tgl-lunas');
+        
+        tglMasukContainer.innerHTML = formatWaktuHari(dateMasuk);
+        tglLunasContainer.innerHTML = (p.status_bayar === 'Lunas') ? formatWaktuHari(dateMasuk) : '<span class="text-slate-400 font-bold">-</span>';
+        
+        itemContainer.innerHTML = '';
+        let orderItems = [];
+        try { if(p.detail_layanan && p.detail_layanan !== 'null') orderItems = JSON.parse(p.detail_layanan); } catch(e) {}
+
+        if (orderItems.length > 0) {
+            let estDatesArray = [];
+            orderItems.forEach((item) => {
+                let estText = item.est || '1 Hari'; let itemIcon = item.icon || 'local_laundry_service';
+                estDatesArray.push(hitungEstimasiSelesaiObj(dateMasuk, estText));
+                itemContainer.innerHTML += `
+                <div class="bg-white border border-slate-100 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-teal-50 text-teal-600 flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">${itemIcon}</span></div>
+                        <div><h3 class="font-bold text-slate-800 text-sm">${item.name}</h3><p class="text-[10px] font-bold text-slate-400">Qty: ${item.qty} ${item.unit}</p></div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-black text-[#0f766e] text-sm">Rp ${parseInt(item.price * item.qty).toLocaleString('id-ID')}</p>
+                        <p class="text-[10px] font-bold text-slate-400">Est: ${estText}</p>
+                    </div>
+                </div>`;
+            });
+            estDatesArray.sort((a,b) => a - b);
+            estContainer.innerHTML = formatWaktuHari(estDatesArray[estDatesArray.length - 1]); 
+        } else {
+            estContainer.innerHTML = formatWaktuHari(hitungEstimasiSelesaiObj(dateMasuk, '1 Hari'));
+            itemContainer.innerHTML = '<div class="text-center py-4 text-xs font-bold text-slate-400">Data layanan tidak tersedia.</div>';
+        }
+
+        setTombolWA(p.no_whatsapp || p.wa, p.nama_pelanggan || p.nama, id);
+
+        // RESET DAN ISI TRACKER
+        currentOrderState.tracking = { cuci: {done:false}, kering: {done:false}, setrika:{done:false}, packing:{done:false} };
+        const urutanTahap = ['cuci', 'kering', 'setrika', 'packing'];
+        urutanTahap.forEach((step, index) => {
+            const qtyInput = document.getElementById(`qty-${step}`);
+            if(qtyInput) { qtyInput.value = ''; qtyInput.disabled = index !== 0; qtyInput.classList.remove('bg-slate-50', 'text-emerald-700'); }
+            
+            const btn = document.getElementById(`btn-${step}`);
+            if(btn) {
+                btn.innerHTML = 'Done'; btn.disabled = index !== 0;
+                // Memastikan tombol konsisten semi-kotak (rounded-lg) dan lebarnya tetap (w-16)
+                btn.className = index === 0 ? "bg-[#0f766e] text-white w-16 py-2 rounded-lg text-xs font-bold hover:bg-teal-800 shadow-sm transition-colors" : "bg-slate-300 text-slate-500 w-16 py-2 rounded-lg text-xs font-bold cursor-not-allowed transition-colors";
+            }
+            
+            const timeEl = document.getElementById(`time-${step}`);
+            if(timeEl) { timeEl.innerText = index === 0 ? "Belum dikerjakan" : "Menunggu tahap sebelumnya"; timeEl.className = "text-[10px] font-bold text-slate-400 mt-0.5"; }
+            
+            const circle = document.getElementById(`circle-${step}`);
+            if(circle) circle.className = "absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white border border-slate-200 transition-all";
+            
+            const wrap = document.getElementById(`wrap-${step}`);
+            if(wrap) { wrap.classList.add('opacity-50'); if(index===0) wrap.classList.remove('opacity-50'); }
+        });
+
+        if (p.tracking_data && p.tracking_data !== 'null') {
+            try {
+                const dbTracking = JSON.parse(p.tracking_data);
+                currentOrderState.tracking = dbTracking;
+                urutanTahap.forEach((step, index) => {
+                    const stepData = dbTracking[step];
+                    if (stepData && stepData.done) {
+                        const qtyInput = document.getElementById(`qty-${step}`);
+                        if(qtyInput) { qtyInput.value = stepData.qty; qtyInput.disabled = true; qtyInput.classList.add('bg-slate-50', 'text-emerald-700'); }
+                        
+                        const btnCurrent = document.getElementById(`btn-${step}`);
+                        if(btnCurrent) {
+                            btnCurrent.innerHTML = '<span class="material-symbols-outlined text-[14px]">edit</span>';
+                            btnCurrent.classList.replace("bg-[#0f766e]", "bg-emerald-500"); btnCurrent.classList.replace("hover:bg-teal-800", "hover:bg-emerald-600");
+                            btnCurrent.disabled = false; btnCurrent.onclick = () => editTahap(step);
+                        }
+                        
+                        const timeEl = document.getElementById(`time-${step}`);
+                        if(timeEl) { timeEl.innerText = `Selesai ${stepData.time} WIB oleh ${stepData.user}`; timeEl.classList.replace("text-slate-400", "text-emerald-500"); }
+                        
+                        const circleCurrent = document.getElementById(`circle-${step}`);
+                        if(circleCurrent) circleCurrent.className = "absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center ring-4 ring-white border transition-all bg-emerald-100 text-emerald-600 border-emerald-200";
+                        
+                        const nextStep = urutanTahap[index + 1];
+                        if(nextStep) {
+                            const wrapNext = document.getElementById(`wrap-${nextStep}`); if(wrapNext) wrapNext.classList.remove('opacity-50');
+                            const inputNext = document.getElementById(`qty-${nextStep}`); if(inputNext) { inputNext.disabled = false; inputNext.value = stepData.qty; }
+                            const btnNext = document.getElementById(`btn-${nextStep}`);
+                            if(btnNext) {
+                                btnNext.disabled = false; btnNext.classList.replace("bg-slate-300", "bg-[#0f766e]");
+                                btnNext.classList.replace("text-slate-500", "text-white"); btnNext.classList.replace("cursor-not-allowed", "hover:bg-teal-800");
+                                btnNext.classList.add("shadow-sm");
+                            }
+                            const timeNext = document.getElementById(`time-${nextStep}`); if(timeNext) timeNext.innerText = "Siap dikerjakan";
+                        }
+                    }
+                });
+            } catch(e) {}
+        }
+
+        modalDetail.classList.remove('hidden'); modalDetail.classList.add('flex');
+        setTimeout(() => { modalDetail.classList.remove('opacity-0'); modalDetailContent.classList.remove('scale-95'); modalDetailContent.classList.add('scale-100'); }, 10);
+    }
+
+    function tutupModalDetail() {
+        const modalDetail = document.getElementById('modalDetail'); const modalDetailContent = document.getElementById('modalDetailContent');
+        modalDetail.classList.add('opacity-0'); modalDetailContent.classList.remove('scale-100'); modalDetailContent.classList.add('scale-95');
+        setTimeout(() => { modalDetail.classList.add('hidden'); modalDetail.classList.remove('flex'); }, 300);
+    }
+
+    async function simpanStatus() {
+        const idPesanan = document.getElementById('mdl-id-pesanan').value;
+        const statusBaru = document.getElementById('mdl-status').value;
+        const bayarBaru = document.getElementById('mdl-pembayaran').value;
+        const metodeBaru = document.getElementById('mdl-metode').value;
+        const parfumBaru = document.getElementById('mdl-parfum').value;
+        let ketBaru = document.getElementById('mdl-keterangan').value;
+        
+        const uangDiterimaInput = document.getElementById('mdl-uang-diterima'); 
+        const uangDiterimaBaru = uangDiterimaInput ? (parseInt(uangDiterimaInput.value.replace(/\D/g, '')) || 0) : 0;
+        const elKembali = document.getElementById('mdl-kembali'); 
+        const kembalianBaru = elKembali ? (parseInt(elKembali.innerText.replace(/\D/g, '')) || 0) : 0;
+
+        if(statusBaru === 'Batal') {
+            const alasanBatal = document.getElementById('mdl-alasan-batal').value;
+            if(!alasanBatal.trim()) {
+                await CustomModal.alert("Harap masukkan Alasan Pembatalan di kolom yang tersedia.", "Peringatan", "warning");
+                document.getElementById('mdl-alasan-batal').focus(); return;
+            }
+            ketBaru = alasanBatal;
+        } else {
+            if (statusBaru === 'Siap Ambil' || statusBaru === 'Selesai') {
+                const isPackingDone = currentOrderState.tracking?.packing?.done;
+                if (!isPackingDone) { await CustomModal.alert("Tahapan Quality Control (Packing) belum diselesaikan.", "Sistem Menolak", "error"); return; }
+            }
+            if (statusBaru === 'Antrian') {
+                const isCuciDone = currentOrderState.tracking?.cuci?.done;
+                if (isCuciDone) { await CustomModal.alert("Pakaian tidak bisa dikembalikan ke Antrian karena proses cucian sudah berjalan.", "Sistem Menolak", "error"); return; }
+            }
+            if (statusBaru === 'Selesai') {
+                if (bayarBaru === 'Belum Lunas' || metodeBaru === 'Belum Bayar' || metodeBaru === '') {
+                    await CustomModal.alert("Pesanan yang berstatus 'Selesai' wajib dilunasi!", "Peringatan", "warning"); return;
+                }
+            }
+        }
+
+        const konfirmasi = await CustomModal.confirm("Anda yakin ingin menyimpan perubahan pesanan ini?", "Konfirmasi Simpan");
+        if(!konfirmasi) return;
+
+        const btnSimpan = document.getElementById('btn-simpan-status');
+        btnSimpan.innerHTML = '<span class="material-symbols-outlined animate-spin text-[20px]">autorenew</span> Memproses...';
+        btnSimpan.disabled = true;
+
+        // BUNGKUS DATA KEUANGAN KE DALAM JSON
+        let metaPayload = { catatan: ketBaru.trim(), diskon: currentPesananMeta.diskon, dp: currentPesananMeta.dp, uang_diterima: uangDiterimaBaru, kembalian: kembalianBaru };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/pesanan/${idPesanan}/`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status_pesanan: statusBaru, status_bayar: bayarBaru, metode_pembayaran: metodeBaru, parfum: parfumBaru, keterangan: JSON.stringify(metaPayload), tracking_data: JSON.stringify(currentOrderState.tracking) })
+            });
+            if (response.ok) {
+                tutupModalDetail(); fetchDataMasuk(); 
+            } else { await CustomModal.alert("Gagal memperbarui status ke server.", "Error", "error"); }
+        } catch (error) { await CustomModal.alert("Terjadi kesalahan jaringan atau API terputus.", "Koneksi Terputus", "error"); } 
+        finally { btnSimpan.innerHTML = '<span class="material-symbols-outlined text-[20px]">save</span> Simpan Perubahan'; btnSimpan.disabled = false; }
+    }
+    // ================== FUNGSI TRACKER (YANG SEMPAT HILANG) ==================
+    function resetTrackerUI() {
+        const urutanTahap = ['cuci', 'kering', 'setrika', 'packing'];
+        urutanTahap.forEach((step, index) => {
+            const qtyInput = document.getElementById(`qty-${step}`);
+            if(qtyInput) { qtyInput.value = ''; qtyInput.disabled = index !== 0; qtyInput.classList.remove('bg-slate-50', 'text-emerald-700'); }
+            
+            const btn = document.getElementById(`btn-${step}`);
+            if(btn) {
+                btn.innerHTML = 'Done'; btn.disabled = index !== 0;
+                btn.className = index === 0 ? "bg-[#0f766e] text-white w-16 py-2 rounded-lg text-xs font-bold hover:bg-teal-800 shadow-sm transition-colors" : "bg-slate-300 text-slate-500 w-16 py-2 rounded-lg text-xs font-bold cursor-not-allowed transition-colors";
+            }
+            
+            const timeEl = document.getElementById(`time-${step}`);
+            if(timeEl) { timeEl.innerText = index === 0 ? "Belum dikerjakan" : "Menunggu tahap sebelumnya"; timeEl.className = "text-[10px] font-bold text-slate-400 mt-0.5"; }
+            
+            const circle = document.getElementById(`circle-${step}`);
+            if(circle) circle.className = "absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white border border-slate-200 transition-all";
+            
+            const wrap = document.getElementById(`wrap-${step}`);
+            if(wrap) { wrap.classList.add('opacity-50'); if(index===0) wrap.classList.remove('opacity-50'); }
+        });
+    }
+
+    async function simpanTahap(currentStep, nextStep) {
+        const qtyInput = document.getElementById(`qty-${currentStep}`);
+        if(!qtyInput) return;
+        const qtyValue = qtyInput.value;
+        
+        if(!qtyValue || qtyValue <= 0) {
+            const isReset = await CustomModal.confirm("Jumlah dikosongkan. Anda yakin ingin me-reset tahapan ini?", "Konfirmasi Reset");
+            if(isReset) {
+                currentOrderState.tracking[currentStep] = { done: false };
+                qtyInput.value = '';
+                document.getElementById(`btn-${currentStep}`).innerHTML = 'Done';
+                document.getElementById(`btn-${currentStep}`).className = "bg-[#0f766e] text-white w-16 py-2 rounded-lg text-xs font-bold hover:bg-teal-800 shadow-sm transition-colors";
+                document.getElementById(`time-${currentStep}`).innerText = currentStep==='cuci'?"Belum dikerjakan":"Menunggu tahap sebelumnya";
+                document.getElementById(`time-${currentStep}`).className = "text-[10px] font-bold text-slate-400 mt-0.5";
+                document.getElementById(`circle-${currentStep}`).className = "absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center ring-4 ring-white border border-slate-200";
+                if(currentStep === 'cuci') { const elStatus=document.getElementById('mdl-status'); if(elStatus && elStatus.value==='Proses') elStatus.value='Antrian'; updateStatusStyle(); }
+            }
+            return;
+        }
+
+        const userData = JSON.parse(localStorage.getItem('zeera_user') || '{"nama": "Karyawan"}');
+        const now = new Date(); const timeString = ('0'+now.getHours()).slice(-2) + ':' + ('0'+now.getMinutes()).slice(-2);
+        
+        currentOrderState.tracking[currentStep] = { done: true, time: timeString, user: userData.nama, qty: qtyValue };
+        if(currentStep === 'cuci') { const elStatus=document.getElementById('mdl-status'); if(elStatus && elStatus.value==='Antrian') elStatus.value='Proses'; updateStatusStyle(); }
+        
+        qtyInput.disabled = true; qtyInput.classList.add('bg-slate-50', 'text-emerald-700');
+        
+        const btnCurrent = document.getElementById(`btn-${currentStep}`);
+        if(btnCurrent) {
+            btnCurrent.innerHTML = '<span class="material-symbols-outlined text-[16px]">edit</span>';
+            btnCurrent.className = "bg-emerald-500 text-white w-10 h-10 flex items-center justify-center rounded-lg hover:bg-emerald-600 shadow-sm transition-colors";
+        }
+        
+        const timeEl = document.getElementById(`time-${currentStep}`);
+        if(timeEl) {
+            timeEl.innerText = `Selesai ${timeString} WIB oleh ${userData.nama}`;
+            timeEl.className = "text-[10px] font-bold text-emerald-500 mt-0.5";
+        }
+        
+        const circleCurrent = document.getElementById(`circle-${currentStep}`);
+        if(circleCurrent) {
+            circleCurrent.className = "absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center ring-4 ring-white border transition-all bg-emerald-100 text-emerald-600 border-emerald-200";
+        }
+        
+        if(nextStep) {
+            const wrapNext = document.getElementById(`wrap-${nextStep}`);
+            if(wrapNext) wrapNext.classList.remove('opacity-50');
+            const inputNext = document.getElementById(`qty-${nextStep}`);
+            if(inputNext) { inputNext.disabled = false; inputNext.value = qtyValue; }
+            const btnNext = document.getElementById(`btn-${nextStep}`);
+            if(btnNext) {
+                btnNext.disabled = false; 
+                btnNext.className = "bg-[#0f766e] text-white w-16 py-2 rounded-lg text-xs font-bold hover:bg-teal-800 shadow-sm transition-colors";
+            }
+            const timeNext = document.getElementById(`time-${nextStep}`);
+            if(timeNext) timeNext.innerText = "Siap dikerjakan";
+        } else {
+            await CustomModal.alert("Packing Selesai!\nSistem otomatis mengubah status pesanan menjadi Siap Ambil.", "Sukses", "success");
+            const elStatus = document.getElementById('mdl-status');
+            if(elStatus) { elStatus.value = "Siap Ambil"; updateStatusStyle(); }
+        }
+    }
+
+    async function editTahap(step) {
+        const isReset = await CustomModal.confirm("Anda yakin ingin mengedit/me-reset tahapan ini?", "Edit Tahapan");
+        if(isReset) {
+            currentOrderState.tracking[step] = { done: false };
+            const qtyInput = document.getElementById(`qty-${step}`);
+            if(qtyInput) { qtyInput.disabled = false; qtyInput.classList.remove('bg-slate-50', 'text-emerald-700'); }
+            const btnStep = document.getElementById(`btn-${step}`);
+            if(btnStep) {
+                btnStep.innerHTML = 'Done';
+                btnStep.className = "bg-[#0f766e] text-white w-16 py-2 rounded-lg text-xs font-bold hover:bg-teal-800 shadow-sm transition-colors";
+            }
+            const timeEl = document.getElementById(`time-${step}`);
+            if(timeEl) {
+                timeEl.innerText = "Diedit ulang";
+                timeEl.className = "text-[10px] font-bold text-orange-500 mt-0.5";
+            }
+            const circleEl = document.getElementById(`circle-${step}`);
+            if(circleEl) {
+                circleEl.className = "absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center ring-4 ring-white border border-orange-200";
+            }
+        }
+    }
+    // ================== PENGAMBILAN DATA CERDAS ==================
+    async function fetchDataMasuk() {
+    const tbody = document.getElementById('tabel-pesanan'); tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-slate-500"><span class="material-symbols-outlined animate-spin mb-2">autorenew</span><br>Menarik data...</td></tr>';
+    try {
+        const response = await fetch(`${API_BASE_URL}/pesanan/`); const allData = await response.json();
+        if (!Array.isArray(allData)) throw new Error("Format API salah");
+        
+        const dataMasuk = allData.filter(p => p.status_pesanan === 'Antrian' || p.status_pesanan === 'Proses');
+        let estimasiOmset = 0; let countLunas = 0; let countBelum = 0; tbody.innerHTML = '';
+        
+        if(dataMasuk.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 font-medium text-slate-500">Tidak ada antrian transaksi saat ini.</td></tr>'; }
+        else {
+            globalDataPesanans = dataMasuk; // SIMPAN KE MEMORI
+            dataMasuk.forEach(p => { p.timestamp = getValidDate(p).getTime(); });
+            dataMasuk.sort((a, b) => b.timestamp - a.timestamp);
+            
+            dataMasuk.forEach(p => {
+                estimasiOmset += parseFloat(p.total_harga) || 0;
+                if(p.status_bayar === 'Lunas') countLunas++; else countBelum++;
+                
+                const tgl = new Date(p.timestamp); 
+                const formatTgl = tgl.toLocaleDateString('id-ID', {day:'2-digit', month: 'short', year:'numeric'}) + ', ' + tgl.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace(/\./g,':');
+                const formatRp = 'Rp ' + (Number(p.total_harga) || 0).toLocaleString('id-ID');
+                
+                let badgeBayar = '';
+                if (p.status_bayar === 'Lunas') badgeBayar = '<span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-emerald-200 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Lunas</span>';
+                else if (p.keterangan && p.keterangan.includes('"dp":') && JSON.parse(p.keterangan).dp > 0) badgeBayar = '<span class="inline-flex items-center gap-1.5 bg-amber-50 text-amber-700 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-amber-200 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Uang Muka</span>';
+                else badgeBayar = '<span class="inline-flex items-center gap-1.5 bg-rose-50 text-rose-700 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-rose-200 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>Belum Lunas</span>';
+                
+                const idTrx = p.id_transaksi || p.id || 'N/A';
+                const safeName = p.nama_pelanggan || 'Anonim';
+                
+                const tr = document.createElement('tr'); tr.className = 'hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0 group cursor-pointer';
+                tr.setAttribute('onclick', `bukaModalDetailDariId('${idTrx}')`);
+                
+                tr.innerHTML = `<td class="py-4 pr-4 font-bold text-slate-800 truncate">${idTrx}</td><td class="py-4 pr-4 text-slate-500 truncate">${formatTgl}</td><td class="py-4 pr-4 font-semibold text-slate-800 truncate capitalize">${safeName}</td><td class="py-4 pr-4 font-bold text-[#0f766e] truncate">${formatRp}</td><td class="py-4 pr-4 truncate">${badgeBayar}</td><td class="py-4 text-center"><span class="font-bold text-sm text-[#0f766e] group-hover:underline">Detail</span></td>`;
+                tbody.appendChild(tr);
+            });
+            if(document.getElementById('card-1')) {
+                document.getElementById('card-1').innerHTML = `${dataMasuk.length} <span class="text-sm font-medium text-slate-500">Nota</span>`; 
+                document.getElementById('card-2').innerText = 'Rp ' + estimasiOmset.toLocaleString('id-ID'); 
+                document.getElementById('card-3').innerHTML = `${countLunas} / <span class="text-rose-500">${countBelum}</span>`;
+            }
+        }
+    } catch (error) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-red-500 font-bold">Gagal terhubung ke database.</td></tr>'; }
+}
+
+    async function fetchDataBatal() {
+        const tbody = document.getElementById('tabel-pesanan'); tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-slate-500"><span class="material-symbols-outlined animate-spin mb-2">autorenew</span><br>Menarik data...</td></tr>';
+        try {
+            const response = await fetch(`${API_BASE_URL}/pesanan/`); const allData = await response.json();
+            if (!Array.isArray(allData)) throw new Error("Format API salah");
+            
+            const dataBatal = allData.filter(p => p.status_pesanan === 'Batal');
+            let potensiHilang = 0; const counts = {}; tbody.innerHTML = '';
+            
+            if(dataBatal.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 font-medium text-slate-500">Tidak ada transaksi yang dibatalkan.</td></tr>'; } 
+            else {
+                globalDataPesanans = dataBatal; // SIMPAN KE MEMORI
+                dataBatal.forEach(p => { p.timestamp = getValidDate(p).getTime(); });
+                dataBatal.sort((a, b) => b.timestamp - a.timestamp);
+                
+                dataBatal.forEach(p => {
+                    potensiHilang += parseFloat(p.total_harga) || 0;
+                    let ket = p.keterangan || ""; let alasan = 'Tanpa Keterangan';
+                    if (ket.startsWith('{')) { try { let meta = JSON.parse(ket); alasan = meta.catatan || 'Tanpa Keterangan'; } catch(e) {} } else { alasan = ket; }
+                    counts[alasan] = (counts[alasan] || 0) + 1;
+                    
+                    const tgl = new Date(p.timestamp); const formatTgl = tgl.toLocaleDateString('id-ID', {day:'2-digit', month: 'short', year: 'numeric'}) + ', ' + tgl.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace(/\./g, ':');
+                    const formatRp = 'Rp ' + (Number(p.total_harga) || 0).toLocaleString('id-ID');
+                    const idTrx = p.id_transaksi || p.id || 'N/A';
+                    const safeName = p.nama_pelanggan || 'Anonim';
+                    
+                    const tr = document.createElement('tr'); tr.className = 'hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0 group cursor-pointer';
+                    tr.setAttribute('onclick', `bukaModalDetailDariId('${idTrx}')`); // CARA PEMANGGILAN AMAN
+                    
+                    tr.innerHTML = `<td class="py-4 pr-4 font-bold text-slate-800 truncate">${idTrx}</td><td class="py-4 pr-4 text-slate-500 truncate">${formatTgl}</td><td class="py-4 pr-4 font-semibold text-slate-800 truncate capitalize">${safeName}</td><td class="py-4 pr-4 font-bold text-rose-600 truncate">${formatRp}</td><td class="py-4 pr-4 font-medium text-rose-500 truncate" title="${alasan}">${alasan}</td><td class="py-4 text-center"><div class="relative flex items-center justify-center text-rose-600 font-bold text-sm overflow-hidden h-6 w-16 mx-auto"><span class="absolute transition-all duration-500 ease-out transform group-hover:translate-x-8 group-hover:opacity-0">Detail</span><span class="material-symbols-outlined text-[20px] absolute transition-all duration-500 ease-out transform -translate-x-8 opacity-0 group-hover:translate-x-0 group-hover:opacity-100">arrow_forward</span></div></td>`;
+                    tbody.appendChild(tr);
+                });
+                
+                if(document.getElementById('card-1')) {
+                    let alasanTerbanyak = '-'; if(Object.keys(counts).length > 0) alasanTerbanyak = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+                    document.getElementById('card-1').innerHTML = `${dataBatal.length} <span class="text-sm font-medium text-slate-500">Nota</span>`; 
+                    document.getElementById('card-2').innerText = 'Rp ' + potensiHilang.toLocaleString('id-ID'); 
+                    document.getElementById('card-3').innerText = alasanTerbanyak;
+                }
+            }
+        } catch (error) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-red-500 font-bold">Gagal terhubung ke database.</td></tr>'; }
+    }
+
+    async function fetchDataSelesai() {
+        const tbody = document.getElementById('tabel-pesanan'); tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-slate-500"><span class="material-symbols-outlined animate-spin mb-2">autorenew</span><br>Menarik data...</td></tr>';
+        try {
+            const response = await fetch(`${API_BASE_URL}/pesanan/`); const allData = await response.json();
+            if (!Array.isArray(allData)) throw new Error("Format API salah");
+            
+            const dataSelesai = allData.filter(p => p.status_pesanan === 'Selesai' || p.status_pesanan === 'Siap Ambil');
+            let pendapatanReal = 0; tbody.innerHTML = '';
+            
+            if(dataSelesai.length === 0) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 font-medium text-slate-500">Belum ada transaksi yang selesai.</td></tr>'; } 
+            else {
+                globalDataPesanans = dataSelesai; // SIMPAN KE MEMORI
+                dataSelesai.forEach(p => { p.timestamp = getValidDate(p).getTime(); });
+                dataSelesai.sort((a, b) => b.timestamp - a.timestamp);
+                
+                dataSelesai.forEach(p => {
+                    if(p.status_bayar === 'Lunas') pendapatanReal += parseFloat(p.total_harga) || 0;
+                    
+                    const tgl = new Date(p.timestamp); const formatTgl = tgl.toLocaleDateString('id-ID', {day:'2-digit', month: 'short', year: 'numeric'}) + ', ' + tgl.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}).replace(/\./g,':');
+                    const formatRp = 'Rp ' + (Number(p.total_harga) || 0).toLocaleString('id-ID');
+                    const idTrx = p.id_transaksi || p.id || 'N/A';
+                    const safeName = p.nama_pelanggan || 'Anonim';
+                    
+                    let badgeStatus = p.status_pesanan === 'Selesai' ? '<span class="inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-emerald-200 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Selesai</span>' : '<span class="inline-flex items-center gap-1.5 bg-slate-50 text-slate-700 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-slate-200 w-fit"><span class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>Siap Ambil</span>';
+                    
+                    const tr = document.createElement('tr'); tr.className = 'hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0 group cursor-pointer';
+                    tr.setAttribute('onclick', `bukaModalDetailDariId('${idTrx}')`); // CARA PEMANGGILAN AMAN
+                    
+                    tr.innerHTML = `<td class="py-4 pr-4 font-bold text-slate-800 truncate">${idTrx}</td><td class="py-4 pr-4 text-slate-500 truncate">${formatTgl}</td><td class="py-4 pr-4 font-semibold text-slate-800 truncate capitalize">${safeName}</td><td class="py-4 pr-4 font-bold text-[#0f766e] truncate">${formatRp}</td><td class="py-4 pr-4 truncate">${badgeStatus}</td><td class="py-4 text-center"><div class="relative flex items-center justify-center text-[#0f766e] font-bold text-sm overflow-hidden h-6 w-16 mx-auto"><span class="absolute transition-all duration-500 ease-out transform group-hover:translate-x-8 group-hover:opacity-0">Detail</span><span class="material-symbols-outlined text-[20px] absolute transition-all duration-500 ease-out transform -translate-x-8 opacity-0 group-hover:translate-x-0 group-hover:opacity-100">arrow_forward</span></div></td>`;
+                    tbody.appendChild(tr);
+                });
+                if(document.getElementById('card-1')) {
+                    document.getElementById('card-1').innerHTML = `${dataSelesai.length} <span class="text-sm font-medium text-slate-500">Nota</span>`; 
+                    document.getElementById('card-2').innerText = 'Rp ' + pendapatanReal.toLocaleString('id-ID'); 
+                    document.getElementById('card-3').innerHTML = `<1 <span class="text-sm font-medium text-slate-500">Hari</span>`;
+                }
+            }
+        } catch (error) { tbody.innerHTML = '<tr><td colspan="6" class="text-center py-6 text-red-500 font-bold">Gagal terhubung ke database.</td></tr>'; }
+    }
+
+    function printNota() {
+        const trx = document.getElementById('mdl-trx').innerText.replace('ID: ', '');
+        document.getElementById('print-trx').innerText = trx;
+        document.getElementById('print-tgl').innerText = new Date().toLocaleString();
+        document.getElementById('print-area').classList.remove('hidden'); 
+        window.print(); 
+        document.getElementById('print-area').classList.add('hidden');
+    }
+
+    function exportTableToCSV(filename) {
+        let csv = []; const rows = document.querySelectorAll("table tr");
+        for (let i = 0; i < rows.length; i++) {
+            let row = [], cols = rows[i].querySelectorAll("td, th");
+            for (let j = 0; j < cols.length; j++) row.push('"' + cols[j].innerText.replace(/(\r\n|\n|\r)/gm, "").replace(/(\s\s)/gm, " ") + '"');
+            if(row.length > 0) csv.push(row.join(","));
+        }
+        const link = document.createElement("a"); link.href = window.URL.createObjectURL(new Blob([csv.join("\n")], {type: "text/csv"})); link.download = filename; link.click();
+    }
+
+    // Eksekusi Pinter Berdasarkan Halaman yang Dibuka
+    document.addEventListener('DOMContentLoaded', () => {
+        const title = document.querySelector('h1').innerText.toLowerCase();
+        if(title.includes('masuk')) fetchDataMasuk();
+        else if(title.includes('batal')) fetchDataBatal();
+        else fetchDataSelesai();
+
+        const searchInput = document.getElementById('searchInput');
+        if(searchInput) {
+            searchInput.addEventListener('input', function(e) {
+                const filter = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('tbody#tabel-pesanan tr');
+                rows.forEach(row => { row.style.display = row.innerText.toLowerCase().includes(filter) ? '' : 'none'; });
+            });
+        }
+    });
+</script>
+</body>
+</html>

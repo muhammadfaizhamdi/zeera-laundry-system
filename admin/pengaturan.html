@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Zeera Laundry - Pengaturan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- LIBRARY DRAG & DROP PROFESIONAL -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<style>
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
+.select-custom { appearance: none; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M5%207.5L10%2012.5L15%207.5%22%20stroke%3D%22%23475569%22%20stroke-width%3D%222.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E"); background-repeat: no-repeat; background-position: right 0.75rem center; padding-right: 2.5rem; }
+
+/* Animasi saat item di drag */
+.sortable-ghost { opacity: 0.4; background-color: #f8fafc; }
+.sortable-drag { cursor: grabbing !important; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); }
+</style>
+<script id="tailwind-config">
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "primary": "#005c55", "primary-container": "#0f766e", "on-primary": "#ffffff"
+            },
+            
+            fontFamily: {
+                "body-md": ["Inter", "sans-serif"],
+                "title-lg": ["Inter", "sans-serif"],
+                "sans": ["Inter", "sans-serif"]
+            }
+        }
+    }
+}
+</script>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-slate-100 w-full h-screen overflow-hidden font-body-md text-slate-800">
+<div class="w-full h-full flex p-4 md:p-6 lg:p-8 gap-4 md:gap-6 relative">
+<!-- Sidebar -->
+<aside class="hidden md:flex w-64 bg-[#0f766e] text-white rounded-[2rem] p-6 flex-col h-full shadow-2xl z-40 shrink-0">
+    <div class="flex items-center gap-3 bg-white/10 p-3 rounded-2xl backdrop-blur-sm mb-8">
+        <img alt="Zeera Laundry Logo" src="../../assets/logo-zeera.jpg" class="w-11 h-11 flex-shrink-0 object-contain bg-white rounded-[12px] p-1.5 shadow-md ring-1 ring-black/5" onerror="this.src='https://via.placeholder.com/44?text=ZL'" />
+        <span class="font-black text-xl text-white tracking-wide whitespace-nowrap">Zeera Admin</span>
+    </div>
+    <nav class="flex-1 flex flex-col gap-2">
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span> Dashboard</a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="buat-pesanan.html"><span class="material-symbols-outlined">add_shopping_cart</span> Buat Pesanan</a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="pesanan.html"><span class="material-symbols-outlined">receipt_long</span> Pesanan</a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="pelanggan.html"><span class="material-symbols-outlined">group</span> Pelanggan</a>
+        <a class="text-teal-100 hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="laporan.html"><span class="material-symbols-outlined">bar_chart</span> Laporan</a>
+    </nav>
+    <div class="mt-auto pt-6 border-t border-white/20 flex flex-col gap-2">
+        <a class="bg-white/20 font-bold rounded-xl p-3 flex items-center gap-3 text-white transition-all shadow-sm" href="pengaturan.html"><span class="material-symbols-outlined" style='font-variation-settings: "FILL" 1;'>settings</span> Pengaturan</a>
+        <button class="w-full text-teal-100 hover:text-white hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" onclick="window.location.href='auth/login.html'"><span class="material-symbols-outlined">logout</span> Keluar</button>
+    </div>
+</aside>
+
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col gap-6 w-full h-full overflow-y-auto pr-2 custom-scrollbar">
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-sm p-6 md:p-8 relative z-10 border border-slate-100 shrink-0">
+        <div>
+            <h1 class="text-3xl font-extrabold text-slate-800 mb-1">Pengaturan Sistem</h1>
+            <p class="text-slate-500 font-medium">Konfigurasi master data profil, outlet, layanan, hingga hak akses pegawai.</p>
+        </div>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start pb-8">
+    <!-- KOLOM KIRI -->
+    <div class="flex flex-col gap-6">
+        <!-- 1. Profil -->
+        <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden group">
+            <div class="p-6 flex items-center justify-between cursor-pointer" onclick="toggleSetting('profil')">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0 group-hover:bg-blue-100 transition-colors"><span class="material-symbols-outlined text-3xl" style='font-variation-settings: "FILL" 1;'>person</span></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Profil</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-0.5">Konfigurasi Profil Utama Admin</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 transition-transform duration-300" id="icon-profil">expand_more</span>
+            </div>
+            <ul class="hidden flex-col border-t border-slate-100 bg-white" id="menu-profil">
+                <li class="py-4 px-6 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalProfil')">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Edit Profil</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 2. Layanan -->
+        <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden group">
+            <div class="p-6 flex items-center justify-between cursor-pointer" onclick="toggleSetting('layanan')">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0 group-hover:bg-teal-100 transition-colors"><span class="material-symbols-outlined text-3xl" style='font-variation-settings: "FILL" 1;'>local_laundry_service</span></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Layanan</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-0.5">Konfigurasi Layanan & Harga</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 transition-transform duration-300" id="icon-layanan">expand_more</span>
+            </div>
+            <ul class="hidden flex-col border-t border-slate-100 bg-white" id="menu-layanan">
+                <li class="py-4 px-6 border-b border-slate-50 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModalKatalogLayanan()">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Manajemen Katalog Layanan</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+                <li class="py-4 px-6 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalParfum', renderParfum)">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Manajemen Parfum</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 3. Outlet -->
+        <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden group">
+            <div class="p-6 flex items-center justify-between cursor-pointer" onclick="toggleSetting('outlet')">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-600 flex items-center justify-center shrink-0 group-hover:bg-orange-100 transition-colors"><span class="material-symbols-outlined text-3xl" style='font-variation-settings: "FILL" 1;'>storefront</span></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Outlet</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-0.5">Konfigurasi Profil Outlet dan Jam Operasional</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 transition-transform duration-300" id="icon-outlet">expand_more</span>
+            </div>
+            <ul class="hidden flex-col border-t border-slate-100 bg-white" id="menu-outlet">
+                <li class="py-4 px-6 border-b border-slate-50 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalOutlet')">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Profil Outlet & Jam Buka</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+                <li class="py-4 px-6 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalMetodeBayar', renderMetodeBayar)">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Metode Pembayaran</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- KOLOM KANAN -->
+    <div class="flex flex-col gap-6">
+        <!-- 4. Pegawai -->
+        <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden group">
+            <div class="p-6 flex items-center justify-between cursor-pointer" onclick="toggleSetting('pegawai')">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 group-hover:bg-indigo-100 transition-colors"><span class="material-symbols-outlined text-3xl" style='font-variation-settings: "FILL" 1;'>badge</span></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Pegawai</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-0.5">Kelola data dan role pegawai operasional</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 transition-transform duration-300" id="icon-pegawai">expand_more</span>
+            </div>
+            <ul class="hidden flex-col border-t border-slate-100 bg-white" id="menu-pegawai">
+                <li class="py-4 px-6 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalPegawai', renderPegawai)">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Konfigurasi Pegawai</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 5. Keuangan -->
+        <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden group">
+            <div class="p-6 flex items-center justify-between cursor-pointer" onclick="toggleSetting('keuangan')">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0 group-hover:bg-amber-100 transition-colors"><span class="material-symbols-outlined text-3xl" style='font-variation-settings: "FILL" 1;'>account_balance_wallet</span></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Keuangan</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-0.5">Kelola Pengeluaran Finansial</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 transition-transform duration-300" id="icon-keuangan">expand_more</span>
+            </div>
+            <ul class="hidden flex-col border-t border-slate-100 bg-white" id="menu-keuangan">
+                <li class="py-4 px-6 border-b border-slate-50 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalKeuangan', renderKeuangan)">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Kategori Pengeluaran</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+                <li class="py-4 px-6 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalKoreksi')">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Koreksi Pengeluaran</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 6. Printer -->
+        <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] border border-white shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden group">
+            <div class="p-6 flex items-center justify-between cursor-pointer" onclick="toggleSetting('printer')">
+                <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0 group-hover:bg-slate-200 transition-colors"><span class="material-symbols-outlined text-3xl" style='font-variation-settings: "FILL" 1;'>print</span></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800">Printer</h3>
+                        <p class="text-xs font-semibold text-slate-500 mt-0.5">Kelola Printer dan Nota</p>
+                    </div>
+                </div>
+                <span class="material-symbols-outlined text-slate-400 transition-transform duration-300" id="icon-printer">expand_more</span>
+            </div>
+            <ul class="hidden flex-col border-t border-slate-100 bg-white" id="menu-printer">
+                <li class="py-4 px-6 border-b border-slate-50 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalNota')">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Kelola Nota</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+                <li class="py-4 px-6 flex items-center justify-between hover:bg-slate-50 cursor-pointer transition-colors group/item" onclick="bukaModal('modalPermission')">
+                    <span class="text-sm font-bold text-slate-600 group-hover/item:text-[#0f766e]">Kelola Permission</span>
+                    <span class="material-symbols-outlined text-slate-400 text-[18px]">open_in_new</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</main>
+</div>
+
+<!-- ================= AREA MODAL POP-UP ================= -->
+<div id="modalKatalogLayanan" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalKatalogLayanan')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-4xl mx-auto overflow-hidden flex flex-col transform scale-95 transition-transform duration-300 max-h-[95vh] h-full md:h-auto">
+        <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-start md:items-center bg-white shrink-0 gap-4">
+            <div>
+                <h3 class="font-extrabold text-2xl text-slate-800 tracking-tight">Manajemen Katalog Layanan</h3>
+                <p class="text-sm font-medium text-slate-500 mt-1">Atur kategori, harga, satuan, dan urutan tampilan.</p>
+            </div>
+            <div class="flex items-center gap-2 w-full md:w-auto mt-2 md:mt-0">
+                <button onclick="bukaModalTambahKategori()" class="flex-1 md:flex-none bg-[#0f766e] text-white font-bold px-5 py-2.5 rounded-xl hover:bg-teal-800 transition-all shadow-sm text-sm whitespace-nowrap flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-[20px]">add_box</span> Kategori Baru
+                </button>
+                <button onclick="tutupModal('modalKatalogLayanan')" class="text-slate-400 hover:text-red-500 transition-colors w-10 h-10 flex items-center justify-center bg-slate-50 hover:bg-slate-200 rounded-xl border border-slate-100 shrink-0">
+                    <span class="material-symbols-outlined text-[24px]">close</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 shrink-0">
+            <!-- Kolom Pencarian Profesional Full Width -->
+            <div class="relative w-full">
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">search</span>
+                <input id="search-katalog-modal" type="text" placeholder="Cari layanan (Contoh: Express, Bedcover)..." class="w-full pl-11 pr-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all shadow-sm">
+            </div>
+        </div>
+
+        <!-- List Utama Kategori & Isinya -->
+        <div class="flex-1 overflow-y-auto custom-scrollbar p-6 bg-slate-50/50" id="wrapper-katalog">
+            <!-- Dirender oleh Javascript via API -->
+        </div>
+    </div>
+</div>
+
+<div id="modalFormItemLayanan" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[60] hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalFormItemLayanan')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-lg mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300">
+        <h3 id="form-item-title" class="font-extrabold text-2xl text-slate-800 mb-1">Tambah Layanan Baru</h3>
+        <p id="form-item-subtitle" class="text-xs font-bold text-[#0f766e] mb-6 uppercase tracking-wider bg-teal-50 px-3 py-1.5 rounded-lg inline-block w-fit">Kategori: Paket</p>
+        
+        <input type="hidden" id="in-form-kategori-id">
+        <input type="hidden" id="in-form-item-id">
+        
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm mb-6 flex flex-col gap-4">
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5 ml-1">Nama Layanan / Paket</label>
+                <input id="in-form-nama" type="text" placeholder="Cth: Bedcover Besar" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5 ml-1">Harga (Rp)</label>
+                    <input id="in-form-harga" type="number" placeholder="Cth: 15000" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all">
+                </div>
+                <div>
+                    <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5 ml-1">Satuan</label>
+                    <select id="in-form-satuan" class="select-custom w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-[#0f766e] cursor-pointer">
+                        <option value="Kg">Per Kg</option>
+                        <option value="Pcs">Per Pcs</option>
+                        <option value="Meter">Per Meter</option>
+                        <option value="Psg">Per Psg</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider block mb-1.5 ml-1">Estimasi Waktu Selesai</label>
+                <div class="flex bg-slate-50 border border-slate-200 rounded-xl overflow-hidden focus-within:border-[#0f766e] focus-within:ring-1 focus-within:ring-[#0f766e] transition-all">
+                    <input id="in-form-waktu-angka" type="number" placeholder="Angka (Cth: 2)" class="w-24 bg-transparent px-4 py-3 text-sm font-bold outline-none text-center border-r border-slate-200">
+                    <select id="in-form-waktu-tipe" class="flex-1 bg-transparent px-4 py-3 text-sm font-bold outline-none cursor-pointer">
+                        <option value="Hari">Hari</option>
+                        <option value="Jam">Jam</option>
+                        <option value="Langsung">Langsung</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="tutupModal('modalFormItemLayanan')" class="flex-1 bg-slate-100 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-200 transition-colors">Batal</button>
+            <button onclick="simpanFormItemLayanan()" id="btn-simpan-layanan" class="flex-1 bg-[#0f766e] text-white font-bold py-3.5 rounded-xl hover:bg-teal-800 transition-colors shadow-lg shadow-teal-500/30">Simpan Layanan</button>
+        </div>
+    </div>
+</div>
+<!-- MODAL BARU: MANAJEMEN PARFUM -->
+<div id="modalParfum" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalParfum')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-sm mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300 max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-4">
+            <h3 class="font-extrabold text-xl text-slate-800">Manajemen Parfum</h3>
+            <button onclick="tutupModal('modalParfum')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+        <div class="flex gap-2 mb-4 bg-slate-50 p-2 rounded-2xl border border-slate-100 shrink-0">
+            <input id="in-nama-parfum" type="text" placeholder="Cth: Sakura, Snappy..." class="flex-1 w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all">
+            <button onclick="simpanParfum()" id="btn-tambah-parfum" class="bg-[#0f766e] text-white font-bold px-4 rounded-xl hover:bg-teal-800 transition-colors shadow-sm w-24">Tambah</button>
+        </div>
+        <ul id="list-modal-parfum" class="flex-col space-y-2 max-h-56 overflow-y-auto custom-scrollbar pr-1 mb-2"></ul>
+    </div>
+</div>
+<!-- Modal Edit Kategori Custom -->
+<div id="modalEditKategori" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[70] hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalEditKategori')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-sm mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-extrabold text-xl text-slate-800">Edit Nama Kategori</h3>
+            <button onclick="tutupModal('modalEditKategori')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+        <div class="mb-8">
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2 block ml-1">Nama Kategori Baru</label>
+            <input type="hidden" id="in-kategori-edit-lama">
+            <input id="in-kategori-edit-baru" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all shadow-sm">
+        </div>
+        <div class="flex gap-3 mt-auto">
+            <button onclick="tutupModal('modalEditKategori')" class="flex-1 bg-slate-100 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-200 transition-colors">Batal</button>
+            <button onclick="simpanEditKategori()" id="btn-simpan-edit-kategori" class="flex-1 bg-[#0f766e] text-white font-bold py-3.5 rounded-xl hover:bg-teal-800 transition-colors shadow-lg shadow-teal-500/30">Update</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Tambah Kategori Custom -->
+<div id="modalTambahKategori" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-[70] hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalTambahKategori')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-sm mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="font-extrabold text-xl text-slate-800">Kategori Baru</h3>
+            <button onclick="tutupModal('modalTambahKategori')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+        <div class="mb-8">
+            <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2 block ml-1">Nama Kategori</label>
+            <input id="in-kategori-baru-custom" type="text" placeholder="Cth: Paket Lebaran, Cuci Karpet..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all shadow-sm">
+        </div>
+        <div class="flex gap-3 mt-auto">
+            <button onclick="tutupModal('modalTambahKategori')" class="flex-1 bg-slate-100 text-slate-600 font-bold py-3.5 rounded-xl hover:bg-slate-200 transition-colors">Batal</button>
+            <button onclick="simpanKategoriBaru()" class="flex-1 bg-[#0f766e] text-white font-bold py-3.5 rounded-xl hover:bg-teal-800 transition-colors shadow-lg shadow-teal-500/30">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Lainnya (Profil, Outlet, Pegawai, dll) ... -->
+<!-- Modal Profil Lengkap -->
+<div id="modalProfil" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalProfil')"></div>
+    <div class="relative bg-white rounded-3xl shadow-2xl w-full max-w-sm mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300">
+        <div class="flex justify-between items-start mb-6 border-b border-slate-100 pb-4 shrink-0">
+            <div>
+                <h3 class="font-extrabold text-2xl text-slate-800 tracking-tight mb-1">Edit Profil</h3>
+                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">KONFIGURASI PROFIL</p>
+            </div>
+            <button onclick="tutupModal('modalProfil')" class="text-slate-400 hover:text-slate-600 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full mt-1 shrink-0">
+                <span class="material-symbols-outlined text-[20px]">close</span>
+            </button>
+        </div>
+        <!-- px-1 dan -mx-1 untuk mencegah shadow input terpotong -->
+        <div class="overflow-y-auto custom-scrollbar px-1 -mx-1 space-y-4 mb-6">
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2 block">Nama Tampilan</label>
+                <input id="in-prof-nama" type="text" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all shadow-sm">
+            </div>
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2 block">Email</label>
+                <input id="in-prof-email" type="email" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all shadow-sm">
+            </div>
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2 block">No. Handphone</label>
+                <input id="in-prof-hp" type="text" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all shadow-sm">
+            </div>
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-2 block">Password Baru</label>
+                <input id="in-prof-pass" type="password" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-800 outline-none focus:border-[#0f766e] focus:ring-1 focus:ring-[#0f766e] transition-all shadow-sm placeholder:text-slate-300 placeholder:font-bold" placeholder="Kosongkan jika tidak ingin ubah">
+            </div>
+        </div>
+        <button onclick="simpanProfilAPI()" id="btn-simpan-profil" class="w-full bg-[#0f766e] text-white font-bold text-base py-3.5 rounded-xl hover:bg-teal-800 transition-colors shadow-md mt-auto shrink-0">Simpan</button>
+    </div>
+</div>
+
+<!-- Modal Outlet -->
+<div id="modalOutlet" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalOutlet')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-md mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300 max-h-[90vh]">
+        <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+            <h3 class="font-extrabold text-xl text-slate-800">Profil Outlet</h3>
+            <button onclick="tutupModal('modalOutlet')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+        <div class="space-y-4 mb-6 overflow-y-auto custom-scrollbar pr-1">
+            <div><label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Nama Outlet / Cabang</label>
+            <input id="in-outlet-nama" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all"></div>
+            <div><label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Nomor Telepon Outlet</label>
+            <input id="in-outlet-telp" type="text" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all"></div>
+            <div><label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Alamat Lengkap</label>
+            <textarea id="in-outlet-alamat" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all min-h-[70px]"></textarea></div>
+            <div class="grid grid-cols-2 gap-4">
+                <div><label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Jam Buka</label>
+                <input id="in-outlet-buka" type="time" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all"></div>
+                <div><label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Jam Tutup</label>
+                <input id="in-outlet-tutup" type="time" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all"></div>
+            </div>
+        </div>
+        <button onclick="simpanOutlet()" id="btn-simpan-outlet" class="w-full bg-[#0f766e] text-white font-bold py-3.5 rounded-xl hover:bg-teal-800 transition-colors shadow-lg mt-auto">Simpan Konfigurasi</button>
+    </div>
+</div>
+
+<!-- Modal Pegawai (Lengkap dengan Edit) -->
+<div id="modalPegawai" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalPegawai')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-md mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300 max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-4">
+            <h3 class="font-extrabold text-xl text-slate-800">Manajemen Pegawai</h3>
+            <button onclick="tutupModal('modalPegawai')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+        <div class="flex flex-col gap-2 mb-4 bg-slate-50 p-4 rounded-2xl border border-slate-100 shrink-0">
+            <input id="in-nama-pegawai" type="text" placeholder="Nama Lengkap Pegawai..." class="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all">
+            <div class="flex gap-2 mt-1">
+                <select id="in-role-pegawai" class="select-custom flex-1 bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all cursor-pointer">
+                    <option value="Kasir">Kasir</option>
+                    <option value="Kurir">Kurir</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                <button onclick="simpanPegawai()" id="btn-tambah-pegawai" class="bg-[#0f766e] text-white font-bold px-6 rounded-xl hover:bg-teal-800 transition-colors shadow-sm">Tambah</button>
+            </div>
+        </div>
+        <ul id="list-modal-pegawai" class="flex-col space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1 mb-2"></ul>
+    </div>
+</div>
+
+<!-- Modal Kategori Keuangan -->
+<div id="modalKeuangan" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalKeuangan')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-sm mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300 max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-4 shrink-0">
+            <h3 class="font-extrabold text-xl text-slate-800">Kategori Pengeluaran</h3>
+            <button onclick="tutupModal('modalKeuangan')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+        
+        <!-- Desain Promo Diskon Aktif (Sesuai Desain UI Baru) -->
+        <div class="bg-[#ebfef4] border border-[#a7f3d0] rounded-2xl p-4 mb-5 shrink-0">
+            <label class="text-[10px] font-extrabold text-[#0f766e] uppercase tracking-wider mb-2 block">Promo Diskon Aktif (%)</label>
+            <div class="flex gap-3">
+                <input id="in-diskon-promo" type="number" class="w-full bg-white border border-[#6ee7b7] rounded-xl px-4 py-2.5 text-lg font-black text-slate-800 outline-none focus:ring-2 focus:ring-[#0f766e] transition-all" placeholder="0">
+                <button onclick="simpanDiskon()" id="btn-simpan-diskon" class="bg-[#0f766e] text-white font-bold px-6 py-2.5 rounded-xl hover:bg-teal-800 transition-colors shadow-sm whitespace-nowrap">Simpan</button>
+            </div>
+        </div>
+        <div class="w-full h-px bg-slate-100 mb-5 shrink-0"></div>
+        
+        <div class="flex gap-2 mb-4 bg-slate-50 p-2 rounded-2xl border border-slate-100 shrink-0">
+            <input id="in-nama-kategori" type="text" placeholder="Kategori baru..." class="flex-1 w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all">
+            <button onclick="simpanKategori()" id="btn-tambah-kat" class="bg-[#0f766e] text-white font-bold px-4 rounded-xl hover:bg-teal-800 transition-colors shadow-sm w-24">Tambah</button>
+        </div>
+        <ul id="list-modal-kategori" class="flex-col space-y-2 max-h-56 overflow-y-auto custom-scrollbar pr-1 mb-2"></ul>
+    </div>
+</div>
+
+<!-- Modal Koreksi Keuangan (Terhubung API) -->
+<div id="modalKoreksi" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalKoreksi')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-md mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300 max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-4">
+            <h3 class="font-extrabold text-xl text-slate-800">Koreksi Pengeluaran</h3>
+            <button onclick="tutupModal('modalKoreksi')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+        <div class="grid grid-cols-2 gap-3 mb-6 shrink-0">
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Tanggal Dimulai</label>
+                <input type="date" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all cursor-pointer">
+            </div>
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Tanggal Berakhir</label>
+                <input type="date" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all cursor-pointer">
+            </div>
+        </div>
+        <!-- Area List / Empty State -->
+        <div id="area-koreksi-list" class="flex-1 overflow-y-auto custom-scrollbar pr-1 flex flex-col">
+            <!-- Tampilan Empty State Default -->
+            <div class="flex-1 flex flex-col items-center justify-center py-10 bg-slate-50/50 rounded-2xl border border-dashed border-slate-200 mb-2">
+                <span class="material-symbols-outlined text-5xl text-slate-300 mb-3">receipt_long</span>
+                <h4 class="font-bold text-slate-600 text-sm">Belum ada data pengeluaran</h4>
+                <p class="text-xs text-slate-400 mt-1 text-center px-4">Pilih rentang tanggal untuk melihat riwayat koreksi.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Metode Bayar -->
+<div id="modalMetodeBayar" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalMetodeBayar')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-sm mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300 max-h-[90vh]">
+        <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-4">
+            <h3 class="font-extrabold text-xl text-slate-800">Metode Pembayaran</h3>
+            <button onclick="tutupModal('modalMetodeBayar')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full"><span class="material-symbols-outlined text-[20px]">close</span></button>
+        </div>
+        <div class="flex gap-2 mb-4 bg-slate-50 p-2 rounded-2xl border border-slate-100 shrink-0">
+            <input id="in-nama-metode" type="text" placeholder="Cth: OVO, ShopeePay..." class="flex-1 w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 text-sm font-bold outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all">
+            <button onclick="simpanMetode()" id="btn-tambah-metode" class="bg-[#0f766e] text-white font-bold px-4 rounded-xl hover:bg-teal-800 transition-colors shadow-sm w-24">Tambah</button>
+        </div>
+        <ul id="list-modal-metode" class="flex-col space-y-2 max-h-56 overflow-y-auto custom-scrollbar pr-1 mb-2"></ul>
+    </div>
+</div>
+
+<!-- Modal Kelola Nota -->
+<div id="modalNota" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalNota')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-md mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300 max-h-[90vh]">
+        <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-4">
+            <h3 class="font-extrabold text-xl text-slate-800">Kelola Nota</h3>
+            <button onclick="tutupModal('modalNota')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full"><span class="material-symbols-outlined text-[18px]">close</span></button>
+        </div>
+        <div class="overflow-y-auto custom-scrollbar p-1 -m-1 space-y-4 mb-6">
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Teks Header (Atas Struk)</label>
+                <textarea id="in-print-header" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-center outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all min-h-[80px]" placeholder="Contoh: ZEERA LAUNDRY\nJl. Bersih No. 1"></textarea>
+            </div>
+            <div>
+                <label class="text-[10px] font-extrabold text-slate-500 uppercase tracking-wider mb-1 block ml-1">Teks Footer (Bawah Struk)</label>
+                <textarea id="in-print-footer" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-center outline-none focus:border-[#0f766e] focus:ring-2 focus:ring-[#0f766e]/20 transition-all min-h-[80px]" placeholder="Contoh: Terima kasih atas kunjungan Anda!"></textarea>
+            </div>
+        </div>
+        <button onclick="simpanPengaturanPrinter()" id="btn-simpan-printer" class="w-full bg-[#0f766e] text-white font-bold py-3.5 rounded-xl hover:bg-teal-800 transition-colors shadow-lg mt-auto">Simpan Pengaturan Nota</button>
+    </div>
+</div>
+
+<!-- Modal Permission Perangkat Asli -->
+<div id="modalPermission" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md z-50 hidden items-center justify-center transition-all opacity-0 duration-300 p-4">
+    <div class="absolute inset-0 cursor-pointer" onclick="tutupModal('modalPermission')"></div>
+    <div class="relative bg-white rounded-[2rem] shadow-2xl w-full max-w-sm mx-auto overflow-hidden flex flex-col p-6 transform scale-95 transition-transform duration-300 max-h-[90vh]">
+        <div class="flex items-center justify-between mb-4 border-b border-slate-100 pb-4">
+            <h3 class="font-extrabold text-xl text-slate-800">Kelola Permission</h3>
+            <button onclick="tutupModal('modalPermission')" class="text-slate-400 hover:text-red-500 transition-colors w-8 h-8 flex items-center justify-center bg-slate-50 hover:bg-slate-100 rounded-full"><span class="material-symbols-outlined text-[18px]">close</span></button>
+        </div>
+        <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-4 mb-4 flex flex-col gap-3">
+            <div class="flex justify-between items-center">
+                <div>
+                    <p class="text-sm font-bold text-indigo-900">Koneksi Bluetooth</p>
+                    <p class="text-[10px] font-semibold text-indigo-600" id="status-printer">Status API Web Bluetooth</p>
+                </div>
+                <span class="material-symbols-outlined text-indigo-400 text-3xl" id="icon-bt">bluetooth_disabled</span>
+            </div>
+            <button onclick="connectBluetoothPrinter()" class="w-full bg-indigo-600 text-white font-bold py-2.5 rounded-xl text-sm shadow-sm hover:bg-indigo-700 transition-all flex justify-center items-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">bluetooth_searching</span> Uji Koneksi Perangkat
+            </button>
+        </div>
+        <ul class="flex flex-col space-y-4 mb-2 bg-slate-50 p-5 rounded-2xl border border-slate-100">
+            <li class="flex justify-between items-center"><span class="text-slate-600 text-sm font-bold">Bluetooth Connection</span><span class="text-[10px] font-black text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-lg uppercase tracking-wider">Diizinkan</span></li>
+            <li class="flex justify-between items-center"><span class="text-slate-600 text-sm font-bold">Bluetooth Scan</span><span class="text-[10px] font-black text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-lg uppercase tracking-wider">Diizinkan</span></li>
+            <li class="flex justify-between items-center"><span class="text-slate-600 text-sm font-bold">Fine Location</span><span class="text-[10px] font-black text-rose-700 bg-rose-100 px-3 py-1.5 rounded-lg uppercase tracking-wider">Tidak Diizinkan</span></li>
+            <li class="w-full h-px bg-slate-200 my-1"></li>
+            <li class="flex justify-between items-center"><span class="text-slate-600 text-sm font-bold">OS Android Version</span><span class="text-sm font-black text-slate-800">13</span></li>
+            <li class="flex justify-between items-center"><span class="text-slate-600 text-sm font-bold">Android Level Version</span><span class="text-sm font-black text-slate-800">33</span></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+const API_BASE_URL = "http://127.0.0.1:8000/api";
+
+function toggleSetting(id) {
+    const menu = document.getElementById('menu-' + id);
+    const icon = document.getElementById('icon-' + id);
+    if (menu.classList.contains('hidden')) { menu.classList.remove('hidden'); menu.classList.add('flex'); icon.classList.add('rotate-180'); }
+    else { menu.classList.add('hidden'); menu.classList.remove('flex'); icon.classList.remove('rotate-180'); }
+}
+
+function bukaModal(modalId, callback) {
+    const modal = document.getElementById(modalId);
+    const modalContent = modal.querySelector('.transform');
+    modal.classList.remove('hidden'); modal.classList.add('flex');
+    setTimeout(() => { modal.classList.remove('opacity-0'); if(modalContent) { modalContent.classList.remove('scale-95'); modalContent.classList.add('scale-100'); } }, 10);
+    if(callback) callback();
+}
+
+function tutupModal(modalId) {
+    const modal = document.getElementById(modalId);
+    const modalContent = modal.querySelector('.transform');
+    modal.classList.add('opacity-0');
+    if(modalContent) { modalContent.classList.remove('scale-100'); modalContent.classList.add('scale-95'); }
+    setTimeout(() => { modal.classList.add('hidden'); modal.classList.remove('flex'); }, 300);
+}
+
+let sortableKategori;
+let sortableItems = [];
+let allKatalogData = [];
+
+async function fetchKatalogAPI() {
+    try {
+        const response = await fetch(`${API_BASE_URL}/layanan/`);
+        if(!response.ok) throw new Error("Gagal mengambil data");
+        const data = await response.json();
+        
+        const groupedMap = {};
+        data.forEach(item => {
+            if(!groupedMap[item.kategori]) {
+                groupedMap[item.kategori] = { id: 'KAT_' + item.kategori.replace(/\s+/g, ''), kategori: item.kategori, items: [], urutan: item.urutan_kategori };
+            }
+            let wAngka = 1; let wTipe = "Hari";
+            const match = item.estimasi_waktu.match(/(\d+)\s*(Hari|Jam|Langsung)/i);
+            if(match) { 
+                wAngka = parseInt(match[1]) || 0; 
+                wTipe = match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase(); 
+            } else if (item.estimasi_waktu.toLowerCase().includes("langsung")) {
+                wAngka = 0; wTipe = "Langsung";
+            }
+            groupedMap[item.kategori].items.push({
+                id: item.id, nama: item.nama_layanan, harga: item.harga, satuan: item.satuan, waktuAngka: wAngka, waktuTipe: wTipe, urutan_item: item.urutan_item
+            });
+        });
+        allKatalogData = Object.values(groupedMap);
+        renderKatalogFull(allKatalogData);
+    } catch(e) {
+        document.getElementById('wrapper-katalog').innerHTML = '<div class="text-center py-10 text-red-500 font-bold">Gagal terhubung ke Database Backend (API Mati).</div>';
+    }
+}
+
+function bukaModalKatalogLayanan() {
+    document.getElementById('search-katalog-modal').value = '';
+    document.getElementById('wrapper-katalog').innerHTML = '<div class="text-center py-10 text-slate-500 font-bold"><span class="material-symbols-outlined animate-spin text-3xl mb-2 text-[#0f766e]">autorenew</span><br>Menarik Data dari Database...</div>';
+    fetchKatalogAPI();
+    bukaModal('modalKatalogLayanan');
+}
+
+document.getElementById('search-katalog-modal').addEventListener('input', function(e) {
+    const keyword = e.target.value.toLowerCase();
+    if(keyword === "") { renderKatalogFull(allKatalogData); return; }
+    const filteredData = allKatalogData.map(kat => {
+        const isKatMatch = (kat.kategori || "").toLowerCase().includes(keyword);
+        const filteredItems = kat.items.filter(item => (item.nama || "").toLowerCase().includes(keyword));
+        if (isKatMatch) return { ...kat }; 
+        if (filteredItems.length > 0) return { ...kat, items: filteredItems };
+        return null;
+    }).filter(kat => kat !== null);
+    renderKatalogFull(filteredData);
+});
+
+function renderKatalogFull(dataToShow) {
+    const wrapper = document.getElementById('wrapper-katalog');
+    wrapper.innerHTML = '';
+    if(sortableKategori) { sortableKategori.destroy(); sortableKategori = null; }
+    if(sortableItems.length > 0) { sortableItems.forEach(s => s.destroy()); sortableItems = []; }
+    if(dataToShow.length === 0) {
+        wrapper.innerHTML = `<div class="text-center text-slate-500 py-10 font-medium border-2 border-dashed border-slate-200 rounded-2xl">Layanan tidak ditemukan.</div>`;
+        return;
+    }
+    
+    dataToShow.forEach((kat, indexKat) => {
+        let itemsHtml = '';
+        if(kat.items.length === 0) {
+            itemsHtml = `<div class="empty-state text-center text-xs font-bold text-slate-400 py-4 bg-slate-50/50 rounded-xl border border-slate-200 border-dashed">Kategori kosong. Tambahkan layanan baru.</div>`;
+        } else {
+            kat.items.forEach((item) => {
+                itemsHtml += `
+                <div class="item-card flex items-center justify-between bg-white border border-slate-200 shadow-sm p-3 md:p-4 rounded-xl mb-3 group hover:border-[#0f766e] transition-colors" data-item-id="${item.id}">
+                    <div class="flex items-center gap-3 md:gap-4 flex-1">
+                        <span class="drag-item-handle material-symbols-outlined text-slate-300 hover:text-slate-600 cursor-grab active:cursor-grabbing text-[20px] transition-colors hidden md:block">drag_indicator</span>
+                        <div class="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[20px]">local_laundry_service</span></div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-slate-800 text-sm md:text-base">${item.nama}</h4>
+                            <div class="flex items-center gap-2 mt-1">
+                                <span class="text-xs font-black text-[#0f766e]">Rp ${parseInt(item.harga).toLocaleString('id-ID')} <span class="text-[10px] font-bold text-slate-400">/ ${item.satuan}</span></span>
+                                <div class="w-1 h-1 rounded-full bg-slate-300 hidden md:block"></div>
+                                <span class="text-[10px] font-bold text-slate-500 flex items-center gap-1 hidden md:flex"><span class="material-symbols-outlined text-[12px]">schedule</span> ${item.waktuAngka} ${item.waktuTipe}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1.5 opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="drag-item-handle material-symbols-outlined text-slate-300 hover:text-slate-600 cursor-grab active:cursor-grabbing text-[20px] transition-colors block md:hidden mr-1">drag_indicator</span>
+                        <button onclick='bukaFormItem("${kat.kategori}", ${JSON.stringify(item)})' class="w-8 h-8 md:w-9 md:h-9 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center transition-colors shadow-sm"><span class="material-symbols-outlined text-[16px]">edit</span></button>
+                        <button onclick="hapusItem(${item.id})" class="w-8 h-8 md:w-9 md:h-9 bg-rose-50 hover:bg-rose-100 text-rose-500 rounded-lg flex items-center justify-center transition-colors shadow-sm"><span class="material-symbols-outlined text-[16px]">delete</span></button>
+                    </div>
+                </div>`;
+            });
+        }
+        
+        wrapper.innerHTML += `
+        <div class="kategori-card bg-white rounded-[1.5rem] shadow-sm border border-slate-200 mb-6 overflow-hidden" data-kat-nama="${kat.kategori}">
+            <div class="bg-slate-50/80 p-4 border-b border-slate-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 group/header">
+                <div class="flex items-center gap-3">
+                    <span class="drag-category-handle material-symbols-outlined text-slate-300 group-hover/header:text-slate-600 cursor-grab active:cursor-grabbing text-[24px] transition-colors">drag_indicator</span>
+                    <h2 class="text-lg font-black text-slate-800 tracking-tight capitalize">${kat.kategori}</h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="editJudulKategori('${kat.kategori}')" class="text-indigo-500 hover:bg-indigo-50 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">Edit Nama</button>
+                    <button onclick="hapusKategori('${kat.kategori}')" class="text-rose-500 hover:bg-rose-50 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors">Hapus</button>
+                </div>
+            </div>
+            <div class="p-4 md:p-5">
+                <div class="list-item-container min-h-[20px]" data-kat-nama="${kat.kategori}">
+                    ${itemsHtml}
+                </div>
+                <button onclick="bukaFormItem('${kat.kategori}')" class="w-full mt-2 border-2 border-dashed border-[#0f766e]/30 text-[#0f766e] bg-teal-50/30 hover:bg-teal-50 font-bold py-3.5 rounded-xl transition-all flex justify-center items-center gap-2 text-sm">
+                    <span class="material-symbols-outlined text-[20px]">add_circle</span> Tambah Layanan Baru
+                </button>
+            </div>
+        </div>`;
+    });
+    
+    const isSearching = document.getElementById('search-katalog-modal').value.trim() !== "";
+    if (!isSearching) {
+        sortableKategori = new Sortable(wrapper, { 
+            handle: '.drag-category-handle', animation: 250, ghostClass: 'sortable-ghost', dragClass: 'sortable-drag', 
+            scroll: true, forceFallback: true, scrollSensitivity: 80, scrollSpeed: 20, bubbleScroll: true,
+            onEnd: function () { saveOrderToDB(); }
+        });
+        document.querySelectorAll('.list-item-container').forEach(container => {
+            let sort = new Sortable(container, { 
+                group: 'shared-items', handle: '.drag-item-handle', animation: 200, ghostClass: 'sortable-ghost', dragClass: 'sortable-drag', 
+                scroll: true, forceFallback: true, scrollSensitivity: 80, scrollSpeed: 20, bubbleScroll: true,
+                onEnd: function () { saveOrderToDB(); }
+            });  
+            sortableItems.push(sort);
+        });
+    }
+}
+
+async function saveOrderToDB() {
+    const payload = [];
+    document.querySelectorAll('.kategori-card').forEach((katCard, indexKat) => {
+        katCard.querySelectorAll('.item-card').forEach((itemCard, indexItem) => {
+            payload.push({ id: parseInt(itemCard.getAttribute('data-item-id')), urutan_kategori: indexKat, urutan_item: indexItem });
+        });
+    });
+    if(payload.length > 0) {
+        await fetch(`${API_BASE_URL}/layanan/update-urutan/`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+    }
+}
+
+function bukaModalTambahKategori() {  
+    document.getElementById('in-kategori-baru-custom').value = '';
+    bukaModal('modalTambahKategori');
+    setTimeout(() => document.getElementById('in-kategori-baru-custom').focus(), 150);
+}
+
+function simpanKategoriBaru() {
+    const nama = document.getElementById('in-kategori-baru-custom').value.trim();
+    if(!nama) { alert("Nama kategori tidak boleh kosong!"); return; }
+    allKatalogData.unshift({ id: 'KAT_' + Date.now(), kategori: nama, items: [], urutan: 0 });
+    document.getElementById('search-katalog-modal').value = '';
+    tutupModal('modalTambahKategori');
+    renderKatalogFull(allKatalogData);
+}
+
+function editJudulKategori(namaLama) {
+    document.getElementById('in-kategori-edit-lama').value = namaLama;
+    document.getElementById('in-kategori-edit-baru').value = namaLama;
+    bukaModal('modalEditKategori');
+    setTimeout(() => document.getElementById('in-kategori-edit-baru').select(), 150);
+}
+
+async function simpanEditKategori() {
+    const namaLama = document.getElementById('in-kategori-edit-lama').value;
+    const namaBaru = document.getElementById('in-kategori-edit-baru').value.trim();  
+    if(!namaBaru) return alert("Nama kategori tidak boleh kosong!");
+    if(namaBaru === namaLama) return tutupModal('modalEditKategori');
+    
+    const btn = document.getElementById('btn-simpan-edit-kategori');
+    btn.innerText = "Mengupdate..."; btn.disabled = true;
+    
+    const kat = allKatalogData.find(k => k.kategori === namaLama);
+    if(kat) {
+        try {
+            for(let item of kat.items) {
+                await fetch(`${API_BASE_URL}/layanan/${item.id}`, {
+                    method: 'PUT', headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ kategori: namaBaru, nama_layanan: item.nama, harga: item.harga, satuan: item.satuan, estimasi_waktu: `${item.waktuAngka} ${item.waktuTipe}` })
+                });
+            }
+            tutupModal('modalEditKategori');
+            await fetchKatalogAPI();
+        } catch (e) { alert("Terjadi kesalahan jaringan saat mengupdate kategori."); }
+    }
+    btn.innerText = "Update"; btn.disabled = false;
+}
+
+async function hapusKategori(namaKat) {
+    if(!confirm("PERINGATAN KERAS! Ini akan menghapus SEMUA layanan di kategori ini secara permanen dari Database. Lanjut?")) return;
+    const kat = allKatalogData.find(k => k.kategori === namaKat);
+    if(kat) {
+        for(let item of kat.items) { await fetch(`${API_BASE_URL}/layanan/${item.id}`, { method: 'DELETE' }); }
+        await fetchKatalogAPI();
+    }
+}
+
+function bukaFormItem(namaKategoriAsli, itemData = null) {
+    document.getElementById('in-form-kategori-id').value = namaKategoriAsli;
+    document.getElementById('form-item-subtitle').innerText = "Kategori: " + namaKategoriAsli;
+    if (itemData) {
+        document.getElementById('in-form-item-id').value = itemData.id;
+        document.getElementById('in-form-nama').value = itemData.nama;
+        document.getElementById('in-form-harga').value = itemData.harga;
+        document.getElementById('in-form-satuan').value = itemData.satuan;
+        document.getElementById('in-form-waktu-angka').value = itemData.waktuAngka;
+        document.getElementById('in-form-waktu-tipe').value = itemData.waktuTipe;
+    } else {
+        document.getElementById('in-form-item-id').value = ''; document.getElementById('in-form-nama').value = ''; document.getElementById('in-form-harga').value = ''; 
+        document.getElementById('in-form-satuan').value = 'Kg'; document.getElementById('in-form-waktu-angka').value = ''; document.getElementById('in-form-waktu-tipe').value = 'Hari';
+    }
+    bukaModal('modalFormItemLayanan');
+}
+
+async function simpanFormItemLayanan() {
+    const katName = document.getElementById('in-form-kategori-id').value;
+    const itemId = document.getElementById('in-form-item-id').value;
+    const nama = document.getElementById('in-form-nama').value.trim();
+    const harga = document.getElementById('in-form-harga').value;
+    const satuan = document.getElementById('in-form-satuan').value;
+    const waktuAngka = document.getElementById('in-form-waktu-angka').value;
+    const waktuTipe = document.getElementById('in-form-waktu-tipe').value;
+    
+    if(!nama || !harga || waktuAngka === "") return alert("Lengkapi data!");
+    
+    let estFinal = `${waktuAngka} ${waktuTipe}`;
+    if (waktuTipe === "Langsung") estFinal = "Langsung";
+    const payload = { kategori: katName, nama_layanan: nama, harga: parseInt(harga), satuan: satuan, estimasi_waktu: estFinal, urutan_kategori: 99, urutan_item: 99, outlet_id: 1 };
+    
+    const btn = document.getElementById('btn-simpan-layanan');
+    btn.innerText = "Menyimpan..."; btn.disabled = true;
+    try {
+        if (itemId) { await fetch(`${API_BASE_URL}/layanan/${itemId}`, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) }); } 
+        else { await fetch(`${API_BASE_URL}/layanan/`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload) }); }
+        tutupModal('modalFormItemLayanan');
+        await fetchKatalogAPI(); 
+    } catch(e) { alert("Gagal menyimpan ke server"); } 
+    finally { btn.innerText = "Simpan Layanan"; btn.disabled = false; }
+}
+
+async function hapusItem(itemId) {
+    if(!confirm("Yakin ingin menghapus layanan ini dari Database?")) return;
+    try { await fetch(`${API_BASE_URL}/layanan/${itemId}`, { method: 'DELETE' }); await fetchKatalogAPI(); } 
+    catch(e) { alert("Gagal menghapus layanan."); }
+}
+
+let globalSettings = {
+    'profil_lengkap': { nama: 'Zeera Admin', email: '', hp: '', password: '' },
+    'outlet_lengkap': { nama: 'Zeera Laundry Pusat', telp: '', alamat: '', buka: '08:00', tutup: '21:00' },
+    'printer_nota': { header: 'ZEERA LAUNDRY\nCabang Pusat', footer: 'Terima kasih atas kepercayaan Anda!' },
+    'list_pegawai': [],
+    'list_kategori_uang': ['Bahan Baku', 'Gaji Pegawai', 'Operasional'],
+    'list_metode_bayar': ['Tunai', 'Transfer BCA', 'QRIS'],
+    'list_parfum': ['Snappy', 'Sakura', 'Akasia', 'Tanpa Parfum'],
+    'diskon_promo': 0
+};
+
+let printDevice = null;
+let editIndexPegawai = -1; let editIndexUang = -1; let editIndexMetode = -1; let editIndexParfum = -1;
+
+async function fetchPengaturanAPI() {  
+    try {
+        const res = await fetch(`${API_BASE_URL}/pengaturan/`);
+        if (res.ok) {
+            const data = await res.json();
+            data.forEach(item => {
+                try { globalSettings[item.kunci] = JSON.parse(item.nilai); } catch(e) { globalSettings[item.kunci] = item.nilai; }
+            });
+        }
+        
+        const p = globalSettings['profil_lengkap'];
+        document.getElementById('in-prof-nama').value = p.nama || '';
+        document.getElementById('in-prof-email').value = p.email || '';
+        document.getElementById('in-prof-hp').value = p.hp || '';
+        
+        const o = globalSettings['outlet_lengkap'];
+        document.getElementById('in-outlet-nama').value = o.nama || '';
+        document.getElementById('in-outlet-telp').value = o.telp || '';
+        document.getElementById('in-outlet-alamat').value = o.alamat || '';
+        document.getElementById('in-outlet-buka').value = o.buka || '';
+        document.getElementById('in-outlet-tutup').value = o.tutup || '';
+        
+        const pr = globalSettings['printer_nota'];
+        document.getElementById('in-print-header').value = pr.header || '';
+        document.getElementById('in-print-footer').value = pr.footer || '';
+        
+        document.getElementById('in-diskon-promo').value = globalSettings['diskon_promo'] || '';
+    } catch(e) { console.error("API error", e); }
+} 
+
+async function savePengaturanAPI(kunci, nilai) {
+    const valStr = typeof nilai === 'object' ? JSON.stringify(nilai) : nilai;
+    await fetch(`${API_BASE_URL}/pengaturan/`, {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ kunci: kunci, nilai: valStr })
+    });
+}
+
+function renderList(elementId, arr, editFuncNama, hapusFuncNama, isObj = false) {
+    const list = document.getElementById(elementId);
+    list.innerHTML = '';
+    arr.forEach((item, idx) => {
+        let teks = '';
+        if (isObj && item.nama) {
+            let roleColor = 'bg-slate-100 text-slate-600';
+            if(item.role === 'Kasir') roleColor = 'bg-blue-100 text-blue-700';
+            if(item.role === 'Admin') roleColor = 'bg-emerald-100 text-emerald-700';
+            if(item.role === 'Kurir') roleColor = 'bg-orange-100 text-orange-700';
+            teks = `<span class="font-bold text-slate-800">${item.nama}</span> <span class="${roleColor} text-[10px] px-2.5 py-1 rounded-lg font-black uppercase tracking-wider ml-3">${item.role}</span>`;
+        } else { teks = `<span class="font-bold text-slate-800">${item}</span>`; }
+        
+        let buttons = '';
+        if(editFuncNama) buttons += `<button onclick="${editFuncNama}(${idx})" class="text-indigo-500 bg-indigo-50 hover:bg-indigo-100 rounded-lg w-8 h-8 flex items-center justify-center transition-colors shadow-sm"><span class="material-symbols-outlined text-[16px]">edit</span></button>`;
+        buttons += `<button onclick="${hapusFuncNama}(${idx})" class="text-rose-500 bg-rose-50 hover:bg-rose-100 rounded-lg w-8 h-8 flex items-center justify-center transition-colors shadow-sm"><span class="material-symbols-outlined text-[16px]">delete</span></button>`;
+        
+        list.innerHTML += `<li class="flex justify-between items-center bg-white p-3.5 rounded-xl border border-slate-200 shadow-sm mb-2 hover:border-[#0f766e]/30 transition-colors"><div class="flex items-center text-sm">${teks}</div><div class="flex gap-2">${buttons}</div></li>`;
+    });
+}
+
+async function simpanProfilAPI() {
+    const btn = document.getElementById('btn-simpan-profil');
+    btn.innerText = "Menyimpan..."; btn.disabled = true;
+    globalSettings['profil_lengkap'] = { nama: document.getElementById('in-prof-nama').value.trim(), email: document.getElementById('in-prof-email').value.trim(), hp: document.getElementById('in-prof-hp').value.trim(), password: document.getElementById('in-prof-pass').value.trim() };
+    await savePengaturanAPI('profil_lengkap', globalSettings['profil_lengkap']);
+    document.getElementById('in-prof-pass').value = ''; 
+    btn.innerText = "Simpan"; btn.disabled = false;  
+    tutupModal('modalProfil');
+}
+
+async function simpanOutlet() {
+    const btn = document.getElementById('btn-simpan-outlet');
+    btn.innerText = "Menyimpan..."; btn.disabled = true;
+    globalSettings['outlet_lengkap'] = { nama: document.getElementById('in-outlet-nama').value.trim(), telp: document.getElementById('in-outlet-telp').value.trim(), alamat: document.getElementById('in-outlet-alamat').value.trim(), buka: document.getElementById('in-outlet-buka').value, tutup: document.getElementById('in-outlet-tutup').value };
+    await savePengaturanAPI('outlet_lengkap', globalSettings['outlet_lengkap']);
+    btn.innerText = "Simpan Konfigurasi"; btn.disabled = false;
+    tutupModal('modalOutlet');
+}
+
+function renderPegawai() { renderList('list-modal-pegawai', globalSettings['list_pegawai'], 'editPegawai', 'hapusPegawai', true); }
+function editPegawai(idx) {
+    editIndexPegawai = idx; const p = globalSettings['list_pegawai'][idx];
+    document.getElementById('in-nama-pegawai').value = p.nama; document.getElementById('in-role-pegawai').value = p.role;
+    document.getElementById('btn-tambah-pegawai').innerText = 'Update'; 
+}
+async function simpanPegawai() {
+    const nama = document.getElementById('in-nama-pegawai').value.trim();
+    const role = document.getElementById('in-role-pegawai').value;
+    if(!nama) return alert("Nama pegawai tidak boleh kosong!");
+    if (editIndexPegawai > -1) { globalSettings['list_pegawai'][editIndexPegawai] = {nama: nama, role: role}; editIndexPegawai = -1; document.getElementById('btn-tambah-pegawai').innerText = 'Tambah'; } 
+    else { globalSettings['list_pegawai'].push({nama: nama, role: role}); }
+    document.getElementById('in-nama-pegawai').value = '';
+    renderPegawai(); await savePengaturanAPI('list_pegawai', globalSettings['list_pegawai']);
+}
+async function hapusPegawai(idx) {
+    if(confirm("Yakin hapus data pegawai ini?")) { globalSettings['list_pegawai'].splice(idx, 1); renderPegawai(); await savePengaturanAPI('list_pegawai', globalSettings['list_pegawai']); }
+}
+
+function renderKeuangan() { renderList('list-modal-kategori', globalSettings['list_kategori_uang'], 'editKategoriUang', 'hapusKategoriUang'); }
+function editKategoriUang(idx) {
+    editIndexUang = idx; document.getElementById('in-nama-kategori').value = globalSettings['list_kategori_uang'][idx]; document.getElementById('btn-tambah-kat').innerText = 'Update';
+}
+async function simpanKategori() {
+    const val = document.getElementById('in-nama-kategori').value.trim();
+    if(!val) return alert("Kategori tidak boleh kosong");
+    if(editIndexUang > -1) { globalSettings['list_kategori_uang'][editIndexUang] = val; editIndexUang = -1; document.getElementById('btn-tambah-kat').innerText = 'Tambah'; } 
+    else { globalSettings['list_kategori_uang'].push(val); }
+    document.getElementById('in-nama-kategori').value = ''; renderKeuangan(); await savePengaturanAPI('list_kategori_uang', globalSettings['list_kategori_uang']);
+}
+async function hapusKategoriUang(idx) {
+    if(confirm("Yakin hapus kategori keuangan ini?")) { globalSettings['list_kategori_uang'].splice(idx, 1); renderKeuangan(); await savePengaturanAPI('list_kategori_uang', globalSettings['list_kategori_uang']); }
+}
+
+function renderMetodeBayar() { renderList('list-modal-metode', globalSettings['list_metode_bayar'], 'editMetodeBayar', 'hapusMetode'); }
+function editMetodeBayar(idx) {
+    editIndexMetode = idx; document.getElementById('in-nama-metode').value = globalSettings['list_metode_bayar'][idx]; document.getElementById('btn-tambah-metode').innerText = 'Update';
+}
+async function simpanMetode() {  
+    const val = document.getElementById('in-nama-metode').value.trim();
+    if(!val) return alert("Metode tidak boleh kosong");
+    if(editIndexMetode > -1) { globalSettings['list_metode_bayar'][editIndexMetode] = val; editIndexMetode = -1; document.getElementById('btn-tambah-metode').innerText = 'Tambah'; } 
+    else { globalSettings['list_metode_bayar'].push(val); }
+    document.getElementById('in-nama-metode').value = ''; renderMetodeBayar(); await savePengaturanAPI('list_metode_bayar', globalSettings['list_metode_bayar']);
+}
+async function hapusMetode(idx) {
+    if(confirm("Yakin hapus metode pembayaran ini?")) { globalSettings['list_metode_bayar'].splice(idx, 1); renderMetodeBayar(); await savePengaturanAPI('list_metode_bayar', globalSettings['list_metode_bayar']); }
+}
+// =====================================
+// FUNGSI MANAJEMEN PARFUM DINAMIS
+// =====================================
+function renderParfum() { renderList('list-modal-parfum', globalSettings['list_parfum'], 'editParfum', 'hapusParfum'); }
+
+function editParfum(idx) { 
+    editIndexParfum = idx; 
+    document.getElementById('in-nama-parfum').value = globalSettings['list_parfum'][idx]; 
+    document.getElementById('btn-tambah-parfum').innerText = 'Update'; 
+}
+
+async function simpanParfum() {
+    const val = document.getElementById('in-nama-parfum').value.trim(); 
+    if(!val) return alert("Nama parfum tidak boleh kosong");
+    
+    if(editIndexParfum > -1) { 
+        globalSettings['list_parfum'][editIndexParfum] = val; 
+        editIndexParfum = -1; 
+        document.getElementById('btn-tambah-parfum').innerText = 'Tambah'; 
+    } else { 
+        globalSettings['list_parfum'].push(val); 
+    }
+    
+    document.getElementById('in-nama-parfum').value = ''; 
+    renderParfum(); 
+    await savePengaturanAPI('list_parfum', globalSettings['list_parfum']);
+}
+
+async function hapusParfum(idx) { 
+    if(confirm("Yakin menghapus parfum ini dari daftar?")) { 
+        globalSettings['list_parfum'].splice(idx, 1); 
+        renderParfum(); 
+        await savePengaturanAPI('list_parfum', globalSettings['list_parfum']); 
+    } 
+}
+async function simpanPengaturanPrinter() {
+    const btn = document.getElementById('btn-simpan-printer');
+    btn.innerText = "Menyimpan..."; btn.disabled = true;
+    globalSettings['printer_nota'] = { header: document.getElementById('in-print-header').value, footer: document.getElementById('in-print-footer').value };
+    await savePengaturanAPI('printer_nota', globalSettings['printer_nota']);
+    btn.innerText = "Simpan Pengaturan Nota"; btn.disabled = false;
+    tutupModal('modalNota'); 
+}
+
+async function connectBluetoothPrinter() {
+    try {
+        if (!navigator.bluetooth) { alert("Sistem Menolak: Browser Anda tidak mendukung Web Bluetooth API."); return; }
+        printDevice = await navigator.bluetooth.requestDevice({ acceptAllDevices: true, optionalServices: ['000018f0-0000-1000-8000-00805f9b34fb'] });
+        document.getElementById('status-printer').innerText = `Terhubung: ${printDevice.name || 'Printer Kasir'}`;
+        document.getElementById('status-printer').classList.replace('text-indigo-600', 'text-emerald-600');
+        document.getElementById('icon-bt').innerText = 'bluetooth_connected';
+        document.getElementById('icon-bt').classList.replace('text-indigo-400', 'text-emerald-500');
+        alert("Koneksi Berhasil! Printer telah terhubung dan siap mencetak struk.");
+    } catch (error) { alert("Penyandingan Dibatalkan atau Bluetooth Perangkat Mati."); } 
+}
+
+async function simpanDiskon() {
+    const btn = document.getElementById('btn-simpan-diskon');
+    const val = document.getElementById('in-diskon-promo').value || 0;
+    btn.innerText = "Memproses..."; btn.disabled = true;
+    await savePengaturanAPI('diskon_promo', val);
+    btn.innerText = "Simpan"; btn.disabled = false;
+    alert("Promo Diskon tersimpan! Persentase ini akan otomatis memotong tagihan di kasir.");
+}
+
+document.addEventListener('DOMContentLoaded', () => { fetchPengaturanAPI(); });
+</script>
+</body>
+</html>

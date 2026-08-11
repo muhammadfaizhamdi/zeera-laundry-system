@@ -1,0 +1,555 @@
+<!doctype html>
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Lacak Cucian Anda - Zeera Laundry</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 20px;
+      }
+    </style>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed": "#ffdbca",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-fixed": "#00201d",
+              outline: "#6e7977",
+              "surface-container": "#e5eeff",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#d3e4fe",
+              "surface-container-low": "#eff4ff",
+              secondary: "#9d4300",
+              "on-tertiary-fixed": "#001e2c",
+              "surface-tint": "#006a63",
+              "surface-container-high": "#dce9ff",
+              primary: "#005c55",
+              "primary-container": "#0f766e",
+              background: "#f8f9ff",
+              tertiary: "#005777",
+              "on-primary-container": "#a3faef",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#80d5cb",
+              "on-error-container": "#93000a",
+              "inverse-surface": "#213145",
+              "on-surface-variant": "#3e4947",
+              "on-secondary-fixed-variant": "#783200",
+              "on-secondary-fixed": "#341100",
+              "on-background": "#0b1c30",
+              "surface-bright": "#f8f9ff",
+              "error-container": "#ffdad6",
+              "on-surface": "#0b1c30",
+              "inverse-on-surface": "#eaf1ff",
+              "primary-fixed": "#9cf2e8",
+              "surface-container-highest": "#d3e4fe",
+              "on-tertiary-container": "#d4edff",
+              error: "#ba1a1a",
+              "on-primary-fixed-variant": "#00504a",
+              "on-tertiary-fixed-variant": "#004c69",
+              "outline-variant": "#bdc9c6",
+              surface: "#f8f9ff",
+              "on-secondary-container": "#5c2400",
+              "secondary-container": "#fd761a",
+              "surface-dim": "#cbdbf5",
+              "primary-fixed-dim": "#80d5cb",
+              "tertiary-container": "#007199",
+              "on-primary": "#ffffff",
+              "on-error": "#ffffff",
+              "secondary-fixed-dim": "#ffb690",
+              "tertiary-fixed": "#c4e7ff",
+              "tertiary-fixed-dim": "#7bd0ff",
+            },
+            borderRadius: {
+              DEFAULT: "1rem",
+              lg: "2rem",
+              xl: "3rem",
+              full: "9999px",
+            },
+            spacing: {
+              gutter: "16px",
+              "stack-lg": "32px",
+              "section-padding": "40px",
+              unit: "4px",
+              "stack-sm": "8px",
+              "stack-md": "16px",
+              "container-margin": "20px",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+              "body-md": ["Inter", "sans-serif"],
+              "headline-lg": ["Inter", "sans-serif"],
+              "label-md": ["Inter", "sans-serif"],
+              "title-lg": ["Inter", "sans-serif"],
+              "headline-md": ["Inter", "sans-serif"],
+              "body-lg": ["Inter", "sans-serif"],
+              "headline-lg-mobile": ["Inter", "sans-serif"],
+            },
+            fontSize: {
+              display: [
+                "48px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.04em",
+                  fontWeight: "800",
+                },
+              ],
+              "body-md": [
+                "14px",
+                { lineHeight: "1.5", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-md": [
+                "12px",
+                { lineHeight: "1", letterSpacing: "0.02em", fontWeight: "600" },
+              ],
+              "title-lg": [
+                "20px",
+                {
+                  lineHeight: "1.4",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-md": [
+                "24px",
+                {
+                  lineHeight: "1.3",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-lg": [
+                "16px",
+                { lineHeight: "1.6", letterSpacing: "0em", fontWeight: "400" },
+              ],
+              "headline-lg-mobile": [
+                "28px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  <!-- Pustaka Scanner QR Code -->
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-50 to-slate-100 w-full h-screen overflow-hidden font-body-md text-slate-800"
+  >
+    <div
+      class="max-w-[1440px] w-full h-full mx-auto flex p-4 md:p-6 lg:p-8 gap-4 md:gap-6 relative"
+    >
+      <div
+        class="flex-1 flex flex-col items-center gap-6 w-full h-full overflow-y-auto pr-2 custom-scrollbar"
+      >
+        <!-- Top Navigation Placeholder (Hidden for this specific linear task intent as per rules, but showing Header as requested) -->
+        <!-- 1. Header -->
+        <header class="flex flex-col items-center gap-4 mb-2 mt-8">
+          <img
+            alt="Zeera Laundry Logo"
+            class="w-24 h-24 rounded-full shadow-md object-cover border-2 border-white"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcBTqWlt2OtyD_nwODSgqKS814HE8TokaOn5TAcMcC9qPxJYJvx5UbmHuKTEboAI0HG4bHLpiVM0bvX_mPtKJ9RKY8F_xOtF0g9JBBcv6sRgtXrP59UWwWvhaKz6EZUNfrgl07AhKNLJboDsXU9bvXoYlksW-3jy4j6yRyExu7HODlUOHK-TCh64NqhIDv1bY48CDPV28OySeB-L9VssMnh4lYRVrFgXNkG76ideESNM9R1fqI_9SnDJKge58YnvhLQGSqQQsjDws"
+          />
+          <h1
+            class="text-[#0F766E] font-extrabold text-2xl tracking-tight uppercase"
+          >
+            Zeera Laundry
+          </h1>
+        </header>
+        <!-- 2. Title Area -->
+        <div class="text-center mb-2 max-w-xl">
+          <h2 class="text-2xl md:text-3xl font-black text-slate-800 mb-3">
+            Lacak Cucian Anda
+          </h2>
+          <p class="text-on-surface-variant text-lg">
+            Pantau status pakaian Anda secara real-time.
+          </p>
+        </div>
+        <!-- 3. Tracking Card -->
+        <main class="w-full max-w-xl bg-white/90 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] shadow-2xl border border-white relative z-10">
+            <!-- Input Group -->
+            <div class="flex gap-3 mb-6">
+                <div class="relative flex-1 flex items-center">
+                    <span class="material-symbols-outlined absolute left-4 text-slate-400">search</span>
+                    <input id="input-trx" class="w-full pl-12 pr-14 py-3 rounded-full bg-slate-50 border border-slate-200 shadow-inner focus:outline-none focus:ring-2 focus:ring-[#0f766e]/50 focus:border-[#0f766e] transition-all text-slate-700 font-medium" placeholder="Masukkan ID (TRX...)" type="text" /> 
+                    
+                    <!-- Tombol Kamera -->
+                    <button onclick="bukaScanner()" class="absolute right-2 w-9 h-9 bg-slate-200 hover:bg-slate-300 rounded-full text-slate-600 flex items-center justify-center transition-colors" title="Scan QR Struk">
+                        <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+                    </button>
+                </div>
+                <button id="btn-lacak" onclick="jalankanPelacakan()" class="bg-[#F97316] text-white rounded-full px-6 md:px-8 font-bold shadow-lg hover:bg-orange-600 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-[#F97316]">
+                    Lacak
+                </button>
+            </div>
+
+            <!-- Wadah Kamera (Sembunyi by default) -->
+            <div id="reader-container" class="hidden flex-col items-center mb-8 transition-all">
+                <div class="w-full max-w-sm bg-white rounded-2xl overflow-hidden border-2 border-slate-200 shadow-lg relative p-2">
+                    <div id="reader" class="w-full rounded-xl overflow-hidden"></div>
+                </div>
+                <button onclick="tutupScanner()" class="mt-4 px-6 py-2 bg-red-50 text-red-600 font-bold rounded-full border border-red-100 hover:bg-red-100 transition-colors flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px]">close</span> Batal Scan
+                </button>
+            </div>
+
+            <!-- Peringatan Batal (Hidden Default) -->
+            <div id="alert-batal" class="hidden mb-6 bg-red-50 border border-red-200 text-red-700 p-4 rounded-2xl flex items-start gap-3">
+                <span class="material-symbols-outlined text-red-500">cancel</span>
+                <div>
+                    <h4 class="font-bold">Pesanan Dibatalkan</h4>
+                    <p class="text-sm">Pesanan ini telah dibatalkan. Silakan hubungi admin untuk informasi lebih lanjut.</p>
+                </div>
+            </div>
+
+            <!-- The Timeline Container -->
+            <div id="timeline-container" class="relative flex flex-col mt-4 pl-2 md:pl-4 hidden">
+                <!-- Vertical Line Background -->
+                <div class="absolute left-[27px] md:left-[35px] top-6 bottom-10 w-[2px] bg-slate-200 z-0"></div>
+                
+                <!-- Step akan di-inject otomatis oleh JAVASCRIPT di sini -->
+                <div id="timeline-steps"></div>
+            </div>
+        </main>
+        <!-- 4. Services Grid -->
+        <section class="w-full max-w-4xl mt-8 mb-12">
+          <h3 class="text-2xl font-bold text-center text-slate-800 mb-8">
+            Layanan Kami
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Card 1 -->
+            <div
+              class="bg-white p-8 rounded-3xl shadow-lg border border-slate-50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.03] cursor-pointer group flex flex-col items-center text-center"
+            >
+              <div
+                class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-4 group-hover:bg-[#0F766E]/10 transition-colors"
+              >
+                <span class="material-symbols-outlined text-3xl text-[#0F766E]"
+                  >local_laundry_service</span
+                >
+              </div>
+              <h4 class="font-bold text-lg text-slate-800 mb-2">Cuci Kiloan</h4>
+              <p class="text-sm text-outline">
+                Solusi praktis untuk pakaian sehari-hari Anda.
+              </p>
+            </div>
+            <!-- Card 2 -->
+            <div
+              class="bg-white p-8 rounded-3xl shadow-lg border border-slate-50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.03] cursor-pointer group flex flex-col items-center text-center"
+            >
+              <div
+                class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-4 group-hover:bg-[#0F766E]/10 transition-colors"
+              >
+                <span class="material-symbols-outlined text-3xl text-[#0F766E]"
+                  >dry_cleaning</span
+                >
+              </div>
+              <h4 class="font-bold text-lg text-slate-800 mb-2">
+                Dry Cleaning
+              </h4>
+              <p class="text-sm text-outline">
+                Perawatan khusus untuk pakaian berbahan sensitif.
+              </p>
+            </div>
+            <!-- Card 3 -->
+            <div
+              class="bg-white p-8 rounded-3xl shadow-lg border border-slate-50 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:scale-[1.03] cursor-pointer group flex flex-col items-center text-center"
+            >
+              <div
+                class="w-16 h-16 rounded-full bg-surface-container-low flex items-center justify-center mb-4 group-hover:bg-[#0F766E]/10 transition-colors"
+              >
+                <span class="material-symbols-outlined text-3xl text-[#0F766E]"
+                  >roller_skating</span
+                >
+                <!-- Using closest available generic icon for shoes -->
+              </div>
+              <h4 class="font-bold text-lg text-slate-800 mb-2">Cuci Sepatu</h4>
+              <p class="text-sm text-outline">
+                Kembalikan kebersihan dan warna asli sepatu kesayangan.
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script>
+    // Format waktu dari Unix Timestamp ID Transaksi
+    function formatWaktuMasuk(unixStr) {
+        const d = new Date(parseInt(unixStr) * 1000);
+        const jam = d.getHours().toString().padStart(2, '0');
+        const mnt = d.getMinutes().toString().padStart(2, '0');
+        return `${jam}:${mnt} - Pesanan diterima`;
+    }
+
+    // CETAKAN HTML BERDASARKAN STATUS (Menggunakan Desain Asli Anda)
+    const templateCompleted = (icon, title, desc) => `
+    <div class="flex gap-4 md:gap-6 relative z-10 mb-8">
+        <div class="flex-shrink-0 w-10 h-10 bg-[#0F766E] text-white rounded-full flex items-center justify-center shadow-md">
+            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1">check</span>
+        </div>
+        <div class="flex flex-col justify-center">
+            <h3 class="font-bold text-lg text-slate-800">${title}</h3>
+            <p class="text-sm text-outline">${desc}</p>
+        </div>
+    </div>`;
+
+    const templateActive = (icon, title, desc) => `
+    <div class="flex gap-4 md:gap-6 relative z-10 mb-8 -ml-2 -mr-2 bg-gradient-to-r from-orange-50 to-white border border-orange-100 rounded-2xl p-5 shadow-sm transform transition-all hover:scale-[1.02]">
+        <div class="flex-shrink-0 w-10 h-10 bg-white text-[#F97316] border-2 border-[#F97316] rounded-full flex items-center justify-center shadow-md relative">
+            <div class="absolute inset-0 rounded-full border-2 border-[#F97316] animate-ping opacity-50"></div>
+            <span class="material-symbols-outlined text-xl">${icon}</span>
+        </div>
+        <div class="flex flex-col flex-1">
+            <div class="flex items-center justify-between gap-2 mb-1 flex-wrap">
+                <h3 class="font-bold text-lg text-[#F97316]">${title}</h3>
+                <span class="bg-[#F97316] text-white text-[10px] md:text-xs font-bold px-3 py-1.5 rounded-full uppercase animate-pulse shrink-0 tracking-wider">Sedang Diproses</span>
+            </div>
+            <p class="text-sm text-slate-600 mt-1">${desc}</p>
+        </div>
+    </div>`;
+
+    const templateFuture = (icon, title) => `
+    <div class="flex gap-4 md:gap-6 relative z-10 mb-8 opacity-50 grayscale transition-all hover:grayscale-0 hover:opacity-100">
+        <div class="flex-shrink-0 w-10 h-10 bg-slate-100 text-slate-400 border-2 border-slate-200 rounded-full flex items-center justify-center">
+            <span class="material-symbols-outlined text-xl">${icon}</span>
+        </div>
+        <div class="flex flex-col justify-center">
+            <h3 class="font-bold text-lg text-slate-500">${title}</h3>
+        </div>
+    </div>`;
+
+    // FUNGSI UTAMA PELACAKAN
+    async function jalankanPelacakan(trxInput = null) {
+        const trxId = trxInput || document.getElementById('input-trx').value.trim();
+        if (!trxId) { alert("Silakan masukkan ID Pesanan."); return; }
+
+        const btn = document.getElementById('btn-lacak');
+        const container = document.getElementById('timeline-container');
+        const stepsDiv = document.getElementById('timeline-steps');
+        const alertBatal = document.getElementById('alert-batal');
+        
+        btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">autorenew</span>';
+        btn.disabled = true;
+
+        try {
+            const res = await fetch(`http://127.0.0.1:8000/api/track/${trxId}`);
+            if (!res.ok) throw new Error("Tidak ditemukan");
+            const data = await res.json();
+
+            // Tampilkan Container
+            container.classList.remove('hidden');
+            alertBatal.classList.add('hidden');
+            stepsDiv.innerHTML = ''; // Bersihkan
+
+            if (data.status_pesanan === 'Batal') {
+                container.classList.add('hidden');
+                alertBatal.classList.remove('hidden');
+                return;
+            }
+
+            // Parsing Data Tracker Karyawan
+            const tracking = data.tracking_data && data.tracking_data !== 'null' ? JSON.parse(data.tracking_data) : {};
+            const isCuciDone = tracking.cuci?.done || false;
+            const isKeringDone = tracking.kering?.done || false;
+            const isSetrikaDone = tracking.setrika?.done || false;
+            const isPackingDone = tracking.packing?.done || false;
+
+            const statusMakro = data.status_pesanan; // Antrian, Proses, Siap Ambil, Selesai
+
+            // ----------------------------------------------------
+            // LOGIKA PENENTUAN STATUS (Absolute State Machine)
+            // ----------------------------------------------------
+            // Kunci semua menjadi abu-abu (future) secara default
+            let antreanState = 'future', cuciState = 'future', keringState = 'future';
+            let setrikaState = 'future', packingState = 'future', siapAmbilState = 'future', selesaiState = 'future';
+
+            if (statusMakro === 'Antrian') {
+                antreanState = 'active';
+            } 
+            else if (statusMakro === 'Proses') {
+                antreanState = 'completed';
+                
+                // Alur QC mengalir berurutan (mustahil ada 2 yang menyala)
+                if (!isCuciDone) {
+                    cuciState = 'active';
+                } else if (!isKeringDone) {
+                    cuciState = 'completed';
+                    keringState = 'active';
+                } else if (!isSetrikaDone) {
+                    cuciState = 'completed';
+                    keringState = 'completed';
+                    setrikaState = 'active';
+                } else if (!isPackingDone) {
+                    cuciState = 'completed';
+                    keringState = 'completed';
+                    setrikaState = 'completed';
+                    packingState = 'active';
+                } else {
+                    // Semua QC selesai, tapi admin belum klik "Simpan Perubahan" ke Siap Ambil
+                    cuciState = 'completed';
+                    keringState = 'completed';
+                    setrikaState = 'completed';
+                    packingState = 'completed';
+                }
+            } 
+            else if (statusMakro === 'Siap Ambil') {
+                antreanState = 'completed';
+                cuciState = 'completed';
+                keringState = 'completed';
+                setrikaState = 'completed';
+                packingState = 'completed';
+                siapAmbilState = 'active';
+            } 
+            else if (statusMakro === 'Selesai') {
+                antreanState = 'completed';
+                cuciState = 'completed';
+                keringState = 'completed';
+                setrikaState = 'completed';
+                packingState = 'completed';
+                siapAmbilState = 'completed';
+                selesaiState = 'completed'; // Semuanya sukses (Checkmark Hijau)
+            }
+
+            // ----------------------------------------------------
+            // MERENDER HTML
+            // ----------------------------------------------------
+            const renderStep = (state, icon, title, descActive, descCompleted) => {
+                if (state === 'completed') return templateCompleted(icon, title, descCompleted);
+                if (state === 'active') return templateActive(icon, title, descActive);
+                return templateFuture(icon, title);
+            };
+
+            let htmlOutput = "";
+            htmlOutput += renderStep(antreanState, 'receipt_long', 'Antrean', 'Pesanan sedang menunggu untuk diproses.', formatWaktuMasuk(data.tanggal_masuk));
+            
+            htmlOutput += renderStep(cuciState, 'water_drop', 'Dicuci', 'Pakaian Anda sedang dicuci dengan deterjen premium.', tracking.cuci?.time ? `Selesai dicuci pkl ${tracking.cuci.time}` : 'Telah dicuci');
+            
+            htmlOutput += renderStep(keringState, 'air', 'Dikeringkan', 'Pakaian Anda sedang dalam tahap pengeringan mesin.', tracking.kering?.time ? `Selesai dikeringkan pkl ${tracking.kering.time}` : 'Telah dikeringkan');
+            
+            htmlOutput += renderStep(setrikaState, 'iron', 'Disetrika', 'Pakaian Anda sedang disetrika dan dirapikan.', tracking.setrika?.time ? `Selesai disetrika pkl ${tracking.setrika.time}` : 'Telah disetrika');
+            
+            htmlOutput += renderStep(packingState, 'inventory_2', 'Di-packing', 'Pakaian sedang dikemas rapi dan diberi parfum.', tracking.packing?.time ? `Selesai di-packing pkl ${tracking.packing.time}` : 'Telah dikemas');
+            
+            htmlOutput += renderStep(siapAmbilState, 'storefront', 'Siap Ambil', 'Pakaian Anda sudah rapi dan menunggu untuk diambil.', 'Pakaian telah diambil');
+            
+            htmlOutput += renderStep(selesaiState, 'done_all', 'Selesai', '', 'Transaksi telah selesai. Terima kasih!');
+
+            stepsDiv.innerHTML = htmlOutput;
+
+        } catch (error) {
+            alert("Pesanan dengan ID tersebut tidak ditemukan. Periksa kembali ID Anda.");
+            container.classList.add('hidden');
+        } finally {
+            btn.innerHTML = 'Lacak';
+            btn.disabled = false;
+        }
+    }
+
+    // BACA URL PARAMETER OTOMATIS (Menerima dari QR Code)
+    document.addEventListener('DOMContentLoaded', () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const trxFromQR = urlParams.get('trx');
+        if (trxFromQR) {
+            document.getElementById('input-trx').value = trxFromQR;
+            jalankanPelacakan(trxFromQR);
+        }
+    });
+
+    // ==========================================
+    // MESIN SCANNER QR CODE
+    // ==========================================
+    let html5QrcodeScanner;
+
+    function bukaScanner() {
+        const container = document.getElementById('reader-container');
+        container.classList.remove('hidden');
+        container.classList.add('flex');
+        
+        // Matikan timeline jika sedang terbuka
+        document.getElementById('timeline-container').classList.add('hidden');
+        
+        html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", 
+            { fps: 10, qrbox: {width: 250, height: 250}, aspectRatio: 1.0 },
+            /* verbose= */ false
+        );
+        
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    }
+
+    function tutupScanner() {
+        if (html5QrcodeScanner) {
+            html5QrcodeScanner.clear().then(() => {
+                document.getElementById('reader-container').classList.add('hidden');
+                document.getElementById('reader-container').classList.remove('flex');
+            }).catch(error => {
+                console.error("Gagal mematikan kamera.", error);
+            });
+        } else {
+            document.getElementById('reader-container').classList.add('hidden');
+            document.getElementById('reader-container').classList.remove('flex');
+        }
+    }
+
+    function onScanSuccess(decodedText, decodedResult) {
+        // 1. Matikan kamera segera setelah berhasil membaca
+        tutupScanner();
+        
+        // 2. Ekstrak ID (Karena QR Code kita berisi URL lengkap, kita ambil parameter TRX-nya)
+        let trxId = decodedText;
+        try {
+            const url = new URL(decodedText);
+            if(url.searchParams.has('trx')) {
+                trxId = url.searchParams.get('trx');
+            }
+        } catch (e) {
+            // Jika bukan URL (mungkin scan barcode murni), biarkan utuh
+            trxId = decodedText;
+        }
+
+        // 3. Masukkan ke dalam input text
+        document.getElementById('input-trx').value = trxId;
+
+        // 4. Jalankan animasi pelacakan secara otomatis
+        jalankanPelacakan(trxId);
+    }
+
+    function onScanFailure(error) {
+        // Abaikan. Fungsi ini akan terus berjalan mencari QR di setiap frame kamera (FPS)
+    }
+    </script>
+  </body>
+</html>
