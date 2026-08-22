@@ -39,6 +39,7 @@ padding-right: 2.5rem;
 <script id="tailwind-config">
 tailwind.config = { darkMode: "class", theme: {extend: { fontFamily: { "body-md": ["Inter"], "title-lg": ["Inter"]}}}}
 </script>
+<script src="../assets/js/auth-guard.js"></script>
 </head>
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 w-full h-screen overflow-hidden font-body-md text-slate-800">
 <div class="w-full h-full flex p-4 md:p-6 lg:p-8 gap-4 md:gap-6 relative">
@@ -69,8 +70,8 @@ tailwind.config = { darkMode: "class", theme: {extend: { fontFamily: { "body-md"
 <a class="w-full text-teal-100 hover:text-white hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium" href="pengaturan.html">
 <span class="material-symbols-outlined">settings</span> Pengaturan
 </a>
-<button onclick="window.location.href='auth/login.html'" class="w-full text-teal-100 hover:text-white hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium">
-<span class="material-symbols-outlined">logout</span> Keluar
+<button onclick="prosesLogout()" class="w-full text-teal-100 hover:text-white hover:bg-white/10 rounded-xl transition-all p-3 flex items-center gap-3 font-medium">
+    <span class="material-symbols-outlined">logout</span> Keluar
 </button>
 </div>
 </aside>
@@ -567,7 +568,7 @@ Lihat Semua <span class="material-symbols-outlined text-[18px] transition-transf
                 estDatesArray.sort((a,b) => a - b); let fastestEst = estDatesArray[0];
                 p.fastestEst = fastestEst; p.isHarusSelesai = false; p.isTerlambat = false; p.isPesananBaru = false;
                 
-                if (isToday && p.status_pesanan === 'Antrian') { p.isPesananBaru = true; pesananBaru++; }
+                if (isToday) { p.isPesananBaru = true; pesananBaru++; }
                 if (p.status_pesanan !== 'Selesai' && p.status_pesanan !== 'Batal' && p.status_pesanan !== 'Siap Ambil') {
                     let todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
                     let estDateOnly = new Date(fastestEst.getFullYear(), fastestEst.getMonth(), fastestEst.getDate()).getTime();

@@ -9,3 +9,5 @@ backend/__pycache__/
 .env
 *.db
 *.sqlite3
+
+.vscode/
