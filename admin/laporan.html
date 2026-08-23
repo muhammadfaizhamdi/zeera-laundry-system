@@ -132,20 +132,29 @@ tailwind.config = {
         <div class="flex items-center gap-4 relative">
             <button onclick="document.getElementById('dropdown-waktu').classList.toggle('hidden')" class="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-full font-bold shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
                 <span class="material-symbols-outlined text-[20px]">calendar_today</span>
-                <span id="btn-waktu-text">Semua</span>
+                <span id="btn-waktu-text">Bulan Ini</span>
                 <span class="material-symbols-outlined text-[20px]">expand_more</span>
             </button>
             <div id="dropdown-waktu" class="hidden absolute top-[calc(100%+8px)] right-0 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden">
-                <!-- FILTER PROFESIONAL: Semua, Hari Ini, Bulan Ini -->
+                <!-- FILTER: Semua, Hari Ini, Bulan Ini -->
                 <ul id="list-waktu" class="text-sm font-medium text-slate-600 p-2">
-                    <li onclick="pilihFilterWaktu(this, 'Semua')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-[#0f766e] bg-teal-50/50 font-bold transition-colors">
-                        <span class="material-symbols-outlined text-[18px] icon-check">check</span> Semua
-                    </li>
                     <li onclick="pilihFilterWaktu(this, 'Hari Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors">
                         <span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Hari Ini
                     </li>
-                    <li onclick="pilihFilterWaktu(this, 'Bulan Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors">
-                        <span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Bulan Ini
+                    <li onclick="pilihFilterWaktu(this, 'Kemarin')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors">
+                        <span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Kemarin
+                    </li>
+                    <li onclick="pilihFilterWaktu(this, '7 Hari Terakhir')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors">
+                        <span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> 7 Hari Terakhir
+                    </li>
+                    <li onclick="pilihFilterWaktu(this, 'Bulan Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-[#0f766e] bg-teal-50/50 font-bold transition-colors">
+                        <span class="material-symbols-outlined text-[18px] icon-check">check</span> Bulan Ini
+                    </li>
+                    <li onclick="pilihFilterWaktu(this, 'Bulan Lalu')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors">
+                        <span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Bulan Lalu
+                    </li>
+                    <li onclick="pilihFilterWaktu(this, 'Tahun Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors">
+                        <span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Tahun Ini
                     </li>
                 </ul>
             </div>
@@ -163,6 +172,7 @@ tailwind.config = {
                 <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Pemasukan (Lunas + DP)</p>
                 <!-- Diberi ID Spesifik -->
                 <p id="stat-omset" class="text-2xl font-black text-slate-800 leading-none">Rp 0</p>
+                <p id="stat-piutang" class="text-[10px] font-bold text-orange-500 mt-2 leading-none">Sisa Tagihan: Rp 0</p>
             </div>
         </div>
         
@@ -332,7 +342,7 @@ function toggleAccordion(cardId, iconId) {
 // --- LOGIKA DATA DINAMIS & FILTER ---
 let allPesananData = [];
 let allPengeluaranData = [];
-let activeFilter = 'Semua';
+let activeFilter = 'Bulan Ini';
 
 async function initDataLaporan() {
     try {
@@ -353,80 +363,73 @@ async function initDataLaporan() {
 
 function calculateStats() {
     let totalOmset = 0;
+    let totalPiutang = 0;
     let transaksiMasuk = 0;
     let itemDiambil = 0;
     let transaksiBatal = 0;
     let totalPengeluaran = 0;
+    
+    // SETUP LOGIKA WAKTU ENTERPRISE
     const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterdayStart = new Date(todayStart); yesterdayStart.setDate(yesterdayStart.getDate() - 1);
+    const last7DaysStart = new Date(todayStart); last7DaysStart.setDate(last7DaysStart.getDate() - 6);
+    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+
+    // FUNGSI CEK FILTER
+    function cekFilterWaktu(pDate) {
+        let pDateOnly = new Date(pDate.getFullYear(), pDate.getMonth(), pDate.getDate());
+        if (activeFilter === 'Hari Ini' && pDateOnly.getTime() === todayStart.getTime()) return true;
+        if (activeFilter === 'Kemarin' && pDateOnly.getTime() === yesterdayStart.getTime()) return true;
+        if (activeFilter === '7 Hari Terakhir' && pDateOnly >= last7DaysStart && pDateOnly <= todayStart) return true;
+        if (activeFilter === 'Bulan Ini' && pDate.getMonth() === now.getMonth() && pDate.getFullYear() === now.getFullYear()) return true;
+        if (activeFilter === 'Bulan Lalu' && pDateOnly >= lastMonthStart && pDateOnly <= lastMonthEnd) return true;
+        if (activeFilter === 'Tahun Ini' && pDate.getFullYear() === now.getFullYear()) return true;
+        return false; // Default: Jika bukan dari filter di atas, jangan dihitung (untuk mencegah lag)
+    }
 
     // 1. FILTER PESANAN
     allPesananData.forEach(p => {
-        let pDate = new Date(); // Default ke hari ini jika gagal
+        let pDate = new Date(); 
         const idTrans = String(p.id_transaksi || p.id || '');
         if (idTrans.startsWith('TRX')) {
             const unix = parseInt(idTrans.substring(3, 13));
             if (!isNaN(unix)) pDate = new Date(unix * 1000);
         }
-        
-        let isIncluded = false;
-        if (activeFilter === 'Semua') {
-            isIncluded = true;
-        } else if (activeFilter === 'Hari Ini') { 
-            if (pDate.getDate() === now.getDate() && pDate.getMonth() === now.getMonth() && pDate.getFullYear() === now.getFullYear()) {
-                isIncluded = true;
-            }
-        } else if (activeFilter === 'Bulan Ini') {
-            if (pDate.getMonth() === now.getMonth() && pDate.getFullYear() === now.getFullYear()) {
-                isIncluded = true;
-            }
-        }
-        
-        if (isIncluded) {
+
+        if (cekFilterWaktu(pDate)) {
             if (p.status_pesanan === 'Batal') {
                 transaksiBatal++;
             } else {
-                // EKSTRAKSI UANG MUKA (DP) DARI METADATA JSON
                 let dpVal = 0;
-                if (p.keterangan && p.keterangan.startsWith('{')) { 
-                    try { 
-                        let meta = JSON.parse(p.keterangan); 
-                        dpVal = meta.dp || 0; 
-                    } catch(e) {} 
+                let totalHarga = parseFloat(p.total_harga) || 0;
+                if (p.keterangan && p.keterangan.startsWith('{')) {
+                    try { let meta = JSON.parse(p.keterangan); dpVal = meta.dp || 0; } catch(e) {}
                 }
-
-                // LOGIKA PEMASUKAN YANG BENAR (MENGHITUNG DP)
+                
                 if (p.status_bayar === 'Lunas') {
-                    totalOmset += parseFloat(p.total_harga) || 0; // Jika lunas, masukkan full 100%
+                    totalOmset += totalHarga; 
                 } else {
-                    totalOmset += dpVal; // Jika belum lunas, masukkan uang DP-nya saja sebagai omset
+                    totalOmset += dpVal; 
+                    totalPiutang += (totalHarga - dpVal); 
                 }
-
-                if (p.status_pesanan === 'Selesai' || p.status_pesanan === 'Siap Ambil') {
-                    itemDiambil++;
-                } else if (p.status_pesanan === 'Antrian' || p.status_pesanan === 'Proses') {
-                    transaksiMasuk++;
-                }
+                
+                if (p.status_pesanan === 'Selesai' || p.status_pesanan === 'Siap Ambil') itemDiambil++;
+                else if (p.status_pesanan === 'Antrian' || p.status_pesanan === 'Proses') transaksiMasuk++;
             }
         }
     });
 
-    // 2. FILTER PENGELUARAN
-    allPengeluaranData.forEach(p => { 
-        let pDate = new Date(p.tanggal || new Date());
-        let isIncluded = false;
-        if (activeFilter === 'Semua') {
-            isIncluded = true;
-        } else if (activeFilter === 'Hari Ini') {
-            if (pDate.getDate() === now.getDate() && pDate.getMonth() === now.getMonth() && pDate.getFullYear() === now.getFullYear()) {
-                isIncluded = true;
-            }
-        } else if (activeFilter === 'Bulan Ini') {
-            if (pDate.getMonth() === now.getMonth() && pDate.getFullYear() === now.getFullYear()) {
-                isIncluded = true;
-            }
+    // 2. FILTER PENGELUARAN (ID TIMESTAMP)
+    allPengeluaranData.forEach(p => {
+        let ts = new Date().getTime(); 
+        if (p.id && p.id.startsWith('EXP-')) {
+            ts = parseInt(p.id.split('-')[1]);
         }
-        
-        if(isIncluded) {
+        let pDate = new Date(ts);
+
+        if(cekFilterWaktu(pDate)) {
             totalPengeluaran += parseInt(p.nominal) || 0;
         }
     });
@@ -436,6 +439,7 @@ function calculateStats() {
     const formatRp = (angka) => 'Rp ' + (angka || 0).toLocaleString('id-ID');
     
     document.getElementById('stat-omset').innerText = formatRp(totalOmset);
+    document.getElementById('stat-piutang').innerText = 'Sisa Tagihan: ' + formatRp(totalPiutang);
     document.getElementById('stat-pendapatan').innerText = formatRp(pendapatanBersih);
     document.getElementById('stat-pengeluaran').innerText = formatRp(totalPengeluaran); 
     document.getElementById('stat-masuk').innerText = transaksiMasuk.toString();

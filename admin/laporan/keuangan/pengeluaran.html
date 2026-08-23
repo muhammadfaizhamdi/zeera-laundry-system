@@ -91,9 +91,30 @@ tailwind.config = {
                 <p class="text-slate-500 text-sm">Catatan belanja operasional dan operasional toko.</p>
             </div>
         </div>
-        <button onclick="bukaModalTambahPengeluaran()" class="bg-[#f43f5e] text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-rose-600 hover:-translate-y-1 transition-all flex items-center gap-2 whitespace-nowrap">
-            <span class="material-symbols-outlined text-[20px] font-bold">add</span> Catat Pengeluaran
-        </button>
+        <div class="flex items-center gap-3">
+            <!-- Tombol Dropdown Filter -->
+            <div class="relative">
+                <button onclick="document.getElementById('dropdown-waktu').classList.toggle('hidden')" class="bg-white border border-slate-200 text-slate-700 px-5 py-3 rounded-full font-bold shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
+                    <span class="material-symbols-outlined text-[20px]">calendar_today</span>
+                    <span id="btn-waktu-text">Bulan Ini</span>
+                    <span class="material-symbols-outlined text-[20px]">expand_more</span>
+                </button>
+                <div id="dropdown-waktu" class="hidden absolute top-[calc(100%+8px)] right-0 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden">
+                    <ul id="list-waktu" class="text-sm font-medium text-slate-600 p-2">
+                        <li onclick="pilihFilterWaktu(this, 'Hari Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Hari Ini</li>
+                        <li onclick="pilihFilterWaktu(this, 'Kemarin')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Kemarin</li>
+                        <li onclick="pilihFilterWaktu(this, '7 Hari Terakhir')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> 7 Hari Terakhir</li>
+                        <li onclick="pilihFilterWaktu(this, 'Bulan Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-[#0f766e] bg-teal-50/50 font-bold transition-colors"><span class="material-symbols-outlined text-[18px] icon-check">check</span> Bulan Ini</li>
+                        <li onclick="pilihFilterWaktu(this, 'Bulan Lalu')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Bulan Lalu</li>
+                        <li onclick="pilihFilterWaktu(this, 'Tahun Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Tahun Ini</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Tombol Catat Lama -->
+            <button onclick="bukaModalTambahPengeluaran()" class="bg-[#f43f5e] text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-rose-600 hover:-translate-y-1 transition-all flex items-center gap-2 whitespace-nowrap">
+                <span class="material-symbols-outlined text-[20px] font-bold">add</span> Catat Pengeluaran
+            </button>
+        </div>
     </header>
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 shrink-0">
@@ -176,6 +197,43 @@ tailwind.config = {
 </div>
 
 <script>
+// --- KODE GLOBAL FILTER WAKTU ---
+let activeFilter = 'Bulan Ini';
+
+function pilihFilterWaktu(elemen, teks) {
+    document.getElementById('btn-waktu-text').innerText = teks;
+    document.getElementById('dropdown-waktu').classList.add('hidden');
+    document.querySelectorAll('#list-waktu li').forEach(li => {
+        li.className = "p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors";
+        li.querySelector('.icon-check').classList.add('opacity-0');
+    });
+    elemen.className = "p-3 rounded-lg cursor-pointer flex items-center gap-2 text-[#0f766e] bg-teal-50/50 font-bold transition-colors";
+    elemen.querySelector('.icon-check').classList.remove('opacity-0');
+    
+    activeFilter = teks;
+    
+    // Panggil ulang fungsi render data sesuai halaman
+    if (typeof fetchDataOmset === 'function') fetchDataOmset();
+    if (typeof fetchDataPengeluaran === 'function') fetchDataPengeluaran();
+}
+
+function cekFilterWaktu(unixTimestamp) {
+    const now = new Date();
+    const pDateOnly = new Date(new Date(unixTimestamp).getFullYear(), new Date(unixTimestamp).getMonth(), new Date(unixTimestamp).getDate());
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const yesterdayStart = new Date(todayStart); yesterdayStart.setDate(yesterdayStart.getDate() - 1);
+    const last7DaysStart = new Date(todayStart); last7DaysStart.setDate(last7DaysStart.getDate() - 6);
+    const lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
+
+    if (activeFilter === 'Hari Ini' && pDateOnly.getTime() === todayStart.getTime()) return true;
+    if (activeFilter === 'Kemarin' && pDateOnly.getTime() === yesterdayStart.getTime()) return true;
+    if (activeFilter === '7 Hari Terakhir' && pDateOnly >= last7DaysStart && pDateOnly <= todayStart) return true;
+    if (activeFilter === 'Bulan Ini' && new Date(unixTimestamp).getMonth() === now.getMonth() && new Date(unixTimestamp).getFullYear() === now.getFullYear()) return true;
+    if (activeFilter === 'Bulan Lalu' && pDateOnly >= lastMonthStart && pDateOnly <= lastMonthEnd) return true;
+    if (activeFilter === 'Tahun Ini' && new Date(unixTimestamp).getFullYear() === now.getFullYear()) return true;
+    return false;
+}
 function loadPengeluaranDB() {
     const db = localStorage.getItem('pengeluaran_zeera');
     return db ? JSON.parse(db) : [];
@@ -184,57 +242,60 @@ function loadPengeluaranDB() {
 function fetchDataPengeluaran() {
     const tbody = document.querySelector('tbody');
     const dataPengeluaran = loadPengeluaranDB();
-    
     let totalPengeluaran = 0;
     tbody.innerHTML = '';
     
-    if(dataPengeluaran.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 font-medium text-slate-500">Belum ada data pengeluaran. Silakan klik "Catat Pengeluaran".</td></tr>';
-    } else {
-        dataPengeluaran.slice().reverse().forEach(p => {
-            totalPengeluaran += parseInt(p.nominal) || 0;
-            const formatRp = 'Rp ' + parseInt(p.nominal).toLocaleString('id-ID');
-            
-            const tr = document.createElement('tr');
-            tr.className = 'hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0 group';
-            
-            const dataId = p.id || p.tanggal;
-            const jumlahTampil = p.jumlah ? p.jumlah : '-';
-            
-            tr.innerHTML = `
-                <td class="py-4 pr-4 text-slate-500 truncate">${p.tanggal}</td>
-                <td class="py-4 pr-4 truncate"><span class="px-2 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md uppercase tracking-wider">${p.kategori}</span></td>
-                <td class="py-4 pr-4 font-medium text-slate-800 truncate" title="${p.keterangan}">${p.keterangan}</td>
-                <td class="py-4 pr-4 font-semibold text-slate-600 truncate">${jumlahTampil}</td>
-                <td class="py-4 pr-4 font-bold text-rose-600 text-right truncate">${formatRp}</td>
-                <td class="py-4 text-right">
-                    <div class="flex items-center justify-end gap-2">
-                        <button onclick="bukaModalEdit('${dataId}')" class="w-8 h-8 rounded-full bg-teal-50 text-teal-600 inline-flex items-center justify-center hover:bg-teal-100 transition-colors focus:outline-none" title="Edit">
-                            <span class="material-symbols-outlined text-lg">edit</span>
-                        </button>
-                        <button onclick="hapusPengeluaranLokal('${dataId}')" class="w-8 h-8 rounded-full bg-red-50 text-red-500 inline-flex items-center justify-center hover:bg-red-100 transition-colors focus:outline-none" title="Hapus">
-                            <span class="material-symbols-outlined text-lg">delete</span>
-                        </button>
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-    }
+    // Proses Filter Data
+    let validPengeluaran = [];
+    dataPengeluaran.forEach(p => {
+        let ts = new Date().getTime();
+        if (p.id && p.id.startsWith('EXP-')) ts = parseInt(p.id.split('-')[1]);
+        if(cekFilterWaktu(ts)) {
+            validPengeluaran.push(p);
+        }
+    });
+
+    if(validPengeluaran.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center py-8 font-medium text-slate-500">Belum ada data pengeluaran pada periode ini.</td></tr>';
+        document.getElementById('card-total').innerText = 'Rp 0';
+        document.getElementById('card-kategori').innerText = '-';
+        document.getElementById('card-item').innerText = '0';
+        return;
+    } 
+
+    validPengeluaran.slice().reverse().forEach(p => {
+        totalPengeluaran += parseInt(p.nominal) || 0;
+        const formatRp = 'Rp ' + parseInt(p.nominal).toLocaleString('id-ID');
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50/50 transition-colors border-b border-slate-50 last:border-0 group';
+        const dataId = p.id || p.tanggal;
+        const jumlahTampil = p.jumlah ? p.jumlah : '-';
+        tr.innerHTML = `
+        <td class="py-4 pr-4 text-slate-500 truncate">${p.tanggal}</td>
+        <td class="py-4 pr-4 truncate"><span class="px-2 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md uppercase tracking-wider">${p.kategori}</span></td>
+        <td class="py-4 pr-4 font-medium text-slate-800 truncate" title="${p.keterangan}">${p.keterangan}</td>
+        <td class="py-4 pr-4 font-semibold text-slate-600 truncate">${jumlahTampil}</td>
+        <td class="py-4 pr-4 font-bold text-rose-600 text-right truncate">${formatRp}</td>
+        <td class="py-4 text-right">
+            <div class="flex items-center justify-end gap-2">
+                <button onclick="bukaModalEdit('${dataId}')" class="w-8 h-8 rounded-full bg-teal-50 text-teal-600 inline-flex items-center justify-center hover:bg-teal-100 transition-colors focus:outline-none" title="Edit"><span class="material-symbols-outlined text-lg">edit</span></button>
+                <button onclick="hapusPengeluaranLokal('${dataId}')" class="w-8 h-8 rounded-full bg-red-50 text-red-500 inline-flex items-center justify-center hover:bg-red-100 transition-colors focus:outline-none" title="Hapus"><span class="material-symbols-outlined text-lg">delete</span></button>
+            </div>
+        </td>`;
+        tbody.appendChild(tr);
+    });
 
     let kategoriTerbesar = '-';
-    if(dataPengeluaran.length > 0) {
-        const sums = {};
-        dataPengeluaran.forEach(p => {
-            if(!sums[p.kategori]) sums[p.kategori] = 0;
-            sums[p.kategori] += parseInt(p.nominal) || 0;
-        });
-        kategoriTerbesar = Object.keys(sums).reduce((a, b) => sums[a] > sums[b] ? a : b);
-    }
+    const sums = {};
+    validPengeluaran.forEach(p => {
+        if(!sums[p.kategori]) sums[p.kategori] = 0;
+        sums[p.kategori] += parseInt(p.nominal) || 0;
+    });
+    kategoriTerbesar = Object.keys(sums).reduce((a, b) => sums[a] > sums[b] ? a : b);
 
     document.getElementById('card-total').innerText = 'Rp ' + totalPengeluaran.toLocaleString('id-ID');
     document.getElementById('card-kategori').innerText = kategoriTerbesar;
-    document.getElementById('card-item').innerText = dataPengeluaran.length;
+    document.getElementById('card-item').innerText = validPengeluaran.length;
 }
 
 window.bukaModalTambahPengeluaran = function() {
