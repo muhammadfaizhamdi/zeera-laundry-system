@@ -84,6 +84,7 @@ tailwind.config = {
 }
 </script>
 <script src="../assets/js/auth-guard.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gradient-to-br from-slate-50 to-slate-100 w-full h-screen overflow-hidden font-body-md text-slate-800">
 <div class="w-full h-full flex p-4 md:p-6 lg:p-8 gap-4 md:gap-6 relative">
@@ -129,11 +130,17 @@ tailwind.config = {
             <h1 class="text-3xl font-extrabold text-slate-800 mb-1">Laporan Bisnis</h1>
             <p class="text-slate-500 font-body-md">Ringkasan performa dan data keuangan laundry Anda.</p>
         </div>
-        <div class="flex items-center gap-4 relative">
-            <button onclick="document.getElementById('dropdown-waktu').classList.toggle('hidden')" class="bg-white border border-slate-200 text-slate-700 px-6 py-3 rounded-full font-bold shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
+        <div class="flex items-center gap-3 relative">
+            <!-- Tombol Cetak Ringkasan Kasir -->
+            <button onclick="printRingkasan()" class="bg-[#10b981] text-white px-5 py-3 rounded-full font-bold shadow-lg shadow-emerald-500/20 hover:bg-[#059669] hover:-translate-y-1 transition-all flex items-center gap-2 whitespace-nowrap">
+                <span class="material-symbols-outlined text-[20px]">print</span>
+                <span class="hidden md:inline">Cetak Ringkasan</span>
+            </button>
+
+            <button onclick="document.getElementById('dropdown-waktu').classList.toggle('hidden')" class="bg-white border border-slate-200 text-slate-700 px-5 py-3 rounded-full font-bold shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
                 <span class="material-symbols-outlined text-[20px]">calendar_today</span>
                 <span id="btn-waktu-text">Bulan Ini</span>
-                <span class="material-symbols-outlined text-[20px]">expand_more</span>
+                    <span class="material-symbols-outlined text-[20px]">expand_more</span>
             </button>
             <div id="dropdown-waktu" class="hidden absolute top-[calc(100%+8px)] right-0 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden">
                 <!-- FILTER: Semua, Hari Ini, Bulan Ini -->
@@ -229,6 +236,14 @@ tailwind.config = {
                 <p class="text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-1">Transaksi Batal</p>
                 <p id="stat-batal" class="text-2xl font-black text-slate-800 leading-none">0</p>
             </div>
+        </div>
+    </div>
+
+    <!-- Grafik Visualisasi Data -->
+    <div class="bg-white/90 backdrop-blur-xl rounded-[2rem] p-6 md:p-8 border border-white shadow-[0_4px_20px_rgba(0,0,0,0.03)] mb-8 flex flex-col relative w-full">
+        <h3 class="font-extrabold text-lg text-slate-800 mb-4">Grafik Arus Kas <span class="text-slate-400 font-medium text-sm ml-1" id="grafik-subtitle">(Bulan Ini)</span></h3>
+        <div class="relative w-full h-[250px] md:h-[300px]">
+            <canvas id="chartArusKas"></canvas>
         </div>
     </div>
 
@@ -368,6 +383,8 @@ function calculateStats() {
     let itemDiambil = 0;
     let transaksiBatal = 0;
     let totalPengeluaran = 0;
+    let arrGrafikOmset = [];
+    let arrGrafikPengeluaran = [];
     
     // SETUP LOGIKA WAKTU ENTERPRISE
     const now = new Date();
@@ -409,10 +426,12 @@ function calculateStats() {
                 }
                 
                 if (p.status_bayar === 'Lunas') {
-                    totalOmset += totalHarga; 
+                    totalOmset += totalHarga;
+                    arrGrafikOmset.push({ tanggal: pDate, nominal: totalHarga });
                 } else {
-                    totalOmset += dpVal; 
-                    totalPiutang += (totalHarga - dpVal); 
+                    totalOmset += dpVal;
+                    totalPiutang += (totalHarga - dpVal);
+                    arrGrafikOmset.push({ tanggal: pDate, nominal: dpVal });
                 }
                 
                 if (p.status_pesanan === 'Selesai' || p.status_pesanan === 'Siap Ambil') itemDiambil++;
@@ -430,42 +449,179 @@ function calculateStats() {
         let pDate = new Date(ts);
 
         if(cekFilterWaktu(pDate)) {
-            totalPengeluaran += parseInt(p.nominal) || 0;
+            let nom = parseInt(p.nominal) || 0;
+            totalPengeluaran += nom;
+            arrGrafikPengeluaran.push({ tanggal: pDate, nominal: nom });
         }
     });
 
     // 3. KALKULASI & CETAK KE LAYAR
     let pendapatanBersih = totalOmset - totalPengeluaran;
     const formatRp = (angka) => 'Rp ' + (angka || 0).toLocaleString('id-ID');
-    
+
     document.getElementById('stat-omset').innerText = formatRp(totalOmset);
     document.getElementById('stat-piutang').innerText = 'Sisa Tagihan: ' + formatRp(totalPiutang);
     document.getElementById('stat-pendapatan').innerText = formatRp(pendapatanBersih);
-    document.getElementById('stat-pengeluaran').innerText = formatRp(totalPengeluaran); 
+    document.getElementById('stat-pengeluaran').innerText = formatRp(totalPengeluaran);
     document.getElementById('stat-masuk').innerText = transaksiMasuk.toString();
     document.getElementById('stat-selesai').innerText = itemDiambil.toString();
     document.getElementById('stat-batal').innerText = transaksiBatal.toString();
+
+    // Panggil fungsi render grafik
+    document.getElementById('grafik-subtitle').innerText = `(${activeFilter})`;
+    renderGrafik(arrGrafikOmset, arrGrafikPengeluaran);
 }
 
-function pilihFilterWaktu(elemen, teks) {
-    // Ubah UI Dropdown
-    document.getElementById('btn-waktu-text').innerText = teks;
-    document.getElementById('dropdown-waktu').classList.add('hidden');
-    const listItems = document.querySelectorAll('#list-waktu li');
-    listItems.forEach(li => {
-        li.className = "p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors";
-        li.querySelector('.icon-check').classList.add('opacity-0');
-    });
-    elemen.className = "p-3 rounded-lg cursor-pointer flex items-center gap-2 text-[#0f766e] bg-teal-50/50 font-bold transition-colors";
-    elemen.querySelector('.icon-check').classList.remove('opacity-0');
+// ==========================================
+// FUNGSI RENDER GRAFIK (CHART.JS)
+// ==========================================
+let myChartInstance = null;
+
+function renderGrafik(dataOmset, dataPengeluaran) {
+    const ctx = document.getElementById('chartArusKas');
+    if (!ctx) return;
     
-    // Ubah state & hitung ulang data secara dinamis
-    activeFilter = teks;
-    calculateStats();
+    let labelsMap = {};
+    const processData = (array, type) => {
+        array.forEach(item => {
+            let label = "";
+            if (activeFilter === 'Tahun Ini') {
+                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+                label = months[item.tanggal.getMonth()];
+            } else if (activeFilter === 'Hari Ini' || activeFilter === 'Kemarin') {
+                label = item.tanggal.getHours() + ':00';
+            } else {
+                label = item.tanggal.getDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'][item.tanggal.getMonth()];
+            }
+            if (!labelsMap[label]) labelsMap[label] = { omset: 0, pengeluaran: 0 };
+            labelsMap[label][type] += item.nominal;
+        });
+    };
+
+    processData(dataOmset, 'omset');
+    processData(dataPengeluaran, 'pengeluaran');
+
+    const labels = Object.keys(labelsMap);
+    const datasetOmset = labels.map(l => labelsMap[l].omset);
+    const datasetPengeluaran = labels.map(l => labelsMap[l].pengeluaran);
+
+    if (myChartInstance) myChartInstance.destroy();
+    
+    myChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels.length > 0 ? labels : ['Belum ada data'],
+            datasets: [
+                {
+                    label: 'Pemasukan (Rp)',
+                    data: datasetOmset.length > 0 ? datasetOmset : [0],
+                    borderColor: '#10b981', // Emerald
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    borderWidth: 3,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#10b981'
+                },
+                {
+                    label: 'Pengeluaran (Rp)',
+                    data: datasetPengeluaran.length > 0 ? datasetPengeluaran : [0],
+                    borderColor: '#f43f5e', // Rose
+                    backgroundColor: 'rgba(244, 63, 94, 0.1)',
+                    borderWidth: 3,
+                    borderDash: [5, 5],
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#f43f5e'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 8, font: { family: 'Inter', weight: 'bold' } } },
+                tooltip: { 
+                    backgroundColor: '#0f766e', titleFont: { family: 'Inter' }, bodyFont: { family: 'Inter' },
+                    callbacks: { label: function(context) { return 'Rp ' + context.raw.toLocaleString('id-ID'); } }
+                }
+            },
+            scales: {
+                y: { beginAtZero: true, grid: { borderDash: [4, 4] }, ticks: { callback: function(value) { return 'Rp ' + (value/1000) + 'k'; } } },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+}
+
+// ==========================================
+// FUNGSI CETAK RINGKASAN (Z-REPORT)
+// ==========================================
+function printRingkasan() {
+    document.getElementById('prt-periode').innerText = activeFilter;
+    const now = new Date();
+    document.getElementById('prt-waktu').innerText = now.toLocaleDateString('id-ID', {day:'2-digit', month: 'short', year:'numeric'}) + ' ' + now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+    
+    document.getElementById('prt-omset').innerText = document.getElementById('stat-omset').innerText;
+    document.getElementById('prt-piutang').innerText = "(" + document.getElementById('stat-piutang').innerText + ")";
+    document.getElementById('prt-pengeluaran').innerText = document.getElementById('stat-pengeluaran').innerText;
+    document.getElementById('prt-laba').innerText = document.getElementById('stat-pendapatan').innerText;
+    
+    document.getElementById('prt-masuk').innerText = document.getElementById('stat-masuk').innerText;
+    document.getElementById('prt-selesai').innerText = document.getElementById('stat-selesai').innerText;
+    document.getElementById('prt-batal').innerText = document.getElementById('stat-batal').innerText;
+
+    document.getElementById('print-area-ringkasan').classList.remove('hidden');
+    window.print();
+    document.getElementById('print-area-ringkasan').classList.add('hidden');
 }
 
 // Mulai ambil data saat halaman dimuat
 document.addEventListener('DOMContentLoaded', initDataLaporan);
 </script>
+<!-- KANVAS STRUK THERMAL (TERSEMBUNYI, MUNCUL SAAT CETAK) -->
+<style>
+    @media print {
+        body * { visibility: hidden; }
+        #print-area-ringkasan, #print-area-ringkasan * { visibility: visible; color: black !important; }
+        #print-area-ringkasan { position: absolute; left: 0; top: 0; width: 58mm; margin: 0; padding: 0; display: block !important; }
+        * { box-shadow: none !important; text-shadow: none !important; background: transparent !important; }
+    }
+</style>
+<div id="print-area-ringkasan" class="hidden font-mono text-[12px] p-2 leading-tight">
+    <div class="text-center mb-3">
+        <h2 class="font-bold text-[16px] mb-1">ZEERA LAUNDRY</h2>
+        <p class="text-[10px]">RINGKASAN KASIR (Z-REPORT)</p>
+    </div>
+    <div class="border-t border-b border-dashed border-black py-1.5 mb-2">
+        <div class="flex justify-between text-[10px] mb-0.5"><span>Periode:</span><span id="prt-periode" class="font-bold uppercase"></span></div>
+        <div class="flex justify-between text-[10px]"><span>Waktu Cetak:</span><span id="prt-waktu"></span></div>
+    </div>
+    <div class="mb-3">
+        <p class="font-bold text-[12px] mb-1">Pemasukan (Lunas+DP)</p>
+        <p class="text-right font-black text-[14px]" id="prt-omset"></p>
+        <p class="text-right text-[10px] mt-0.5" id="prt-piutang"></p>
+    </div>
+    <div class="border-t border-dashed border-black pt-1.5 mb-3">
+        <p class="font-bold text-[12px] mb-1">Pengeluaran Operasional</p>
+        <p class="text-right font-black text-[14px]" id="prt-pengeluaran"></p>
+    </div>
+    <div class="border-t-2 border-black pt-1.5 mb-3">
+        <p class="font-bold text-[14px] uppercase mb-1">Laba Bersih Kas</p>
+        <p class="text-right font-black text-[16px]" id="prt-laba"></p>
+    </div>
+    <div class="border-t border-dashed border-black pt-1.5 mb-2 flex justify-between text-[10px]">
+        <span>Jml Transaksi:</span><span id="prt-masuk" class="font-bold"></span>
+    </div>
+    <div class="flex justify-between text-[10px] mb-2">
+        <span>Pesanan Selesai:</span><span id="prt-selesai" class="font-bold"></span>
+    </div>
+    <div class="flex justify-between text-[10px] mb-4">
+        <span>Transaksi Batal:</span><span id="prt-batal" class="font-bold"></span>
+    </div>
+    <div class="text-center mt-4">
+        <p class="text-[9px]">Laporan dibuat secara otomatis oleh sistem</p>
+        <p class="text-[9px] mt-1 font-bold">Zeera Laundry Management</p>
+    </div>
+</div>
 </body>
 </html>
