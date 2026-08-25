@@ -90,7 +90,7 @@ tailwind.config = {
 
 <!-- Main Content -->
 <main class="flex-1 flex flex-col gap-6 w-full h-full overflow-y-auto pr-2 custom-scrollbar">
-    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-sm p-6 md:p-8 border border-slate-100 shrink-0">
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white/90 backdrop-blur-xl rounded-[2rem] shadow-sm p-6 md:p-8 border border-slate-100 shrink-0 relative z-50">
         <div class="flex items-center gap-4">
             <button class="w-10 h-10 rounded-full bg-slate-50 text-slate-500 hover:bg-blue-500 hover:text-white transition-all flex items-center justify-center border border-slate-200" onclick="window.location.href='../../laporan.html'"><span class="material-symbols-outlined">arrow_back</span></button>
             <div>
@@ -98,29 +98,30 @@ tailwind.config = {
                 <p class="text-slate-500 text-sm">Total Omset dikurangi Pengeluaran.</p>
             </div>
         </div>
-        <div class="flex items-center gap-3">
-            <!-- Tombol Dropdown Filter -->
+        <div class="flex items-center gap-3 relative">
+            <!-- Tombol Export (Kiri) -->
+            <button onclick="exportTableToCSV('Pendapatan_Bersih.csv')" class="bg-[#10b981] text-white px-6 py-3 rounded-full font-bold shadow-lg shadow-emerald-500/20 hover:bg-[#059669] hover:-translate-y-1 transition-all flex items-center gap-2 whitespace-nowrap">
+                <span class="material-symbols-outlined text-[20px]">download</span> Export Excel
+            </button>
+
+            <!-- Dropdown Waktu (Kanan) -->
             <div class="relative">
                 <button onclick="document.getElementById('dropdown-waktu').classList.toggle('hidden')" class="bg-white border border-slate-200 text-slate-700 px-5 py-3 rounded-full font-bold shadow-sm hover:bg-slate-50 transition-all flex items-center gap-2 cursor-pointer whitespace-nowrap">
                     <span class="material-symbols-outlined text-[20px]">calendar_today</span>
                     <span id="btn-waktu-text">Bulan Ini</span>
                     <span class="material-symbols-outlined text-[20px]">expand_more</span>
                 </button>
-                <div id="dropdown-waktu" class="hidden absolute top-[calc(100%+8px)] right-0 w-48 bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden">
+                <div id="dropdown-waktu" class="hidden absolute top-[calc(100%+8px)] right-0 w-[175px] bg-white rounded-2xl shadow-xl border border-slate-100 z-50 overflow-hidden">
                     <ul id="list-waktu" class="text-sm font-medium text-slate-600 p-2">
-                        <li onclick="pilihFilterWaktu(this, 'Hari Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Hari Ini</li>
-                        <li onclick="pilihFilterWaktu(this, 'Kemarin')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Kemarin</li>
-                        <li onclick="pilihFilterWaktu(this, '7 Hari Terakhir')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> 7 Hari Terakhir</li>
-                        <li onclick="pilihFilterWaktu(this, 'Bulan Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-[#0f766e] bg-teal-50/50 font-bold transition-colors"><span class="material-symbols-outlined text-[18px] icon-check">check</span> Bulan Ini</li>
-                        <li onclick="pilihFilterWaktu(this, 'Bulan Lalu')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Bulan Lalu</li>
-                        <li onclick="pilihFilterWaktu(this, 'Tahun Ini')" class="p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors"><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span> Tahun Ini</li>
+                        <li onclick="pilihFilterWaktu(this, 'Hari Ini')" class="p-3 rounded-lg cursor-pointer flex items-center justify-between text-slate-600 hover:bg-slate-50 transition-colors"><span>Hari Ini</span><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span></li>
+                        <li onclick="pilihFilterWaktu(this, 'Kemarin')" class="p-3 rounded-lg cursor-pointer flex items-center justify-between text-slate-600 hover:bg-slate-50 transition-colors"><span>Kemarin</span><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span></li>
+                        <li onclick="pilihFilterWaktu(this, '7 Hari Terakhir')" class="p-3 rounded-lg cursor-pointer flex items-center justify-between text-slate-600 hover:bg-slate-50 transition-colors"><span>7 Hari Terakhir</span><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span></li>
+                        <li onclick="pilihFilterWaktu(this, 'Bulan Ini')" class="p-3 rounded-lg cursor-pointer flex items-center justify-between text-[#0f766e] bg-teal-50/50 font-bold transition-colors"><span>Bulan Ini</span><span class="material-symbols-outlined text-[18px] icon-check">check</span></li>
+                        <li onclick="pilihFilterWaktu(this, 'Bulan Lalu')" class="p-3 rounded-lg cursor-pointer flex items-center justify-between text-slate-600 hover:bg-slate-50 transition-colors"><span>Bulan Lalu</span><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span></li>
+                        <li onclick="pilihFilterWaktu(this, 'Tahun Ini')" class="p-3 rounded-lg cursor-pointer flex items-center justify-between text-slate-600 hover:bg-slate-50 transition-colors"><span>Tahun Ini</span><span class="material-symbols-outlined text-[18px] icon-check opacity-0">check</span></li>
                     </ul>
                 </div>
             </div>
-            <!-- Tombol Export Lama -->
-            <button onclick="exportTableToCSV('Pendapatan_Bersih.csv')" class="bg-[#10b981] text-white px-6 py-3 rounded-full font-bold shadow-lg hover:bg-[#059669] hover:-translate-y-1 transition-all flex items-center gap-2 whitespace-nowrap">
-                <span class="material-symbols-outlined text-[20px]">download</span> Export Laporan
-            </button>
         </div>
     </header>
     
@@ -183,16 +184,27 @@ let activeFilter = 'Bulan Ini';
 function pilihFilterWaktu(elemen, teks) {
     document.getElementById('btn-waktu-text').innerText = teks;
     document.getElementById('dropdown-waktu').classList.add('hidden');
+    
+    // Matikan semua gaya aktif
     document.querySelectorAll('#list-waktu li').forEach(li => {
-        li.className = "p-3 rounded-lg cursor-pointer flex items-center gap-2 text-slate-600 hover:bg-slate-50 transition-colors";
+        li.className = "p-3 rounded-lg cursor-pointer flex items-center justify-between text-slate-600 hover:bg-slate-50 transition-colors";
         li.querySelector('.icon-check').classList.add('opacity-0');
     });
-    elemen.className = "p-3 rounded-lg cursor-pointer flex items-center gap-2 text-[#0f766e] bg-teal-50/50 font-bold transition-colors";
+    
+    // Nyalakan gaya untuk elemen yang diklik (Teks rata kiri, Ceklis rata kanan)
+    elemen.className = "p-3 rounded-lg cursor-pointer flex items-center justify-between text-[#0f766e] bg-teal-50/50 font-bold transition-colors";
     elemen.querySelector('.icon-check').classList.remove('opacity-0');
     
     activeFilter = teks;
     
+    // Universal Auto-Refresh (Akan mendeteksi otomatis halaman mana yang sedang terbuka)
+    if (typeof calculateStats === 'function') calculateStats();
+    if (typeof fetchDataOmset === 'function') fetchDataOmset();
+    if (typeof fetchDataPengeluaran === 'function') fetchDataPengeluaran();
     if (typeof fetchDataPendapatan === 'function') fetchDataPendapatan();
+    if (typeof fetchDataMasuk === 'function') fetchDataMasuk();
+    if (typeof fetchDataSelesai === 'function') fetchDataSelesai();
+    if (typeof fetchDataBatal === 'function') fetchDataBatal();
 }
 
 function cekFilterWaktu(unixTimestamp) {
