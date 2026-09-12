@@ -1,7 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function PelangganAktif() {
   const [search, setSearch] = useState('');
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/pelanggan/")
+      .then(res => res.json())
+      .then(resData => {
+        // Urutkan berdasarkan total transaksi terbanyak
+        const sorted = (Array.isArray(resData) ? resData : []).sort((a, b) => (b.total_transaksi || 0) - (a.total_transaksi || 0));
+        setData(sorted);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("API Error:", err);
+        setIsLoading(false);
+      });
+  }, []);
 
   return (
     <div className="flex-1 flex flex-col gap-6 w-full h-full overflow-y-auto pr-2 custom-scrollbar">
@@ -21,7 +38,14 @@ export default function PelangganAktif() {
               <tr className="text-slate-400 font-bold text-xs uppercase tracking-wider"><th className="py-4 pr-4 w-[25%]">PELANGGAN</th><th className="py-4 pr-4 w-[25%]">NO. WA</th><th className="py-4 pr-4 w-[25%]">TERAKHIR ORDER</th><th className="py-4 pr-4 w-[25%]">TOTAL TRANSAKSI</th></tr>
             </thead>
             <tbody className="text-sm text-slate-700 divide-y divide-slate-50">
-                <tr className="hover:bg-slate-50/50 transition-colors"><td className="py-3.5 pr-4 font-bold text-slate-800 capitalize">Budi Santoso</td><td className="py-3.5 pr-4 text-slate-500">081299998888</td><td className="py-3.5 pr-4 text-slate-500 font-medium">Hari Ini</td><td className="py-3.5 pr-4 font-black text-[#0f766e]">25 Pesanan</td></tr>
+                {isLoading ? <tr><td colSpan="4" className="py-8 text-center text-slate-500">Memuat data aktif...</td></tr> : data.filter(d => (d.nama||'').toLowerCase().includes(search.toLowerCase())).map((row, i) => (
+                  <tr key={row.id || i} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-3.5 pr-4 font-bold text-slate-800 capitalize">{row.nama || 'Anonim'}</td>
+                    <td className="py-3.5 pr-4 text-slate-500">{row.no_wa || '-'}</td>
+                    <td className="py-3.5 pr-4 text-slate-500 font-medium">{row.terakhir_order || 'Baru Saja'}</td>
+                    <td className="py-3.5 pr-4 font-black text-[#0f766e]">{row.total_transaksi || 1} Pesanan</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

@@ -1,7 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function DataLoyalitas() {
   const [search, setSearch] = useState('');
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/pelanggan/")
+      .then(res => res.json())
+      .then(resData => {
+        // Urutkan berdasarkan total omset (pembelanjaan terbesar)
+        const sorted = (Array.isArray(resData) ? resData : []).sort((a, b) => (b.total_omset || 0) - (a.total_omset || 0));
+        setData(sorted);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("API Error:", err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  const getRankBadge = (index) => {
+    if (index === 0) return <span className="font-black text-amber-500 text-lg">#1</span>;
+    if (index === 1) return <span className="font-black text-slate-400 text-lg">#2</span>;
+    if (index === 2) return <span className="font-black text-orange-700 text-lg">#3</span>;
+    return <span className="font-bold text-slate-500">#{index + 1}</span>;
+  };
+
+  const getLevelHTML = (omset) => {
+    if (omset >= 1000000) return <span className="inline-flex items-center bg-amber-50 text-amber-600 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-amber-200">👑 Gold Member</span>;
+    if (omset >= 500000) return <span className="inline-flex items-center bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-slate-300">Silver Member</span>;
+    return <span className="inline-flex items-center bg-orange-50 text-orange-700 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-orange-200">Bronze Member</span>;
+  };
 
   return (
     <div className="flex-1 flex flex-col gap-6 w-full h-full overflow-y-auto pr-2 custom-scrollbar">
@@ -21,7 +51,15 @@ export default function DataLoyalitas() {
               <tr className="text-slate-400 font-bold text-xs uppercase tracking-wider"><th className="py-4 pr-4 w-[10%] text-center">RANK</th><th className="py-4 pr-4 w-[25%]">PELANGGAN</th><th className="py-4 pr-4 w-[20%]">TOTAL TRX</th><th className="py-4 pr-4 w-[25%]">TOTAL OMSET</th><th className="py-4 pr-4 w-[20%]">LEVEL</th></tr>
             </thead>
             <tbody className="text-sm text-slate-700 divide-y divide-slate-50">
-                <tr className="hover:bg-slate-50/50 transition-colors"><td className="py-3.5 pr-4 text-center font-black text-amber-500 text-lg">#1</td><td className="py-3.5 pr-4 font-bold text-slate-800 capitalize">Budi Santoso</td><td className="py-3.5 pr-4 text-slate-500 font-medium">25 Pesanan</td><td className="py-3.5 pr-4 font-black text-[#0f766e]">Rp 3.000.000</td><td className="py-3.5 pr-4"><span className="inline-flex items-center bg-amber-50 text-amber-600 px-3 py-1.5 rounded-full text-xs font-bold ring-1 ring-amber-200">👑 Gold Member</span></td></tr>
+                {isLoading ? <tr><td colSpan="5" className="py-8 text-center text-slate-500">Memuat data loyalitas...</td></tr> : data.filter(d => (d.nama||'').toLowerCase().includes(search.toLowerCase())).map((row, i) => (
+                  <tr key={row.id || i} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-3.5 pr-4 text-center">{getRankBadge(i)}</td>
+                    <td className="py-3.5 pr-4 font-bold text-slate-800 capitalize">{row.nama || 'Anonim'}</td>
+                    <td className="py-3.5 pr-4 text-slate-500 font-medium">{row.total_transaksi || 1} Pesanan</td>
+                    <td className="py-3.5 pr-4 font-black text-[#0f766e]">Rp {(Number(row.total_omset)||0).toLocaleString('id-ID')}</td>
+                    <td className="py-3.5 pr-4">{getLevelHTML(Number(row.total_omset)||0)}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>

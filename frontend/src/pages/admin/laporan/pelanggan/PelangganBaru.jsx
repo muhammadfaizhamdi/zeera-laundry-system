@@ -1,7 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function PelangganBaru() {
   const [search, setSearch] = useState('');
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/pelanggan/")
+      .then(res => res.json())
+      .then(resData => {
+        // Asumsi data terbaru ada di paling akhir, kita reverse agar yang baru di atas
+        setData(Array.isArray(resData) ? resData.reverse() : []);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("API Error:", err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  // Format tanggal pendaftaran jika ada, jika tidak gunakan tanggal hari ini sebagai fallback
+  const formatTgl = (tgl) => {
+    if (!tgl) return new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+    return new Date(tgl).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
 
   return (
     <div className="flex-1 flex flex-col gap-6 w-full h-full overflow-y-auto pr-2 custom-scrollbar">
@@ -21,7 +43,14 @@ export default function PelangganBaru() {
               <tr className="text-slate-400 font-bold text-xs uppercase tracking-wider"><th className="py-4 pr-4 w-[25%]">TANGGAL DAFTAR</th><th className="py-4 pr-4 w-[30%]">PELANGGAN</th><th className="py-4 pr-4 w-[25%]">NO. WA</th><th className="py-4 pr-4 w-[20%]">TOTAL TRX</th></tr>
             </thead>
             <tbody className="text-sm text-slate-700 divide-y divide-slate-50">
-                <tr className="hover:bg-slate-50/50 transition-colors"><td className="py-3.5 pr-4 text-slate-500 font-medium">12 Okt 2026</td><td className="py-3.5 pr-4 font-bold text-slate-800 capitalize">Tari Yuliana</td><td className="py-3.5 pr-4 text-slate-500">08123456789</td><td className="py-3.5 pr-4 font-black text-[#0f766e]">1 Pesanan</td></tr>
+                {isLoading ? <tr><td colSpan="4" className="py-8 text-center text-slate-500">Memuat data pelanggan...</td></tr> : data.length === 0 ? <tr><td colSpan="4" className="py-8 text-center text-slate-500">Belum ada pelanggan terdaftar.</td></tr> : data.filter(d => (d.nama||'').toLowerCase().includes(search.toLowerCase()) || (d.no_wa||'').includes(search)).map((row, i) => (
+                  <tr key={row.id || i} className="hover:bg-slate-50/50 transition-colors">
+                    <td className="py-3.5 pr-4 text-slate-500 font-medium">{formatTgl(row.created_at)}</td>
+                    <td className="py-3.5 pr-4 font-bold text-slate-800 capitalize">{row.nama || 'Anonim'}</td>
+                    <td className="py-3.5 pr-4 text-slate-500">{row.no_wa || '-'}</td>
+                    <td className="py-3.5 pr-4 font-black text-[#0f766e]">{row.total_transaksi || 1} Pesanan</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
